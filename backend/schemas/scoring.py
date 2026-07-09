@@ -193,3 +193,6 @@ class CommitteeResult(BaseModel):
     key_risks: List[str] = Field(default_factory=list)
     narrative: str = Field(description="LLM-written explanation of the verdict — "
                             "must justify, never override, the deterministic score")
+    was_overridden: bool = Field(default=False)
+    override_reason: Optional[str] = Field(default=None)
+    confidence_breakdown: dict = Field(default_factory=dict)

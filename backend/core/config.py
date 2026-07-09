@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     GITHUB_TOKEN: Optional[str] = None
     GEMINI_API_KEY: Optional[str] = None
     GROQ_API_KEY: Optional[str] = None
+    OPENROUTER_API_KEY: Optional[str] = None
 
     DATABASE_URL: str = ""
 

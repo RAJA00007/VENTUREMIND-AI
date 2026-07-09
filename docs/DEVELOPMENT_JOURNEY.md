@@ -756,53 +756,81 @@ Below is the updated architectural block map detailing components implemented ac
 - [x] Risk Agent
 - [x] Investment Committee Agent
 - [x] LangGraph workflow orchestration
-- [ ] Founder Agent (scaffolded)
-- [ ] GitHub Agent (scaffolded)
+- [x] Founder Agent (Active)
+- [x] GitHub Agent (Active)
 
 ### Stage 4: Analysis Model & Persistence
-- [ ] Create `Analysis` database model
-- [ ] Build `/analyze` FastAPI endpoint to trigger graph workflow
-- [ ] Store completed agent reports in PostgreSQL
-- [ ] Save investment recommendation history
+- [x] Create `Analysis` database model
+- [x] Build `/analyze` FastAPI endpoint to trigger graph workflow
+- [x] Store completed agent reports in PostgreSQL
+- [x] Save investment recommendation history
 
 ### Stage 5: RAG & Document Search
-- [ ] Vector database integration (ChromaDB)
-- [ ] Agent state long-term memory
-- [ ] PDF Pitch Deck Parser
-- [ ] PDF report exporter
+- [x] Vector database integration (ChromaDB)
+- [x] Agent state long-term memory
+- [x] PDF Pitch Deck Parser
+- [x] PDF report exporter
 
 ### Stage 6: Production & Frontend
-- [ ] Pytest suite validation
-- [ ] Docker containerization
-- [ ] Frontend analysis dashboard
-- [ ] Deployment (Staging/Production)
+- [x] Pytest suite validation
+- [x] Docker containerization
+- [x] Frontend analysis dashboard
+- [x] Deployment (Staging/Production)
+
+### Stage 7: Trustworthy AI Intelligence Layer
+- [x] Single source of truth for confidence calculation factoring in agreement, raw average, and coverage
+- [x] Centralized verdict safety thresholds and capping (upgrades PASS under low confidence, caps INVEST at WATCH under medium confidence)
+- [x] Automated multi-agent disagreement detection logic
+- [x] Parallel LangGraph orchestration with isolated error boundaries
+- [x] Premium interactive frontend reporting UI with Disagreement Banners, expandable Score Breakdowns, and inline color-coded confidence indicators
 
 ---
 
-## Stage 3 Problems and Debugging Summary
+## Stage 7: Trustworthy AI Investment Intelligence
 
-1. **Invalid Gemini API Key:**
-   * *Problem:* Gemini client initialization threw standard `400 INVALID_ARGUMENT` authentication failures.
-   * *Resolution:* Tested parsing variables locally in `test_agent.py` and appended the missing `GEMINI_API_KEY` to the `.env` settings.
-2. **Tavily Authentication Failures:**
-   * *Problem:* Web search queries crashed the workflow execution loop with `InvalidAPIKeyError`.
-   * *Resolution:* Verified settings loaders and mapped the key to `TAVILY_API_KEY` in `.env`.
-3. **Text-Only LLM Hallucinations:**
-   * *Problem:* Agents initially generated analysis using pre-trained weights, leading to hallucinated details about startups.
-   * *Resolution:* Grounded prompts by passing raw text responses retrieved dynamically via `search_tool.py`.
-4. **Brittle Workflow Chaining:**
-   * *Problem:* Chaining agents sequentially using nested functions was rigid and hard to test or trace.
-   * *Resolution:* Orchestrated processing pipelines using LangGraph state graph.
+### Goal of Stage 7
+The objective was to elevate the product's intelligence layer by resolving systemic vulnerabilities in multi-agent orchestration, implementing trustworthy metrics (agreement factors, coverage, and confidence levels), establishing strict safety thresholds for verdicts, and presenting these insights in a premium, interactive frontend.
 
----
+### Files Created or Modified
+* [trust_service.py](file:///c:/Users/Raja/venturemind-ai/backend/services/trust_service.py) [NEW]
+* [scoring_formula.py](file:///c:/Users/Raja/venturemind-ai/backend/agents/scoring_formula.py) [MODIFY]
+* [committee_agent.py](file:///c:/Users/Raja/venturemind-ai/backend/agents/committee_agent.py) [MODIFY]
+* [investment_workflow.py](file:///c:/Users/Raja/venturemind-ai/backend/workflows/investment_workflow.py) [MODIFY]
+* [scoring.py](file:///c:/Users/Raja/venturemind-ai/backend/schemas/scoring.py) [NEW/MOVE]
+* [DisagreementBanner.jsx](file:///c:/Users/Raja/venturemind-ai/frontend/src/components/DisagreementBanner.jsx) [NEW]
+* [ScoreBreakdown.jsx](file:///c:/Users/Raja/venturemind-ai/frontend/src/components/ScoreBreakdown.jsx) [NEW]
+* [Report.jsx](file:///c:/Users/Raja/venturemind-ai/frontend/src/pages/Report.jsx) [MODIFY]
+* [ScoreCard.jsx](file:///c:/Users/Raja/venturemind-ai/frontend/src/components/ScoreCard.jsx) [MODIFY]
+* [Analyze.jsx](file:///c:/Users/Raja/venturemind-ai/frontend/src/pages/Analyze.jsx) [MODIFY]
+* [Dashboard.jsx](file:///c:/Users/Raja/venturemind-ai/frontend/src/pages/Dashboard.jsx) [MODIFY]
+* [History.jsx](file:///c:/Users/Raja/venturemind-ai/frontend/src/pages/History.jsx) [MODIFY]
 
-## What VentureMind Can Do Now
-Given a startup name input (such as **"OpenAI"**):
-1. **Search:** Scrapes live web results from Tavily.
-2. **Analyze:** Independently executes specialized Research, Market, and Competitor analysts.
-3. **Evaluate Risks:** Runs a Risk analysis node to determine execution vulnerabilities.
-4. **Synthesize:** Combines all reports inside the **Investment Committee Agent**.
-5. **Decide:** Generates a structured VC due diligence report with a recommendation (`INVEST`, `WATCH`, or `PASS`) and an investment score.
+### Technical Implementation Details
+1. **Single Source of Truth (Confidence):** Moved confidence calculation out of the committee logic and consolidated it inside `scoring_formula.combine_scores()`. It computes a unified score factoring in raw score averages (50%), data coverage (25%), and agent score agreement (25%).
+2. **Centralized Verdict Safety (Safety Capping):** Consolidated verdict overrides inside `trust_service.apply_verdict_safety()`.
+   * **Medium Confidence Cap:** If confidence is below `0.60`, a verdict of `INVEST` is downgraded to `WATCH` to prevent false positives.
+   * **Low Confidence Cap:** If confidence is below `0.40`, a verdict of `PASS` is upgraded to `WATCH` to prevent false negatives on under-researched deals.
+3. **Agent Disagreement Detection:** Implemented `trust_service.detect_disagreement()` which computes the spread between the highest and lowest scoring agents and flags significant disagreements (spread >= 30 pts).
+4. **Graph Parallelization:** Overhauled `investment_workflow.py` to run agents in parallel rather than sequentially, using LangGraph branching:
+   * **Phase 1 (Parallel):** Research, Market, Competitor, Founder, Finance, and GitHub agents run concurrently.
+   * **Phase 2 (Parallel):** Risk and Prediction agents run concurrently, utilizing compiled outputs of Phase 1.
+   * **Phase 3 (Consensus):** Investment Committee Agent synthesizes final recommendation.
+5. **Robust Error Isolation:** Individual agent run failures are isolated. If an agent crashes or hits an API rate limit, the graph catches the error and maps the status to `failed` / `no_data` with a default `0.0` score, allowing the committee to reach a consensus with remaining agents.
+6. **Premium Frontend Report UX:**
+   * **Disagreement Alert Panel:** Renders at the top if agents disagree, identifying conflicting agents and the point spread.
+   * **Factor-by-Factor Score Grid:** Expanding any agent card dynamically exposes their detailed points rubric, qualitative reasons, and clickable external source links.
+   * **Color-Coded Confidence:** Renders inline next to the verdict score, matching green (high), amber (medium), or red (low) confidence states.
+
+### Problems Faced and Debugging
+1. **Double-Multiplied Success Probability:**
+   * *Problem:* The Random Forest classifier output was already on a 0-100 scale, but `PredictionAgent` multiplied it by 100 again, causing a Pydantic validation failure.
+   * *Resolution:* Corrected the scale mapper inside `prediction_agent.py` to use raw output float values.
+2. **Rate Limit 429 Errors:**
+   * *Problem:* High concurrency caused Gemini API to throttle requests with 429 status codes.
+   * *Resolution:* Built retry loops into the agent service layers and verified that error boundaries inside `investment_workflow.py` keep the committee consensus operational even when specific nodes fail.
+3. **Lucide Icon Build Error:**
+   * *Problem:* Frontend build failed due to `Github` icon export missing from legacy `lucide-react` library.
+   * *Resolution:* Replaced with the universally exported `GitBranch` icon, resolving compilation.
 
 ---
 

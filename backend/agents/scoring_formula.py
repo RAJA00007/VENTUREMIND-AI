@@ -88,6 +88,7 @@ class CombinedScoreResult:
         excluded_agents: list[dict],
         per_agent_contribution: dict[str, dict],
         category_used: str,
+        confidence_breakdown: Optional[dict] = None,
     ):
         self.final_score = final_score
         self.overall_confidence = overall_confidence
@@ -95,6 +96,7 @@ class CombinedScoreResult:
         self.excluded_agents = excluded_agents
         self.per_agent_contribution = per_agent_contribution
         self.category_used = category_used
+        self.confidence_breakdown = confidence_breakdown or {}
 
 
 def combine_scores(
@@ -148,6 +150,11 @@ def combine_scores(
             excluded_agents=excluded_agents,
             per_agent_contribution={},
             category_used=category,
+            confidence_breakdown={
+                "raw_avg": 0.0,
+                "data_coverage": 0.0,
+                "agreement_factor": 0.0,
+            }
         )
 
     final_score = 0.0
@@ -168,7 +175,28 @@ def combine_scores(
             "contribution_to_final_score": round(contribution, 2),
         }
 
-    overall_confidence = round(sum(confidences_used) / len(confidences_used), 2)
+    raw_avg_confidence = sum(confidences_used) / len(confidences_used) if confidences_used else 0.0
+    total_expected = len(weights)
+    data_coverage = len(included_agents) / total_expected if total_expected else 1.0
+
+    if len(included_agents) >= 2:
+        scores_only = [agent_results[name].score for name in included_agents]
+        spread = max(scores_only) - min(scores_only)
+    else:
+        spread = 0.0
+    agreement_factor = 1.0 - min(spread / 100.0, 1.0)
+
+    # Weighted confidence: 50% raw average, 25% data coverage, 25% agreement
+    overall_confidence = round(
+        (raw_avg_confidence * 0.5) + (data_coverage * 0.25) + (agreement_factor * 0.25),
+        2
+    )
+
+    confidence_breakdown = {
+        "raw_avg": round(raw_avg_confidence, 2),
+        "data_coverage": round(data_coverage, 2),
+        "agreement_factor": round(agreement_factor, 2),
+    }
 
     return CombinedScoreResult(
         final_score=round(final_score, 1),
@@ -177,4 +205,5 @@ def combine_scores(
         excluded_agents=excluded_agents,
         per_agent_contribution=per_agent_contribution,
         category_used=category,
+        confidence_breakdown=confidence_breakdown,
     )

@@ -45,20 +45,7 @@ from agents.scoring_formula import combine_scores
 from core.logging import app_logger
 from schemas.scoring import AgentScoreResult, AgentSummaryEntry, CommitteeResult
 from services.llm_service import llm_service
-
-# Deterministic verdict thresholds — a business decision, kept as
-# constants in one place so they're easy to find and tune.
-INVEST_THRESHOLD = 75
-WATCH_THRESHOLD = 50
-
-# If overall confidence is below this, the verdict is capped at WATCH
-# even if the score alone would suggest INVEST or a firm PASS — a
-# confident call should not be made on low-confidence evidence.
-LOW_CONFIDENCE_CAP = 0.35
-
-# If the spread between the highest and lowest included agent score
-# exceeds this many points, flag significant disagreement.
-DISAGREEMENT_SPREAD_THRESHOLD = 35
+from services.trust_service import detect_disagreement, apply_verdict_safety
 
 
 def _extract_json(raw_text: str) -> dict:
@@ -70,44 +57,6 @@ def _extract_json(raw_text: str) -> dict:
         return json.loads(brace.group(0))
     raise ValueError("No JSON object found in LLM response")
 
-
-def _determine_verdict(final_score: float, overall_confidence: float) -> str:
-    """Fixed rule, not an LLM judgment call. See module docstring for
-    why confidence caps the verdict."""
-    if overall_confidence < LOW_CONFIDENCE_CAP:
-        return "WATCH"
-
-    if final_score >= INVEST_THRESHOLD:
-        return "INVEST"
-    if final_score >= WATCH_THRESHOLD:
-        return "WATCH"
-    return "PASS"
-
-
-def _detect_disagreement(agent_results: dict[str, AgentScoreResult]) -> tuple[bool, Optional[str]]:
-    """Computed in code, not asserted by an LLM — a spread in scores is
-    an objective fact once you have the numbers."""
-    scored = [
-        (name, r.score) for name, r in agent_results.items()
-        if r.status == "ok"
-    ]
-    if len(scored) < 2:
-        return False, None
-
-    scores_only = [s for _, s in scored]
-    spread = max(scores_only) - min(scores_only)
-
-    if spread < DISAGREEMENT_SPREAD_THRESHOLD:
-        return False, None
-
-    highest = max(scored, key=lambda x: x[1])
-    lowest = min(scored, key=lambda x: x[1])
-    note = (
-        f"{highest[0]} scored this highly ({highest[1]}) while {lowest[0]} scored "
-        f"it much lower ({lowest[1]}) — a {spread:.0f}-point spread. This is not "
-        f"averaged away; both signals should be weighed independently."
-    )
-    return True, note
 
 
 class CommitteeAgent:
@@ -179,11 +128,14 @@ class CommitteeAgent:
         # --- Deterministic score, zero LLM involvement ----------------------
         combined = combine_scores(agent_results, category=category)
 
-        # --- Deterministic verdict from fixed thresholds --------------------
-        verdict = _determine_verdict(combined.final_score, combined.overall_confidence)
+        # --- Deterministic verdict from trust service safety rules ---------
+        safety = apply_verdict_safety(combined.final_score, combined.overall_confidence)
+        verdict = safety.verdict
 
         # --- Deterministic disagreement detection ---------------------------
-        has_disagreement, disagreement_note = _detect_disagreement(agent_results)
+        disagreement = detect_disagreement(agent_results)
+        has_disagreement = disagreement.significant_disagreement
+        disagreement_note = disagreement.disagreement_note
 
         agent_summaries = [
             AgentSummaryEntry(
@@ -218,6 +170,9 @@ class CommitteeAgent:
                     f"decision, since PASS would imply evidence of weakness "
                     f"that we don't actually have."
                 ),
+                was_overridden=safety.was_overridden,
+                override_reason=safety.override_reason,
+                confidence_breakdown=combined.confidence_breakdown,
             )
 
         # --- LLM writes ONLY the narrative, given the fixed number ----------
@@ -286,4 +241,7 @@ Return ONLY a JSON object, no markdown fences, no preamble:
             key_opportunities=key_opportunities,
             key_risks=key_risks,
             narrative=narrative,
+            was_overridden=safety.was_overridden,
+            override_reason=safety.override_reason,
+            confidence_breakdown=combined.confidence_breakdown,
         )

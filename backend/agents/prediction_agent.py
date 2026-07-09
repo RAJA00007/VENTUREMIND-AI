@@ -205,7 +205,7 @@ Return ONLY a JSON object, no markdown fences, no preamble:
                 f"Could not extract a success probability from model output: {raw_prediction!r}"
             )
 
-        score = round(float(probability) * 100, 1)
+        score = round(float(probability), 1)
 
         # --- Build transparency breakdown (does NOT sum to `score` — -------
         # --- see module docstring for why this agent's breakdown is a ------

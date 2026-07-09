@@ -151,7 +151,7 @@ class GitHubTool:
             "forks": repo_data.get("forks_count", 0),
             "open_issues": repo_data.get("open_issues_count", 0),
             "created_at": repo_data.get("created_at"),
-            "days_since_last_push": days_since_last_push,
+            "days_since_last_push": pushed_at,
             "commits_last_90_days": commits_last_90_days,
             "commit_sample_size": len(commit_dates),
             "contributor_count": len(contributors) if isinstance(contributors, list) else 0,
