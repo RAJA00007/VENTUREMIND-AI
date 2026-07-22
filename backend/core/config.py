@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: Optional[str] = None
     GROQ_API_KEY: Optional[str] = None
     OPENROUTER_API_KEY: Optional[str] = None
+    CEREBRAS_API_KEY: Optional[str] = None
+    TOGETHER_API_KEY: Optional[str] = None
+    DEEPSEEK_API_KEY: Optional[str] = None
 
     DATABASE_URL: str = ""
 

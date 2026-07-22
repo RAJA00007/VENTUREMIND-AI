@@ -18,6 +18,9 @@ class LLMService:
     def __init__(self):
         self._gemini = None
         self._groq = None
+        self._cerebras = None
+        self._together = None
+        self._deepseek = None
         self._provider_cooldown: dict[str, float] = {}
 
     @property
@@ -37,6 +40,36 @@ class LLMService:
                 raise ValueError("No valid GROQ_API_KEY configured.")
             self._groq = Groq(api_key=key)
         return self._groq
+
+    @property
+    def cerebras(self):
+        if self._cerebras is None:
+            key = (settings.CEREBRAS_API_KEY or "").strip()
+            if not key or "demo" in key.lower() or "your_" in key.lower():
+                raise ValueError("No valid CEREBRAS_API_KEY configured.")
+            from openai import OpenAI
+            self._cerebras = OpenAI(base_url="https://api.cerebras.ai/v1", api_key=key)
+        return self._cerebras
+
+    @property
+    def together(self):
+        if self._together is None:
+            key = (settings.TOGETHER_API_KEY or "").strip()
+            if not key or "demo" in key.lower() or "your_" in key.lower():
+                raise ValueError("No valid TOGETHER_API_KEY configured.")
+            from openai import OpenAI
+            self._together = OpenAI(base_url="https://api.together.xyz/v1", api_key=key)
+        return self._together
+
+    @property
+    def deepseek(self):
+        if self._deepseek is None:
+            key = (settings.DEEPSEEK_API_KEY or "").strip()
+            if not key or "demo" in key.lower() or "your_" in key.lower():
+                raise ValueError("No valid DEEPSEEK_API_KEY configured.")
+            from openai import OpenAI
+            self._deepseek = OpenAI(base_url="https://api.deepseek.com/v1", api_key=key)
+        return self._deepseek
 
     async def generate_chat(self, prompt: str) -> str:
         """Dedicated chat completion using OpenRouter directly as the primary provider."""
@@ -172,12 +205,7 @@ class LLMService:
                         asyncio.to_thread(
                             openrouter_client.chat.completions.create,
                             model="openrouter/free",
-                            messages=[
-                                {
-                                    "role": "user",
-                                    "content": prompt
-                                }
-                            ]
+                            messages=[{"role": "user", "content": prompt}]
                         ),
                         timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
                     )
@@ -188,26 +216,91 @@ class LLMService:
                 except Exception as e3:
                     if any(term in str(e3).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
                         self._provider_cooldown["openrouter"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
-                        app_logger.warning(f"[LLM] OpenRouter rate limited. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
-                    app_logger.error(f"OpenRouter auto-free fallback failed: {e3}.")
-                    if settings.ALLOW_MOCK_FALLBACK:
-                        app_logger.warning("Gated mock fallback triggered for general generation.")
-                        return self._generate_mock_fallback(prompt)
-                    raise AllLLMProvidersFailedError(
-                        f"All providers (Gemini, Groq, OpenRouter) failed. OpenRouter error: {e3}"
-                    )
+                    app_logger.warning(f"OpenRouter fallback failed: {e3}, trying Cerebras AI...")
             else:
                 app_logger.info("[LLM] Skipping OpenRouter (in cooldown).")
-                if settings.ALLOW_MOCK_FALLBACK:
-                    app_logger.warning("Gated mock fallback triggered for general generation.")
-                    return self._generate_mock_fallback(prompt)
-                raise AllLLMProvidersFailedError("All providers (Gemini, Groq, OpenRouter) failed or in cooldown.")
+
+        # Provider 4: Cerebras AI
+        if time.monotonic() >= self._provider_cooldown.get("cerebras", 0.0):
+            try:
+                cerebras_client = self.cerebras
+                app_logger.info("Trying Cerebras AI client fallback (llama3.1-70b)...")
+                start_time = time.monotonic()
+                response = await asyncio.wait_for(
+                    asyncio.to_thread(
+                        cerebras_client.chat.completions.create,
+                        model="llama3.1-70b",
+                        messages=[{"role": "user", "content": prompt}]
+                    ),
+                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
+                )
+                duration = time.monotonic() - start_time
+                app_logger.info(f"[LLM] served by cerebras in {duration:.2f}s")
+                await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
+                return response.choices[0].message.content
+            except Exception as e4:
+                if any(term in str(e4).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                    self._provider_cooldown["cerebras"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                app_logger.warning(f"Cerebras AI fallback failed: {e4}, trying Together AI...")
         else:
-            app_logger.error("No OpenRouter API key configured.")
-            if settings.ALLOW_MOCK_FALLBACK:
-                app_logger.warning("Gated mock fallback triggered for general generation.")
-                return self._generate_mock_fallback(prompt)
-            raise AllLLMProvidersFailedError("All providers (Gemini, Groq) failed and no OpenRouter key set.")
+            app_logger.info("[LLM] Skipping Cerebras AI (in cooldown).")
+
+        # Provider 5: Together AI
+        if time.monotonic() >= self._provider_cooldown.get("together", 0.0):
+            try:
+                together_client = self.together
+                app_logger.info("Trying Together AI client fallback (meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo)...")
+                start_time = time.monotonic()
+                response = await asyncio.wait_for(
+                    asyncio.to_thread(
+                        together_client.chat.completions.create,
+                        model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+                        messages=[{"role": "user", "content": prompt}]
+                    ),
+                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
+                )
+                duration = time.monotonic() - start_time
+                app_logger.info(f"[LLM] served by together in {duration:.2f}s")
+                await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
+                return response.choices[0].message.content
+            except Exception as e5:
+                if any(term in str(e5).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                    self._provider_cooldown["together"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                app_logger.warning(f"Together AI fallback failed: {e5}, trying DeepSeek AI...")
+        else:
+            app_logger.info("[LLM] Skipping Together AI (in cooldown).")
+
+        # Provider 6: DeepSeek AI
+        if time.monotonic() >= self._provider_cooldown.get("deepseek", 0.0):
+            try:
+                deepseek_client = self.deepseek
+                app_logger.info("Trying DeepSeek AI client fallback (deepseek-chat)...")
+                start_time = time.monotonic()
+                response = await asyncio.wait_for(
+                    asyncio.to_thread(
+                        deepseek_client.chat.completions.create,
+                        model="deepseek-chat",
+                        messages=[{"role": "user", "content": prompt}]
+                    ),
+                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
+                )
+                duration = time.monotonic() - start_time
+                app_logger.info(f"[LLM] served by deepseek in {duration:.2f}s")
+                await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
+                return response.choices[0].message.content
+            except Exception as e6:
+                if any(term in str(e6).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                    self._provider_cooldown["deepseek"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                app_logger.warning(f"DeepSeek AI fallback failed: {e6}")
+        else:
+            app_logger.info("[LLM] Skipping DeepSeek AI (in cooldown).")
+
+        # Final Fallback: Gated Mock Response
+        if settings.ALLOW_MOCK_FALLBACK:
+            app_logger.warning("Gated mock fallback triggered for general generation after all live providers failed.")
+            return self._generate_mock_fallback(prompt)
+
+        raise AllLLMProvidersFailedError("All LLM providers (Gemini, Groq, OpenRouter, Cerebras, Together, DeepSeek) failed or in cooldown.")
 
     def _generate_mock_fallback(self, prompt: str) -> str:
         # Check if this is the chatbot assistant prompt
