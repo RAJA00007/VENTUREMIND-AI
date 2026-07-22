@@ -38,7 +38,7 @@ from typing import Any, List, Optional
 from agents.base_agent import BaseAgent
 from core.logging import app_logger
 from schemas.scoring import AgentScoreResult, ScoreFactor, make_no_data_result
-from services.llm_service import llm_service
+from services.llm_service import llm_service, AllLLMProvidersFailedError
 from tools.search_tool import search_tool
 
 
@@ -203,7 +203,13 @@ Every factor in the rubric must appear exactly once in score_breakdown.
 confidence should be LOW (below 0.4) if evidence was thin — thin evidence
 means uncertainty, not automatically low risk."""
 
-        raw_response = await llm_service.generate(prompt)
+        try:
+            raw_response = await llm_service.generate(prompt)
+        except AllLLMProvidersFailedError as exc:
+            return make_no_data_result(
+                self.name,
+                "All LLM providers unavailable — evaluation could not be completed for this factor."
+            )
 
         try:
             parsed = _extract_json(raw_response)

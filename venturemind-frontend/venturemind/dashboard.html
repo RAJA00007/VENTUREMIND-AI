@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · VentureMind AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <a class="sidebar-brand" href="index.html">
+        <span class="mark"></span> VentureMind AI
+      </a>
+      <button class="sidebar-toggle-btn" id="sidebarCollapseBtn" title="Close sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+      </button>
+    </div>
+    
+    <ul class="sidebar-menu">
+      <li>
+        <button class="tab-btn active" data-tab="overview">
+          <span>📊</span> Overview
+        </button>
+      </li>
+      <li>
+        <button class="tab-btn" data-tab="analyze">
+          <span>🔍</span> Analyze Startup
+        </button>
+      </li>
+      <li>
+        <button class="tab-btn" data-tab="upload">
+          <span>📁</span> Upload Documents
+        </button>
+      </li>
+      <li>
+        <button class="tab-btn" data-tab="history">
+          <span>📜</span> Evaluation History
+        </button>
+      </li>
+      <li>
+        <button class="tab-btn" data-tab="chat">
+          <span>💬</span> AI Chat Assistant
+        </button>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div>VentureMind AI · v1.0.0</div>
+      <div>Autonomous Intelligence</div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN CONTENT AREA ============ -->
+  <main class="dashboard-main">
+    
+    <!-- Floating Open Sidebar button when collapsed -->
+    <button class="sidebar-toggle-btn floating hidden" id="sidebarExpandBtn" title="Open sidebar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+    </button>
+    
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div class="dh-title">
+        <h1 id="dashboardTitle">Venture Intelligence Hub</h1>
+        <p>Deterministic multi-agent startup analysis platform</p>
+      </div>
+
+      <div class="dh-actions">
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">☾</button>
+        
+        <!-- PROFILE DROPDOWN -->
+        <div class="nav-profile" id="navProfile">
+          <button class="profile-btn" id="profileBtn" onclick="toggleProfileMenu(event)" aria-label="Account menu">
+            <span id="profileInitial">•</span>
+          </button>
+          <div class="profile-menu" id="profileMenu">
+            <div class="profile-menu-head">
+              <div class="profile-menu-avatar" id="profileMenuAvatar">•</div>
+              <div class="profile-menu-id">
+                <div class="profile-menu-name" id="profileMenuName">Account</div>
+                <div class="profile-menu-email" id="profileMenuEmail">Not signed in</div>
+              </div>
+            </div>
+            <div class="profile-menu-tag" id="profileMenuTag">Personal</div>
+            <div class="profile-menu-divider"></div>
+            <a class="profile-menu-item" href="login.html">Manage accounts</a>
+            <a class="profile-menu-item danger" onclick="logoutAllFromNav()">Sign out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="error-msg" id="historyError" style="margin-bottom: 25px;"></div>
+
+    <!-- ============ TAB 1: OVERVIEW ============ -->
+    <section class="tab-content active" id="overview">
+      
+      <!-- STATS WIDGETS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="sc-label">Total Analyses</div>
+          <div class="sc-value" id="statTotalAnalyses">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Average Deal Score</div>
+          <div class="sc-value" id="statAvgScore">0.0</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Verdicts Breakdown</div>
+          <div class="sc-verdicts">
+            <div class="sc-v-item">
+              <span class="sc-v-num font-glow-green" id="statBuy" style="color: #22c55e;">0</span>
+              <span class="sc-v-lbl">Buy</span>
+            </div>
+            <div class="sc-v-item">
+              <span class="sc-v-num" id="statWatch" style="color: #f59e0b;">0</span>
+              <span class="sc-v-lbl">Watch</span>
+            </div>
+            <div class="sc-v-item">
+              <span class="sc-v-num" id="statPass" style="color: #ef4444;">0</span>
+              <span class="sc-v-lbl">Pass</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview-layout">
+        <!-- RECENT EVALUATIONS -->
+        <div class="ov-panel">
+          <h2>Recent Evaluations</h2>
+          <div class="recent-list" id="overviewRecentList">
+            <!-- Dynamic entries inject here -->
+          </div>
+        </div>
+
+        <!-- QUICK HELP / TIPS -->
+        <div class="ov-panel" style="background: rgba(var(--green-rgb), 0.03); border-color: rgba(var(--green-rgb), 0.15);">
+          <h2>Workspace Guidelines</h2>
+          <ul style="padding-left: 20px; font-size: 13.5px; line-height: 1.6; color: var(--muted); display: flex; flex-direction: column; gap: 12px;">
+            <li><strong>AI Agent Pipeline</strong>: Evaluations compile independent inputs from 8 specialized AI agents (Research, Market, Code, Founder, Risk, etc.).</li>
+            <li><strong>Explainability first</strong>: Every recommendation shows granular score cards detailing exactly which factors drove the score.</li>
+            <li><strong>RAG Context</strong>: Uploading startup pitch decks or whitepapers in the <strong>Upload Documents</strong> tab indexes them into vector storage, which research agents utilize during evaluations.</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ TAB 2: ANALYZE STARTUP ============ -->
+    <section class="tab-content" id="analyze">
+      
+      <!-- INPUT FORM VIEW -->
+      <div class="form-panel" id="analysisInputView">
+        <h2 style="font-family: 'Fraunces', serif; font-size: 22px; margin: 0 0 8px 0;">Evaluate a Startup</h2>
+        <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 30px 0;">Submit startup parameters to trigger the LangGraph cooperative multi-agent decision workflow.</p>
+
+        <div class="form-error" id="analyzeFormError"></div>
+
+        <form id="analyzeForm">
+          <div class="form-field">
+            <label>Company Name *</label>
+            <input type="text" id="companyName" placeholder="e.g. Stripe" required>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Industry Vertical</label>
+              <input type="text" id="industry" placeholder="e.g. Fintech" value="AI">
+            </div>
+            <div class="form-field">
+              <label>Total Funding Raised ($ Millions)</label>
+              <input type="number" id="funding" placeholder="e.g. 15.5" value="10" step="any">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Annual Revenue ($ Millions)</label>
+              <input type="number" id="revenue" placeholder="e.g. 2.4" value="1" step="any">
+            </div>
+            <div class="form-field">
+              <label>Year-over-Year Growth Rate (%)</label>
+              <input type="number" id="growth" placeholder="e.g. 80" value="20" step="any">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Employee Count</label>
+              <input type="number" id="employees" placeholder="e.g. 45" value="15">
+            </div>
+            <div class="form-field">
+              <label>Company Age (Years)</label>
+              <input type="number" id="age" placeholder="e.g. 3" value="2">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>GitHub Repository Path (Optional for Technical Diligence)</label>
+            <input type="text" id="githubRepo" placeholder="e.g. facebook/react">
+          </div>
+
+          <div class="form-field">
+            <label>Founder Names (Comma-separated)</label>
+            <input type="text" id="founderNames" placeholder="e.g. John Doe, Jane Smith">
+          </div>
+
+          <div class="form-action">
+            <button type="submit" class="submit form-btn-submit">Execute AI Agent Audit</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- RUNNING PROGRESS VIEW -->
+      <div class="running-panel hidden" id="analysisRunningView">
+        <div class="rp-header">
+          <div class="rp-spinner"></div>
+          <h2>Evaluating <span id="pipelineRunningCompany">Startup</span></h2>
+          <p>LangGraph multi-agent architecture runs in parallel. Do not close this page.</p>
+        </div>
+
+        <div class="progress-tracker">
+          <div class="progress-step" id="step-research">
+            <div class="ps-spinner"></div>
+            <span>Research Agent: Scanning public metadata & startup info...</span>
+          </div>
+          <div class="progress-step" id="step-classify">
+            <div class="ps-spinner"></div>
+            <span>Classifier Agent: Profiling company tech taxonomy...</span>
+          </div>
+          <div class="progress-step" id="step-market">
+            <div class="ps-spinner"></div>
+            <span>Market Agent: Modeling TAM, SAM & CAGR forecasts...</span>
+          </div>
+          <div class="progress-step" id="step-competitor">
+            <div class="ps-spinner"></div>
+            <span>Competitor Agent: Mapping defensive moats & rivals...</span>
+          </div>
+          <div class="progress-step" id="step-founder">
+            <div class="ps-spinner"></div>
+            <span>Founder Agent: Scoring team execution capability...</span>
+          </div>
+          <div class="progress-step" id="step-finance">
+            <div class="ps-spinner"></div>
+            <span>Finance Agent: Crunching revenue lines & economics...</span>
+          </div>
+          <div class="progress-step" id="step-github">
+            <div class="ps-spinner"></div>
+            <span>GitHub Agent: Performing deep repository audits...</span>
+          </div>
+          <div class="progress-step" id="step-risk">
+            <div class="ps-spinner"></div>
+            <span>Risk Agent: Listing compliance & downside flags...</span>
+          </div>
+          <div class="progress-step" id="step-predict">
+            <div class="ps-spinner"></div>
+            <span>Prediction Agent: Synthesizing ML projection signals...</span>
+          </div>
+          <div class="progress-step" id="step-committee">
+            <div class="ps-spinner"></div>
+            <span>Committee Agent: Resolving conflicting scores...</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ TAB 3: UPLOAD DOCUMENTS ============ -->
+    <section class="tab-content" id="upload">
+      
+      <div class="upload-panel">
+        <h2 style="font-family: 'Fraunces', serif; font-size: 22px; margin: 0 0 8px 0;">Upload to AI Knowledge Base</h2>
+        <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 30px 0;">Upload pitch decks, whitepapers, or technical specs. PDF text is automatically extracted and indexed into Vector DB memory for agent retrieval.</p>
+
+        <div class="upload-zone" id="dropZone">
+          <span class="upload-icon">📥</span>
+          <h3>Drag & Drop PDF document here</h3>
+          <p>or click to browse local files</p>
+          <input type="file" id="fileInput" accept="application/pdf" style="display: none;">
+        </div>
+
+        <div class="upload-progress hidden" id="uploadProgressContainer">
+          <div class="up-spinner"></div>
+          <span class="up-text" id="uploadProgressText">Uploading...</span>
+        </div>
+
+        <div class="upload-success" id="uploadSuccessMsg"></div>
+        <div class="form-error" id="uploadErrorMsg" style="margin-top: 25px;"></div>
+      </div>
+
+    </section>
+
+    <!-- ============ TAB 4: HISTORY ============ -->
+    <section class="tab-content" id="history">
+      
+      <div class="history-panel">
+        <h2 style="font-family: 'Fraunces', serif; font-size: 22px; margin: 0 0 20px 0;">Evaluation Records</h2>
+        
+        <div class="table-responsive">
+          <table class="dashboard-table">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Evaluation Date</th>
+                <th>Profile</th>
+                <th>Score</th>
+                <th>Verdict</th>
+              </tr>
+            </thead>
+            <tbody id="historyTbody">
+              <!-- Dynamic records -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ TAB 5: AI CHAT ASSISTANT ============ -->
+    <section class="tab-content" id="chat">
+      
+      <div class="chat-container-layout">
+        <!-- Sidebar for context status / help -->
+        <div class="chat-sidebar-status">
+          <h3>AI Co-Pilot Memory</h3>
+          <p>This assistant has access to the full RAG memory of files indexed in <strong>Upload Documents</strong> and search tools.</p>
+          
+          <div class="chat-status-indicator">
+            <span class="status-dot pulsing"></span>
+            <span>RAG Vector Core: Active</span>
+          </div>
+
+          <div class="chat-suggestions-box">
+            <h4>Suggested Prompts</h4>
+            <div class="chat-suggest-card" onclick="sendSuggestedChat('What are the key risk factors for Stripe?')">
+              "What are the key risk factors for Stripe?"
+            </div>
+            <div class="chat-suggest-card" onclick="sendSuggestedChat('Summarize founder experience requirements for Seed round evaluations.')">
+              "Summarize founder experience criteria."
+            </div>
+            <div class="chat-suggest-card" onclick="sendSuggestedChat('Based on uploaded specs, what is the core architectural moat of this software startup?')">
+              "Analyze code moats from specs."
+            </div>
+          </div>
+        </div>
+
+        <!-- Main chat window -->
+        <div class="chat-chat-window">
+          <div class="chat-messages-area" id="chatMessagesArea">
+            <div class="chat-bubble assistant">
+              <div class="cb-sender">VentureMind AI Co-Pilot</div>
+              <div class="cb-text">Hello! I am your AI Investment Assistant. Ask me any questions about startup metrics, uploaded specifications, or due diligence rubric criteria.</div>
+            </div>
+          </div>
+
+          <form class="chat-input-form" id="chatInputForm">
+            <textarea id="chatInputText" placeholder="Ask a question about startup evaluations or specifications..." required></textarea>
+            <button type="submit" class="submit chat-send-btn">Ask AI</button>
+          </form>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+<!-- ============ SLIDING REPORT DETAIL OVERLAY PANEL ============ -->
+<div class="report-overlay" id="reportDetailPane">
+  
+  <header class="ro-header">
+    <div class="ro-title">
+      <h2 id="repCompanyName">Startup Name</h2>
+      <p>Audit memo compiled on <span id="repDate">date</span></p>
+    </div>
+    <button class="ro-close" onclick="closeReportDetails()">&times;</button>
+  </header>
+
+  <div class="ro-body">
+    
+    <!-- DISAGREEMENT BANNER -->
+    <div id="repDisagreementBanner" class="disagreement-banner hidden">
+      <div class="db-icon">⚠️</div>
+      <div class="db-content">
+        <h4>Significant Agent Disagreement Detected</h4>
+        <p id="repDisagreementNote">Note text...</p>
+      </div>
+    </div>
+    
+    <!-- SUMMARY ROW -->
+    <div class="rep-summary-row">
+      <div class="rep-score-widget">
+        <svg width="120" height="120" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="var(--line-soft)" stroke-width="6"/>
+          <circle id="repScoreCircle" cx="50" cy="50" r="45" fill="none" stroke="var(--green)" stroke-width="6" 
+                  stroke-dasharray="282.7" stroke-dashoffset="282.7" stroke-linecap="round"/>
+        </svg>
+        <div class="rep-score-text">
+          <div class="rst-num" id="repScoreVal">0.0</div>
+          <div class="rst-lbl">Score</div>
+        </div>
+      </div>
+
+      <div class="rep-verdict-details">
+        <div class="rep-meta-badges">
+          <span class="verdict-tag" id="repVerdictBadge">WATCH</span>
+          <span class="badge badge-outline" id="repCategory">HYBRID</span>
+          <span class="badge-confidence conf-high" id="repConfidenceBadge">CONFIDENCE: --</span>
+        </div>
+        <p style="font-size: 13px; color: var(--muted); margin: 0; line-height: 1.4;">Deterministic score aggregated across all specialty agents. Recommendation finalized by the investment committee.</p>
+      </div>
+    </div>
+
+    <!-- NARRATIVE -->
+    <section class="rep-narrative-panel">
+      <h3>Executive Summary Synthesis</h3>
+      <p id="repNarrative">Narrative details will load here...</p>
+    </section>
+
+    <!-- KEY OPPS & RISKS -->
+    <section class="opps-risks-grid">
+      <div class="or-card opps">
+        <h4>Key Opportunities</h4>
+        <ul id="repOppsList">
+          <!-- Opps list items -->
+        </ul>
+      </div>
+      <div class="or-card risks">
+        <h4>Key Risks</h4>
+        <ul id="repRisksList">
+          <!-- Risks list items -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- AGENT SCORE BREAKDOWNS -->
+    <section class="rep-agent-section">
+      <h3>Specialist Agent Audit Sheets</h3>
+      <div class="agent-report-grid" id="repAgentGrid">
+        <!-- Agent cards inject here -->
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+<!-- PERSISTENT DEPENDENCY SCRIPTS -->
+<script src="js/account-store.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

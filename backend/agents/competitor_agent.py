@@ -23,7 +23,7 @@ from typing import Any, List
 from agents.base_agent import BaseAgent
 from core.logging import app_logger
 from schemas.scoring import AgentScoreResult, ScoreFactor, make_no_data_result
-from services.llm_service import llm_service
+from services.llm_service import llm_service, AllLLMProvidersFailedError
 from tools.search_tool import search_tool
 
 
@@ -146,7 +146,13 @@ exactly this shape:
 Every factor in the rubric must appear exactly once in score_breakdown.
 confidence should be LOW (below 0.4) if competitive evidence was thin."""
 
-        raw_response = await llm_service.generate(prompt)
+        try:
+            raw_response = await llm_service.generate(prompt)
+        except AllLLMProvidersFailedError as exc:
+            return make_no_data_result(
+                self.name,
+                "All LLM providers unavailable — evaluation could not be completed for this factor."
+            )
 
         try:
             parsed = _extract_json(raw_response)
@@ -168,5 +174,5 @@ confidence should be LOW (below 0.4) if competitive evidence was thin."""
                 status="ok",
             )
         except Exception as exc:
-            app_logger.error(f"[Competitor Agent] failed to parse LLM output: {exc}")
+            app_logger.error(f"[Competitor Agent] failed to parse LLM output: {exc}. Raw response: {raw_response}")
             raise

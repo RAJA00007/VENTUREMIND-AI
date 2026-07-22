@@ -1,6 +1,8 @@
 from tavily import TavilyClient
 
 from core.config import settings
+from core.cache import cache, make_cache_key
+from core.logging import app_logger
 
 
 class SearchTool:
@@ -14,8 +16,19 @@ class SearchTool:
 
     async def search(
         self,
-        query: str
+        query: str,
+        bypass_cache: bool = False
     ):
+        cache_key = make_cache_key("tavily_search", query)
+        
+        if not bypass_cache:
+            cached_val = await cache.get(cache_key)
+            if cached_val is not None:
+                app_logger.info(f"[Cache Hit] Tavily search hit for query: '{query}'")
+                return cached_val
+            app_logger.info(f"[Cache Miss] Tavily search miss for query: '{query}'")
+        else:
+            app_logger.info(f"[Cache Bypass] Bypassing search cache for query: '{query}'")
 
         response = self.client.search(
             query=query,
@@ -24,7 +37,7 @@ class SearchTool:
 
         results = []
 
-        for item in response["results"]:
+        for item in response.get("results", []):
 
             results.append(
                 {
@@ -34,6 +47,7 @@ class SearchTool:
                 }
             )
 
+        await cache.set(cache_key, results, settings.SEARCH_CACHE_TTL_SECONDS)
         return results
 
 

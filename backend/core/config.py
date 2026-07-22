@@ -17,6 +17,21 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = ""
 
+    # Caching Layer Configuration
+    REDIS_URL: Optional[str] = None
+    CACHE_BACKEND: str = "sqlite"
+    SEARCH_CACHE_TTL_SECONDS: int = 172800
+    GITHUB_CACHE_TTL_SECONDS: int = 43200
+    LLM_CACHE_TTL_SECONDS: int = 86400
+
+    # Provider Failover & Cooldown Tracker
+    PROVIDER_COOLDOWN_SECONDS: int = 60
+    LLM_PROVIDER_TIMEOUT_SECONDS: int = 8
+    ALLOW_MOCK_FALLBACK: bool = False
+
+    # Chat Settings
+    CHAT_HISTORY_MESSAGES: int = 8
+
     model_config = SettingsConfigDict(
         env_file=".env",
         extra="ignore",

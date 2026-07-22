@@ -25,7 +25,7 @@ from typing import Any
 from agents.base_agent import BaseAgent
 from core.logging import app_logger
 from schemas.scoring import AgentScoreResult, ScoreFactor, make_no_data_result
-from services.llm_service import llm_service
+from services.llm_service import llm_service, AllLLMProvidersFailedError
 from tools.github_tool import github_tool, parse_repo_path
 
 
@@ -244,6 +244,11 @@ Overall score: {total_score}/100"""
 
         try:
             summary = await llm_service.generate(summary_prompt)
+        except AllLLMProvidersFailedError as exc:
+            return make_no_data_result(
+                self.name,
+                "All LLM providers unavailable — evaluation could not be completed for this factor."
+            )
         except Exception as exc:
             app_logger.warning(f"[Code / GitHub Agent] summary generation failed: {exc}")
             summary = (

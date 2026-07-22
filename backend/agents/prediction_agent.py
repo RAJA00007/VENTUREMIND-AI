@@ -38,7 +38,7 @@ from agents.base_agent import BaseAgent
 from core.logging import app_logger
 from ml.predictor import startup_predictor
 from schemas.scoring import AgentScoreResult, ScoreFactor, make_no_data_result
-from services.llm_service import llm_service
+from services.llm_service import llm_service, AllLLMProvidersFailedError
 from tools.search_tool import search_tool
 
 
@@ -150,6 +150,11 @@ Return ONLY a JSON object, no markdown fences, no preamble:
         try:
             raw_response = await llm_service.generate(extraction_prompt)
             extracted = _extract_json(raw_response)
+        except AllLLMProvidersFailedError as exc:
+            return make_no_data_result(
+                self.name,
+                "All LLM providers unavailable — evaluation could not be completed for this factor."
+            )
         except Exception as exc:
             app_logger.error(f"[Prediction Agent] feature extraction failed: {exc}")
             raise

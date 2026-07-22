@@ -1,10 +1,17 @@
 import json
 import re
 import random
+import time
+import asyncio
 from google import genai
 from groq import Groq
 from core.config import settings
 from core.logging import app_logger
+from core.cache import cache, make_cache_key
+
+class AllLLMProvidersFailedError(Exception):
+    """Raised when all LLM providers (Gemini, Groq, OpenRouter) fail."""
+    pass
 
 class LLMService:
 
@@ -15,55 +22,210 @@ class LLMService:
         self.groq = Groq(
             api_key=settings.GROQ_API_KEY
         )
+        self._provider_cooldown: dict[str, float] = {}
 
-    async def generate(self, prompt: str) -> str:
-        try:
-            response = self.gemini.models.generate_content(
-                model="gemini-2.0-flash",
-                contents=prompt
-            )
-            return response.text
-        except Exception as e:
-            app_logger.warning(f"Gemini failed, using Groq: {e}")
+    async def generate_chat(self, prompt: str) -> str:
+        """Dedicated chat completion using OpenRouter directly as the primary provider."""
+        if settings.OPENROUTER_API_KEY:
             try:
-                response = self.groq.chat.completions.create(
-                    model="llama-3.3-70b-versatile",
-                    messages=[
+                if time.monotonic() < self._provider_cooldown.get("openrouter", 0.0):
+                    app_logger.info("[LLM] Skipping OpenRouter for chat (in cooldown).")
+                    raise Exception("OpenRouter is in cooldown")
+
+                app_logger.info("[Chat] Calling OpenRouter (openrouter/free)...")
+                from openai import OpenAI
+                openrouter_client = OpenAI(
+                    base_url="https://openrouter.ai/api/v1",
+                    api_key=settings.OPENROUTER_API_KEY
+                )
+                start_time = time.monotonic()
+                response = await asyncio.wait_for(
+                    asyncio.to_thread(
+                        openrouter_client.chat.completions.create,
+                        model="openrouter/free",
+                        messages=[
+                            {
+                                "role": "user",
+                                "content": prompt
+                            }
+                        ]
+                    ),
+                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
+                )
+                duration = time.monotonic() - start_time
+                app_logger.info(f"[LLM] Chat served by openrouter in {duration:.2f}s")
+                return response.choices[0].message.content
+            except Exception as e:
+                if any(term in str(e).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                    self._provider_cooldown["openrouter"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                    app_logger.warning(f"[LLM] OpenRouter rate limited. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
+                app_logger.error(f"[Chat] OpenRouter auto-free failed: {e}.")
+                if settings.ALLOW_MOCK_FALLBACK:
+                    app_logger.warning("Gated mock fallback triggered for chat generation.")
+                    return self._generate_mock_fallback(prompt)
+                raise AllLLMProvidersFailedError(f"All providers failed for chat completion. Primary OpenRouter error: {e}")
+        else:
+            app_logger.warning("[Chat] No OpenRouter API key configured.")
+            if settings.ALLOW_MOCK_FALLBACK:
+                app_logger.warning("Gated mock fallback triggered for chat generation.")
+                return self._generate_mock_fallback(prompt)
+            raise AllLLMProvidersFailedError("No OpenRouter API key configured for chat completion.")
+
+    async def generate(self, prompt: str, bypass_cache: bool = False) -> str:
+        # Cache check
+        cache_key = make_cache_key("llm_generate", prompt)
+        if not bypass_cache:
+            cached_val = await cache.get(cache_key)
+            if cached_val is not None:
+                app_logger.info("[Cache Hit] LLM generate cache hit.")
+                return cached_val
+            app_logger.info("[Cache Miss] LLM generate cache miss.")
+        else:
+            app_logger.info("[Cache Bypass] Bypassing LLM cache.")
+
+        # Falls through to provider chain
+        # Provider 1: Gemini
+        if time.monotonic() >= self._provider_cooldown.get("gemini", 0.0):
+            try:
+                start_time = time.monotonic()
+                response = await asyncio.wait_for(
+                    asyncio.to_thread(
+                        self.gemini.models.generate_content,
+                        model="gemini-2.0-flash",
+                        contents=prompt
+                    ),
+                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
+                )
+                duration = time.monotonic() - start_time
+                app_logger.info(f"[LLM] served by gemini in {duration:.2f}s")
+                await cache.set(cache_key, response.text, settings.LLM_CACHE_TTL_SECONDS)
+                return response.text
+            except Exception as e:
+                if any(term in str(e).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                    self._provider_cooldown["gemini"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                    app_logger.warning(f"[LLM] Gemini rate limited. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
+                app_logger.warning(f"Gemini failed, trying Groq fallback: {e}")
+        else:
+            app_logger.info("[LLM] Skipping Gemini (in cooldown).")
+
+        # Provider 2: Groq
+        if time.monotonic() >= self._provider_cooldown.get("groq", 0.0):
+            try:
+                kwargs = {
+                    "model": "llama-3.3-70b-versatile",
+                    "messages": [
                         {
                             "role": "user",
                             "content": prompt
                         }
                     ]
+                }
+                if "json" in prompt.lower():
+                    kwargs["response_format"] = {"type": "json_object"}
+                
+                start_time = time.monotonic()
+                response = await asyncio.wait_for(
+                    asyncio.to_thread(
+                        self.groq.chat.completions.create,
+                        **kwargs
+                    ),
+                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
                 )
+                duration = time.monotonic() - start_time
+                app_logger.info(f"[LLM] served by groq in {duration:.2f}s")
+                await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
                 return response.choices[0].message.content
             except Exception as e2:
-                app_logger.warning(f"Groq failed: {e2}")
-                if settings.OPENROUTER_API_KEY:
-                    try:
-                        app_logger.info("Trying OpenRouter client fallback...")
-                        from openai import OpenAI
-                        openrouter_client = OpenAI(
-                            base_url="https://openrouter.ai/api/v1",
-                            api_key=settings.OPENROUTER_API_KEY
-                        )
-                        response = openrouter_client.chat.completions.create(
-                            model="meta-llama/llama-3-8b-instruct:free",
+                if any(term in str(e2).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                    self._provider_cooldown["groq"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                    app_logger.warning(f"[LLM] Groq rate limited. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
+                app_logger.warning(f"Groq failed, trying OpenRouter fallback: {e2}")
+        else:
+            app_logger.info("[LLM] Skipping Groq (in cooldown).")
+
+        # Provider 3: OpenRouter
+        if settings.OPENROUTER_API_KEY:
+            if time.monotonic() >= self._provider_cooldown.get("openrouter", 0.0):
+                try:
+                    app_logger.info("Trying OpenRouter client fallback (openrouter/free)...")
+                    from openai import OpenAI
+                    openrouter_client = OpenAI(
+                        base_url="https://openrouter.ai/api/v1",
+                        api_key=settings.OPENROUTER_API_KEY
+                    )
+                    start_time = time.monotonic()
+                    response = await asyncio.wait_for(
+                        asyncio.to_thread(
+                            openrouter_client.chat.completions.create,
+                            model="openrouter/free",
                             messages=[
                                 {
                                     "role": "user",
                                     "content": prompt
                                 }
                             ]
-                        )
-                        return response.choices[0].message.content
-                    except Exception as e3:
-                        app_logger.error(f"OpenRouter failed: {e3}. Triggering local smart mock fallback.")
+                        ),
+                        timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
+                    )
+                    duration = time.monotonic() - start_time
+                    app_logger.info(f"[LLM] served by openrouter in {duration:.2f}s")
+                    await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
+                    return response.choices[0].message.content
+                except Exception as e3:
+                    if any(term in str(e3).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                        self._provider_cooldown["openrouter"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                        app_logger.warning(f"[LLM] OpenRouter rate limited. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
+                    app_logger.error(f"OpenRouter auto-free fallback failed: {e3}.")
+                    if settings.ALLOW_MOCK_FALLBACK:
+                        app_logger.warning("Gated mock fallback triggered for general generation.")
                         return self._generate_mock_fallback(prompt)
-                else:
-                    app_logger.error("No OpenRouter API key configured. Triggering local smart mock fallback.")
+                    raise AllLLMProvidersFailedError(
+                        f"All providers (Gemini, Groq, OpenRouter) failed. OpenRouter error: {e3}"
+                    )
+            else:
+                app_logger.info("[LLM] Skipping OpenRouter (in cooldown).")
+                if settings.ALLOW_MOCK_FALLBACK:
+                    app_logger.warning("Gated mock fallback triggered for general generation.")
                     return self._generate_mock_fallback(prompt)
+                raise AllLLMProvidersFailedError("All providers (Gemini, Groq, OpenRouter) failed or in cooldown.")
+        else:
+            app_logger.error("No OpenRouter API key configured.")
+            if settings.ALLOW_MOCK_FALLBACK:
+                app_logger.warning("Gated mock fallback triggered for general generation.")
+                return self._generate_mock_fallback(prompt)
+            raise AllLLMProvidersFailedError("All providers (Gemini, Groq) failed and no OpenRouter key set.")
 
     def _generate_mock_fallback(self, prompt: str) -> str:
+        # Check if this is the chatbot assistant prompt
+        if "VentureMind AI Chatbot" in prompt:
+            user_query = "hi"
+            user_matches = re.findall(r"USER:\s*(.*)", prompt)
+            if user_matches:
+                user_query = user_matches[-1].strip()
+            
+            user_query_lower = user_query.lower()
+            
+            if any(greet in user_query_lower for greet in ["hi", "hello", "hey", "greetings"]):
+                return "Hello! I am your VentureMind AI Co-Pilot. I can help you analyze startups, explain due diligence scoring rubric factors, query vector memory for uploaded documents, or summarize historical evaluations. How can I assist you today?"
+            
+            elif "google" in user_query_lower:
+                return "Google was evaluated with a Deal Score of 72.2/100 (Verdict: WATCH). Here is a quick breakdown:\n- Research: 90.0/100 (Strong market clarity and founder credibility)\n- Market: 75.0/100 (Massive TAM but facing some regulatory headwinds)\n- Competitor: 68.0/100 (Clear search moat, but high advertising rivalry)\n- Risk: 88.0/100 (Favorable low operational and execution risk)\nLet me know if you would like me to drill into any specific agent findings!"
+            
+            elif "stripe" in user_query_lower:
+                return "Stripe is rated as a strong contender in online payment processing. Key risk factors identified in evaluations include:\n1. Regulatory Compliance: Ongoing scrutiny over cross-border payment structures.\n2. Competitive Pressure: High rivalry from Adyen and PayPal/Braintree.\n3. Macro Trends: Exposure to e-commerce transaction volumes fluctuations.\nWould you like me to run a full execution analysis for Stripe?"
+            
+            elif any(x in user_query_lower for x in ["risk agent", "risk rubric", "risk scorecard", "risk score"]):
+                return "Under the VentureMind due diligence framework, the Risk Agent reviews five key categories:\n1. Business/Operational risks (customer concentration)\n2. Market/Macro timing risks\n3. Financial runway risks\n4. Execution/Team key-person dependency\n5. Legal & compliance issues."
+            
+            elif any(x in user_query_lower for x in ["market agent", "market rubric", "market scorecard", "market score", "tam criteria", "cagr factors"]):
+                return "The Market Agent scores TAM, SAM, and CAGR growth. We look for large addressable spaces ($1B+ TAM) and secular tailwinds (CAGR > 15%)."
+            
+            elif any(x in user_query_lower for x in ["valuation framework", "valuation multiple", "funding multiples", "valuation criteria"]):
+                return "Valuations are assessed by cross-referencing industry averages, ARR multiple standards (typically 8x-15x ARR for SaaS), growth forecasts, and historical round structures."
+                
+            else:
+                return f"I understand your query: '{user_query}'. I can access the internal RAG database and list evaluations. For example, Google scored 72.2/100 with a WATCH verdict, showing high Research credentials (90.0) but moderate competitor density. If you've uploaded a spec document, I can query its contents semantically using our vector index. How would you like to proceed?"
+
         # Find company name in prompt
         match = re.search(r"company\s+['\"]([^'\"]+)['\"]", prompt, re.IGNORECASE) or re.search(r"company\s+([^'\s\n,]+)", prompt, re.IGNORECASE)
         company = match.group(1) if match else "Venture"
@@ -89,7 +251,7 @@ class LLMService:
                 }
             })
             
-        elif "market size analyst" in prompt.lower():
+        elif "market analyst" in prompt.lower():
             # Market Agent
             score_breakdown = [
                 {"factor": "Market size (TAM/SAM)", "points": random.choice([22, 25, 26]), "max_points": 30, "reason": "Developer tools and cloud orchestration is a $45B global addressable market.", "source": "https://gartner.com"},
@@ -104,7 +266,7 @@ class LLMService:
                 "sources": ["https://gartner.com", "https://idc.com", "https://stackoverflow.com", "https://forbes.com"]
             })
             
-        elif "competitor analyst" in prompt.lower():
+        elif "competitive intelligence analyst" in prompt.lower():
             # Competitor Agent
             score_breakdown = [
                 {"factor": "Competitive landscape mapping", "points": random.choice([15, 17, 18]), "max_points": 20, "reason": "Landscape contains direct competitors like Vercel and Netlify alongside cloud incumbents.", "source": "https://techcrunch.com"},
@@ -119,7 +281,7 @@ class LLMService:
                 "sources": ["https://techcrunch.com", "https://news.ycombinator.com", "https://patents.google.com", "https://gartner.com"]
             })
             
-        elif "founder background analyst" in prompt.lower():
+        elif "founding team" in prompt.lower():
             # Founder Agent
             score_breakdown = [
                 {"factor": "Relevant domain experience", "points": random.choice([24, 27, 28]), "max_points": 30, "reason": "Founding CTO was former lead virtualization engineer at AWS.", "source": "https://linkedin.com"},
@@ -134,7 +296,7 @@ class LLMService:
                 "sources": ["https://linkedin.com", "https://techcrunch.com", "https://crunchbase.com", "https://github.com"]
             })
             
-        elif "finance analyst" in prompt.lower():
+        elif "financial due-diligence analyst" in prompt.lower():
             # Finance Agent
             score_breakdown = [
                 {"factor": "Unit economics evidence", "points": random.choice([10, 12, 13]), "max_points": 15, "reason": "Reported high 82% gross margins with LTV/CAC ratio estimated at 4.2x.", "source": "https://saastr.com"},
@@ -151,7 +313,7 @@ class LLMService:
                 "sources": ["https://saastr.com", "https://techcrunch.com", "https://crunchbase.com", "https://medium.com", "https://sec.gov"]
             })
             
-        elif "risk auditor" in prompt.lower():
+        elif "risk analyst" in prompt.lower():
             # Risk Agent
             score_breakdown = [
                 {"factor": "Business/operational risk", "points": random.choice([16, 18, 19]), "max_points": 20, "reason": "Minimal operational friction; low customer concentration risk.", "source": "inferred"},
@@ -167,7 +329,7 @@ class LLMService:
                 "sources": []
             })
             
-        elif "score features for the startup" in prompt.lower() or "prediction" in prompt.lower():
+        elif "extract these 6 fields" in prompt.lower() or "prediction" in prompt.lower():
             # Prediction Agent (feature extraction)
             return json.dumps({
                 "industry": "AI/Software",
@@ -178,9 +340,13 @@ class LLMService:
                 "growth": 120.0
             })
             
-        elif "ai investment committee" in prompt.lower() or "committee" in prompt.lower():
+        elif "committee" in prompt.lower():
             # Committee Agent narrative synthesis
-            return f"The Investment Committee has completed the synthesis for {company}. Given the strong technical foundation, stellar founder profiles, and attractive market tailwinds in developer tooling, the platform recommends an INVEST decision. The primary strengths lie in AWS domain-expert founders, SOC2 progress, and a healthy $1.8M ARR with 120% YoY growth. Recommended next steps include detailed technical review of cloud orchestration IP."
+            return json.dumps({
+                "narrative": f"The Investment Committee has completed the synthesis for {company}. Given the strong technical foundation, stellar founder profiles, and attractive market tailwinds in developer tooling, the platform recommends an INVEST decision. The primary strengths lie in AWS domain-expert founders, SOC2 progress, and a healthy $1.8M ARR with 120% YoY growth. Recommended next steps include detailed technical review of cloud orchestration IP.",
+                "key_opportunities": ["Stellar founder profiles with AWS experience", "Healthy $1.8M ARR with 120% growth", "High gross margins of 82%"],
+                "key_risks": ["Cloud macro spending slowdown", "Enterprise sales cycle friction"]
+            })
             
         else:
             # Fallback general text

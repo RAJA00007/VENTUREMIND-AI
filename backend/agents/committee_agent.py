@@ -44,7 +44,7 @@ from typing import Any, Optional
 from agents.scoring_formula import combine_scores
 from core.logging import app_logger
 from schemas.scoring import AgentScoreResult, AgentSummaryEntry, CommitteeResult
-from services.llm_service import llm_service
+from services.llm_service import llm_service, AllLLMProvidersFailedError
 from services.trust_service import detect_disagreement, apply_verdict_safety
 
 
@@ -88,6 +88,23 @@ class CommitteeAgent:
                 f"(score={result.final_score}, verdict={result.verdict})"
             )
             return result
+        except AllLLMProvidersFailedError as exc:
+            duration = time.monotonic() - start
+            app_logger.error(f"[{self.name}] failed: All LLM providers unavailable")
+            return CommitteeResult(
+                company=company,
+                category="HYBRID",
+                final_score=0.0,
+                verdict="WATCH",
+                overall_confidence=0.0,
+                agent_summaries=[],
+                excluded_agents=[],
+                significant_disagreement=False,
+                disagreement_note=None,
+                key_opportunities=[],
+                key_risks=[],
+                narrative="All LLM providers unavailable — evaluation could not be completed for this factor.",
+            )
         except Exception as exc:
             duration = time.monotonic() - start
             app_logger.error(f"[{self.name}] failed after {duration:.2f}s: {exc}")

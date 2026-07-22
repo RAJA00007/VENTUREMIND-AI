@@ -1,0 +1,47 @@
+/* ===========================================================================
+   VentureMind AI — Design tokens
+   Light theme lives in :root. Dark theme overrides the same custom
+   properties under html[data-theme="dark"], toggled by js/theme.js and
+   persisted to localStorage so it's shared between index.html and login.html.
+   =========================================================================== */
+
+  :root{
+    --bg:#f7f9f3;
+    --bg-2:#eef3e8;
+    --card:#ffffff;
+    --grid-line: rgba(20,70,40,0.07);
+    --green:#16a34a;
+    --green-soft:#0f7a3a;
+    --green-dim:#bfe6cd;
+    --white:#132318;
+    --on-green:#fbfdf9;
+    --muted:rgba(19,35,24,0.6);
+    --muted-2:rgba(19,35,24,0.36);
+    --line:rgba(19,35,24,0.14);
+    --line-soft:rgba(19,35,24,0.07);
+    --grid-shift:0px;
+    --green-rgb:22,163,74;
+    --card-rgb:255,255,255;
+    --nav-shadow:0 14px 34px rgba(20,40,25,0.09);
+    --surface-shadow:0 20px 50px rgba(20,45,28,0.12);
+  }
+
+  html[data-theme="dark"]{
+    --bg:#05070a;
+    --bg-2:#0e1310;
+    --card:#0f1512;
+    --grid-line: rgba(120,255,170,0.06);
+    --green:#22c55e;
+    --green-soft:#16a34a;
+    --green-dim:#1d3b28;
+    --white:#f2f6f1;
+    --on-green:#05100a;
+    --muted:rgba(242,246,241,0.62);
+    --muted-2:rgba(242,246,241,0.38);
+    --line:rgba(242,246,241,0.14);
+    --line-soft:rgba(242,246,241,0.08);
+    --green-rgb:34,197,94;
+    --card-rgb:10,14,11;
+    --nav-shadow:0 14px 34px rgba(0,0,0,0.35);
+    --surface-shadow:0 20px 50px rgba(0,0,0,0.4);
+  }

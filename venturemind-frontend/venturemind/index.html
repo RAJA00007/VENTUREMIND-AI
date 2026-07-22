@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VentureMind AI · Autonomous Venture Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+<script>
+  // Applied before first paint so there's no flash of the wrong theme.
+  (function(){
+    try{
+      var saved = localStorage.getItem('vm-theme');
+      if(saved === 'dark') document.documentElement.setAttribute('data-theme','dark');
+    }catch(e){}
+  })();
+</script>
+<canvas id="cursorSplash" style="position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:1;"></canvas>
+<div class="scroll-progress" id="scrollProgress"></div>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<div class="wrap" id="mainView">
+
+  <!-- ============ NAV ============ -->
+  <nav class="site-nav">
+    <a class="brand" href="#intro"><span class="mark"></span> VentureMind AI</a>
+    <ul class="nav-links">
+      <li><a href="#what">What</a></li>
+      <li><a href="#how">How</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">☾</button>
+      <a class="btn btn-solid" href="login.html" id="navLoginBtn">Log in</a>
+
+      <div class="nav-profile hidden" id="navProfile">
+        <button class="profile-btn" id="profileBtn" onclick="toggleProfileMenu(event)" aria-label="Account menu">
+          <span id="profileInitial">•</span>
+        </button>
+        <div class="profile-menu" id="profileMenu">
+          <div class="profile-menu-head">
+            <div class="profile-menu-avatar" id="profileMenuAvatar">•</div>
+            <div class="profile-menu-id">
+              <div class="profile-menu-name" id="profileMenuName">Account</div>
+              <div class="profile-menu-email" id="profileMenuEmail">Not signed in</div>
+            </div>
+          </div>
+          <div class="profile-menu-tag" id="profileMenuTag">Personal</div>
+          <div class="profile-menu-divider"></div>
+          <a class="profile-menu-item" href="dashboard.html">Go to Dashboard</a>
+          <a class="profile-menu-item" href="login.html">Manage account</a>
+          <a class="profile-menu-item danger" onclick="logoutAllFromNav()">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ LEFT INDEX NAV ============ -->
+  <nav class="index-nav">
+    <a href="#intro" class="active">Intro</a>
+    <a href="#what">What</a>
+    <a href="#how">How</a>
+    <a href="#pipeline">Pipeline</a>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="intro">
+    <canvas class="hero-network" id="heroNetwork"></canvas>
+    <div class="hero-glow"></div>
+
+    <div class="hero-3d" aria-hidden="true">
+      <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="heroTubeGrad" x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stop-color="#f2fff5"/>
+            <stop offset="16%" stop-color="#66e08f"/>
+            <stop offset="46%" stop-color="#159a4a"/>
+            <stop offset="56%" stop-color="#0d6e37"/>
+            <stop offset="80%" stop-color="#4ad080"/>
+            <stop offset="100%" stop-color="#eafff0"/>
+          </linearGradient>
+          <linearGradient id="heroTubeGradDim" x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stop-color="#d8f7e2"/>
+            <stop offset="20%" stop-color="#3fb56d"/>
+            <stop offset="50%" stop-color="#0f7a3a"/>
+            <stop offset="80%" stop-color="#2f9a5c"/>
+            <stop offset="100%" stop-color="#cdeed9"/>
+          </linearGradient>
+          <filter id="heroGlow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="12" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <g opacity="0.45" filter="url(#heroGlow)">
+          <circle cx="206" cy="188" r="62" fill="none" stroke="url(#heroTubeGradDim)" stroke-width="30"/>
+          <circle cx="116" cy="148" r="74" fill="none" stroke="url(#heroTubeGrad)" stroke-width="32"/>
+        </g>
+        <circle cx="206" cy="188" r="62" fill="none" stroke="url(#heroTubeGradDim)" stroke-width="34" stroke-linecap="round"/>
+        <circle cx="116" cy="148" r="74" fill="none" stroke="url(#heroTubeGrad)" stroke-width="36" stroke-linecap="round"/>
+        <path d="M62,108 A74,74 0 0 1 152,90" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M168,155 A62,62 0 0 1 240,168" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="hero-inner">
+      <div class="hero-top reveal">
+        <span class="dot glow-dot"></span>
+        <span class="eyebrow">Autonomous Venture Intelligence</span>
+      </div>
+
+      <h1 class="text-reveal">
+        <span class="megaline"><span class="word-mask"><span class="word-inner">VENTURE</span></span><span class="word-mask"><span class="word-inner">MIND</span></span></span>
+        <span class="megaline accent"><span class="word-mask"><span class="word-inner">AI&nbsp;ANALYST</span></span></span>
+      </h1>
+
+      <p class="hero-sub reveal" style="transition-delay:.16s"><b>AI native venture analyst reading code where investors read decks.</b> A committee of specialist agents researches a company end to end: product, codebase, market, competitors, founders, funding history. <b>Humans keep the judgment.</b> Models keep the diligence.</p>
+
+      <div class="hero-cta reveal" style="transition-delay:.24s">
+        <a class="btn btn-solid btn-lg" href="login.html" id="heroLoginBtn">Log in</a>
+        <a class="link-arrow" href="#pipeline">See how the pipeline works →</a>
+      </div>
+
+      <div class="hero-quote reveal" style="transition-delay:.32s">
+        "Demos are theater. Decks are marketing. Code is truth."
+        <span>ON WHY TECHNICAL DILIGENCE CAN'T BE SKIPPED</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ WHAT ============ -->
+  <section class="numbered-section window-section open" id="what-sec">
+    <div class="window-chrome">
+      <span class="chrome-dot d1"></span><span class="chrome-dot d2"></span><span class="chrome-dot d3 glow-dot"></span>
+      <span class="chrome-title">01 · what.venturemind</span>
+    </div>
+    <div class="sec-row" onclick="toggleSection('what-sec')">
+      <div class="sec-num"><b>01</b> / 03</div>
+      <div>
+        <div class="sec-title-row">
+          <h2 id="what">What It Does</h2>
+          <span class="sec-toggle">+</span>
+        </div>
+        <div class="sec-body">
+          <p class="sec-desc">Most diligence tools summarize a deck and call it analysis. VentureMind starts from evidence: the repository, the market data, the funding record, and only reaches a verdict once every specialist agent has filed its findings.</p>
+          <div class="sub-items">
+            <div class="sub-item">
+              <div class="si-num">01</div>
+              <div><h3>Technical Diligence, Not Just Deck Review</h3>
+              <p>Reads the actual repository, covering commit cadence, test coverage, tech debt, and contributor concentration, and flags AI generated boilerplate dressed up as a real product.</p></div>
+            </div>
+            <div class="sub-item">
+              <div class="si-num">02</div>
+              <div><h3>A Committee, Not a Single Score</h3>
+              <p>Specialist agents each investigate a company independently. The committee publishes majority and minority views side by side, including a dedicated case for why the deal fails.</p></div>
+            </div>
+            <div class="sub-item">
+              <div class="si-num">03</div>
+              <div><h3>Every Claim Traced to Evidence</h3>
+              <p>Output is confidence gated: any figure without a verifiable source is surfaced as unverified rather than quietly filled in.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW ============ -->
+  <section class="numbered-section window-section" id="how-sec">
+    <div class="window-chrome">
+      <span class="chrome-dot d1"></span><span class="chrome-dot d2"></span><span class="chrome-dot d3"></span>
+      <span class="chrome-title">02 · how.venturemind</span>
+    </div>
+    <div class="sec-row" onclick="toggleSection('how-sec')">
+      <div class="sec-num"><b>02</b> / 03</div>
+      <div>
+        <div class="sec-title-row">
+          <h2 id="how">How It Works</h2>
+          <span class="sec-toggle">+</span>
+        </div>
+        <div class="sec-body">
+          <p class="sec-desc">One prompt is enough: "Analyze this startup and tell me whether it's a good investment." From there, the analysis runs itself.</p>
+          <div class="sub-items">
+            <div class="sub-item">
+              <div class="si-num">01</div>
+              <div><h3>Start With a Name</h3>
+              <p>Give VentureMind a company, a website, or a repository. No forms, no data room upload required to begin.</p></div>
+            </div>
+            <div class="sub-item">
+              <div class="si-num">02</div>
+              <div><h3>Specialists Work in Parallel</h3>
+              <p>Research, code, market, competitor, founder, finance, and risk agents each investigate their own dimension independently and at the same time.</p></div>
+            </div>
+            <div class="sub-item">
+              <div class="si-num">03</div>
+              <div><h3>The Committee Synthesizes a Verdict</h3>
+              <p>Findings are reconciled into one memo: a recommendation, the evidence behind it, and everywhere the agents disagreed with each other.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PIPELINE ============ -->
+  <section class="window-section" id="pipeline">
+    <div class="window-chrome">
+      <span class="chrome-dot d1"></span><span class="chrome-dot d2"></span><span class="chrome-dot d3"></span>
+      <span class="chrome-title">03 · pipeline.venturemind</span>
+    </div>
+    <div class="pipeline-head">
+      <div class="sec-num"><b>03</b> / 03</div>
+      <div>
+        <h2>Agent Priority, by Company Type</h2>
+        <p class="sec-desc">The same eight agents run on every company, but not in the same order of weight. VentureMind reads the company type first, then decides which evidence to lead with.</p>
+      </div>
+    </div>
+
+    <div class="pipeline-body">
+      <div class="pipeline-tabs" id="pipelineTabs">
+        <div class="ptab active" data-type="tech" onclick="setPipelineType('tech')">Tech</div>
+        <div class="ptab" data-type="nontech" onclick="setPipelineType('nontech')">Non Tech</div>
+        <div class="ptab" data-type="hybrid" onclick="setPipelineType('hybrid')">Hybrid</div>
+      </div>
+
+      <div class="pipeline-wheel" id="pipelineWheel"></div>
+
+      <div class="pipeline-note">
+        <span class="icon-sm">i</span>
+        <p id="pipelineNote">For a technical company, the GitHub agent leads: the codebase is weighted as the primary evidence, ahead of the pitch. The Committee agent is the only one permitted to combine findings into a recommendation, and it always shows its work.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="reveal">
+    <div class="brand"><span class="mark" style="width:12px;height:12px;"></span> VentureMind AI</div>
+    <div>© 2026 VentureMind AI. Autonomous venture intelligence.</div>
+  </footer>
+</div>
+
+<script src="js/account-store.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/effects.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

@@ -17,6 +17,7 @@ import httpx
 from core.config import settings
 from core.constants import DEFAULT_TIMEOUT
 from core.logging import app_logger
+from core.cache import cache, make_cache_key
 
 GITHUB_API_BASE = "https://api.github.com"
 
@@ -44,7 +45,7 @@ class GitHubTool:
         if settings.GITHUB_TOKEN:
             self._headers["Authorization"] = f"Bearer {settings.GITHUB_TOKEN}"
 
-    async def get_repo_metrics(self, owner: str, repo: str) -> dict[str, Any]:
+    async def get_repo_metrics(self, owner: str, repo: str, bypass_cache: bool = False) -> dict[str, Any]:
         """
         Fetches and pre-computes the raw facts the Code Agent's rubric
         needs. Returns a dict with a top-level "error" key if the repo
@@ -52,6 +53,17 @@ class GitHubTool:
         caller can produce a clean no_data/failed result instead of a
         confusing partial crash.
         """
+        cache_key = make_cache_key("github_repo", owner, repo)
+        
+        if not bypass_cache:
+            cached_val = await cache.get(cache_key)
+            if cached_val is not None:
+                app_logger.info(f"[Cache Hit] GitHub repo metrics hit for {owner}/{repo}")
+                return cached_val
+            app_logger.info(f"[Cache Miss] GitHub repo metrics miss for {owner}/{repo}")
+        else:
+            app_logger.info(f"[Cache Bypass] Bypassing GitHub repo cache for {owner}/{repo}")
+
         async with httpx.AsyncClient(timeout=DEFAULT_TIMEOUT, headers=self._headers) as client:
             repo_resp = await client.get(f"{GITHUB_API_BASE}/repos/{owner}/{repo}")
 
@@ -93,9 +105,14 @@ class GitHubTool:
             has_readme = readme_resp.status_code == 200
             readme_size = readme_resp.json().get("size", 0) if has_readme else 0
 
-        return self._compute_facts(
+        computed = self._compute_facts(
             repo_data, contributors, commits, root_contents, has_ci, has_readme, readme_size
         )
+        
+        if "error" not in computed:
+            await cache.set(cache_key, computed, settings.GITHUB_CACHE_TTL_SECONDS)
+            
+        return computed
 
     @staticmethod
     def _compute_facts(
@@ -151,7 +168,7 @@ class GitHubTool:
             "forks": repo_data.get("forks_count", 0),
             "open_issues": repo_data.get("open_issues_count", 0),
             "created_at": repo_data.get("created_at"),
-            "days_since_last_push": pushed_at,
+            "days_since_last_push": days_since_last_push,
             "commits_last_90_days": commits_last_90_days,
             "commit_sample_size": len(commit_dates),
             "contributor_count": len(contributors) if isinstance(contributors, list) else 0,
