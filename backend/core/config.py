@@ -1,6 +1,10 @@
+import os
+from pathlib import Path
 from typing import Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+ENV_PATH = Path(__file__).resolve().parent.parent / ".env"
 
 
 class Settings(BaseSettings):
@@ -27,13 +31,13 @@ class Settings(BaseSettings):
     # Provider Failover & Cooldown Tracker
     PROVIDER_COOLDOWN_SECONDS: int = 60
     LLM_PROVIDER_TIMEOUT_SECONDS: int = 8
-    ALLOW_MOCK_FALLBACK: bool = False
+    ALLOW_MOCK_FALLBACK: bool = True
 
     # Chat Settings
     CHAT_HISTORY_MESSAGES: int = 8
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=str(ENV_PATH) if ENV_PATH.exists() else ".env",
         extra="ignore",
     )
 

@@ -16,13 +16,27 @@ class AllLLMProvidersFailedError(Exception):
 class LLMService:
 
     def __init__(self):
-        self.gemini = genai.Client(
-            api_key=settings.GEMINI_API_KEY
-        )
-        self.groq = Groq(
-            api_key=settings.GROQ_API_KEY
-        )
+        self._gemini = None
+        self._groq = None
         self._provider_cooldown: dict[str, float] = {}
+
+    @property
+    def gemini(self):
+        if self._gemini is None:
+            key = (settings.GEMINI_API_KEY or "").strip()
+            if not key:
+                raise ValueError("No valid GEMINI_API_KEY configured.")
+            self._gemini = genai.Client(api_key=key)
+        return self._gemini
+
+    @property
+    def groq(self):
+        if self._groq is None:
+            key = (settings.GROQ_API_KEY or "").strip()
+            if not key:
+                raise ValueError("No valid GROQ_API_KEY configured.")
+            self._groq = Groq(api_key=key)
+        return self._groq
 
     async def generate_chat(self, prompt: str) -> str:
         """Dedicated chat completion using OpenRouter directly as the primary provider."""

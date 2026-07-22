@@ -1,5 +1,5 @@
 import asyncio
-from typing import TypedDict, List, Any, Optional
+from typing import TypedDict, List, Any, Optional, Annotated
 from langgraph.graph import StateGraph, END
 
 from agents.research_agent import ResearchAgent
@@ -14,9 +14,14 @@ from agents.committee_agent import CommitteeAgent
 from schemas.scoring import AgentScoreResult, CommitteeResult
 
 # ==================================================
+# Reducer function to merge agent results dictionary
+# ==================================================
+def merge_results(left: dict, right: dict) -> dict:
+    return {**(left or {}), **(right or {})}
+
+# ==================================================
 # Shared LangGraph State
 # ==================================================
-
 class AgentState(TypedDict):
     company: str
     industry: str
@@ -27,13 +32,12 @@ class AgentState(TypedDict):
     growth: float
     github_repo: Optional[str]
     founder_names: Optional[str]
-    agent_results: dict[str, AgentScoreResult]
+    agent_results: Annotated[dict[str, AgentScoreResult], merge_results]
     committee_result: Optional[CommitteeResult]
 
 # ==================================================
 # Initialize Agents
 # ==================================================
-
 research_agent = ResearchAgent()
 market_agent = MarketAgent()
 competitor_agent = CompetitorAgent()
@@ -47,10 +51,9 @@ committee_agent = CommitteeAgent()
 # ==================================================
 # Nodes
 # ==================================================
-
 async def parallel_independent_node(
     state: AgentState
-) -> AgentState:
+) -> dict:
     """Runs all 6 independent scoring/data gathering agents in parallel."""
     
     # Parse founder names string to a list if provided
@@ -76,19 +79,21 @@ async def parallel_independent_node(
         github_agent.execute(github_input)
     )
 
-    state["agent_results"]["Research Agent"] = results[0]
-    state["agent_results"]["Market Agent"] = results[1]
-    state["agent_results"]["Competitor Agent"] = results[2]
-    state["agent_results"]["Founder Agent"] = results[3]
-    state["agent_results"]["Finance Agent"] = results[4]
-    state["agent_results"]["Code / GitHub Agent"] = results[5]
-
-    return state
+    return {
+        "agent_results": {
+            "Research Agent": results[0],
+            "Market Agent": results[1],
+            "Competitor Agent": results[2],
+            "Founder Agent": results[3],
+            "Finance Agent": results[4],
+            "Code / GitHub Agent": results[5],
+        }
+    }
 
 
 async def risk_prediction_node(
     state: AgentState
-) -> AgentState:
+) -> dict:
     """Runs Risk and Prediction agents in parallel, reusing earlier results."""
     
     risk_input = {
@@ -105,15 +110,17 @@ async def risk_prediction_node(
         prediction_agent.execute(prediction_input)
     )
 
-    state["agent_results"]["Risk Agent"] = results[0]
-    state["agent_results"]["Prediction Agent"] = results[1]
-
-    return state
+    return {
+        "agent_results": {
+            "Risk Agent": results[0],
+            "Prediction Agent": results[1],
+        }
+    }
 
 
 async def committee_node(
     state: AgentState
-) -> AgentState:
+) -> dict:
     """Runs the Investment Committee Agent to synthesize the final decision."""
     
     result = await committee_agent.execute(
@@ -122,13 +129,11 @@ async def committee_node(
             "agent_results": state["agent_results"]
         }
     )
-    state["committee_result"] = result
-    return state
+    return {"committee_result": result}
 
 # ==================================================
 # Create Workflow
 # ==================================================
-
 workflow = StateGraph(
     AgentState
 )
@@ -151,7 +156,6 @@ workflow.add_node(
 # ==================================================
 # Graph Flow
 # ==================================================
-
 workflow.set_entry_point(
     "parallel_independent"
 )
@@ -174,5 +178,4 @@ workflow.add_edge(
 # ==================================================
 # Compile
 # ==================================================
-
 investment_graph = workflow.compile()

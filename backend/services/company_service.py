@@ -1,14 +1,11 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-
+from sqlalchemy.orm import Session
 from models.company import Company
 from schemas.company import CompanyCreate
 
-
-async def create_company(
-    db: AsyncSession,
+def create_company(
+    db: Session,
     data: CompanyCreate
 ):
-
     company = Company(
         name=data.name,
         website=data.website,
@@ -16,11 +13,7 @@ async def create_company(
         country=data.country,
     )
 
-
     db.add(company)
-
-    await db.commit()
-
-    await db.refresh(company)
-
+    db.commit()
+    db.refresh(company)
     return company

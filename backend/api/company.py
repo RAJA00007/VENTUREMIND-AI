@@ -1,6 +1,6 @@
+import asyncio
 from fastapi import APIRouter, Depends
-
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 
 from database.dependencies import get_db
 from schemas.company import (
@@ -9,12 +9,10 @@ from schemas.company import (
 )
 from services.company_service import create_company
 
-
 router = APIRouter(
     prefix="/companies",
     tags=["Companies"]
 )
-
 
 @router.post(
     "",
@@ -22,10 +20,10 @@ router = APIRouter(
 )
 async def add_company(
     company: CompanyCreate,
-    db: AsyncSession = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-
-    return await create_company(
+    return await asyncio.to_thread(
+        create_company,
         db,
         company
     )

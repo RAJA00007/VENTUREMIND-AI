@@ -98,20 +98,22 @@ class VectorStore:
     def chunk_text(
         self,
         text: str,
-        size: int = 700
+        size_in_words: int = 120,
+        overlap: int = 20
     ):
-
-
-        return [
-
-            text[i:i+size]
-
-            for i in range(
-                0,
-                len(text),
-                size
-            )
-        ]
+        words = text.split()
+        if not words:
+            return []
+        
+        chunks = []
+        i = 0
+        while i < len(words):
+            chunk_words = words[i:i + size_in_words]
+            chunks.append(" ".join(chunk_words))
+            i += (size_in_words - overlap)
+            if size_in_words <= overlap:
+                break
+        return chunks
 
 
 

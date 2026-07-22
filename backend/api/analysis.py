@@ -1,26 +1,17 @@
-from fastapi import APIRouter
-
+import asyncio
+from typing import Optional
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-
-from workflows.investment_workflow import investment_graph
-from fastapi import HTTPException
-
-from fastapi import Depends
-
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 
 from database.session import get_db
-
 from services.analysis_service import analysis_service
+from workflows.investment_workflow import investment_graph
 
 router = APIRouter(
     prefix="/analysis",
     tags=["Analysis"]
 )
-
-
-
-from typing import Optional
 
 class AnalysisRequest(BaseModel):
     company: str
@@ -34,12 +25,10 @@ class AnalysisRequest(BaseModel):
     founder_names: Optional[str] = None
 
 
-@router.post(
-    "/startup"
-)
+@router.post("/startup")
 async def analyze_startup(
     request: AnalysisRequest,
-    db: AsyncSession = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
     """
     Analyzes a startup using the AI agent investment workflow,
@@ -66,9 +55,10 @@ async def analyze_startup(
     )
 
     # ==============================
-    # Save result into PostgreSQL
+    # Save result into Database (Thread Pool)
     # ==============================
-    saved = await analysis_service.save_analysis(
+    saved = await asyncio.to_thread(
+        analysis_service.save_analysis,
         db=db,
         company_name=request.company,
         agent_results=result["agent_results"],
@@ -106,61 +96,38 @@ async def analyze_startup(
     }
 
 
-@router.get(
-    "/history"
-)
+@router.get("/history")
 async def analysis_history(
-
-    db: AsyncSession = Depends(get_db)
-
+    db: Session = Depends(get_db)
 ):
     """
     Retrieves the history of all startup analyses from the database.
     """
-
-
-    analyses = await analysis_service.get_all_analyses(
+    analyses = await asyncio.to_thread(
+        analysis_service.get_all_analyses,
         db
     )
-
-
     return analyses
 
 
-
-@router.get(
-    "/{analysis_id}"
-)
+@router.get("/{analysis_id}")
 async def get_analysis(
-
-    analysis_id:int,
-
-    db: AsyncSession = Depends(get_db)
-
+    analysis_id: int,
+    db: Session = Depends(get_db)
 ):
     """
     Retrieves a single startup analysis by its ID.
     """
-
-
-    analysis = await analysis_service.get_analysis_by_id(
-
+    analysis = await asyncio.to_thread(
+        analysis_service.get_analysis_by_id,
         db,
-
         analysis_id
-
     )
 
-
     if not analysis:
-
         raise HTTPException(
-
             status_code=404,
-
             detail="Analysis not found"
-
         )
-
 
     return analysis

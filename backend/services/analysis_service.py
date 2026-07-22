@@ -4,11 +4,11 @@ from sqlalchemy import select
 
 class AnalysisService:
 
-    async def get_all_analyses(
+    def get_all_analyses(
         self,
         db
     ):
-        result = await db.execute(
+        result = db.execute(
             select(
                 Analysis
             )
@@ -19,12 +19,12 @@ class AnalysisService:
             .all()
         )
 
-    async def get_analysis_by_id(
+    def get_analysis_by_id(
         self,
         db,
         analysis_id: int
     ):
-        result = await db.execute(
+        result = db.execute(
             select(
                 Analysis
             )
@@ -37,7 +37,7 @@ class AnalysisService:
             .scalar_one_or_none()
         )
 
-    async def save_analysis(
+    def save_analysis(
         self,
         db,
         company_name,
@@ -74,8 +74,8 @@ class AnalysisService:
         )
 
         db.add(analysis)
-        await db.commit()
-        await db.refresh(analysis)
+        db.commit()
+        db.refresh(analysis)
         return analysis
 
 analysis_service = AnalysisService()

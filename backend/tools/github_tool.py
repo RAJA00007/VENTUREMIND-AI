@@ -8,6 +8,7 @@ counts, presence of test directories, etc. This is what makes the
 Code/GitHub Agent's scoring deterministic rather than LLM-judgment-based.
 """
 
+import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 from urllib.parse import urlparse
@@ -74,34 +75,31 @@ class GitHubTool:
             repo_resp.raise_for_status()
             repo_data = repo_resp.json()
 
-            # Contributors (used for bus-factor / concentration risk)
-            contributors_resp = await client.get(
-                f"{GITHUB_API_BASE}/repos/{owner}/{repo}/contributors",
-                params={"per_page": 100, "anon": "false"},
+            # Execute all other requests concurrently to reduce latency
+            resps = await asyncio.gather(
+                client.get(
+                    f"{GITHUB_API_BASE}/repos/{owner}/{repo}/contributors",
+                    params={"per_page": 100, "anon": "false"},
+                ),
+                client.get(
+                    f"{GITHUB_API_BASE}/repos/{owner}/{repo}/commits",
+                    params={"per_page": 100},
+                ),
+                client.get(
+                    f"{GITHUB_API_BASE}/repos/{owner}/{repo}/contents"
+                ),
+                client.get(
+                    f"{GITHUB_API_BASE}/repos/{owner}/{repo}/contents/.github/workflows"
+                ),
+                client.get(f"{GITHUB_API_BASE}/repos/{owner}/{repo}/readme")
             )
+
+            contributors_resp, commits_resp, contents_resp, workflows_resp, readme_resp = resps
+
             contributors = contributors_resp.json() if contributors_resp.status_code == 200 else []
-
-            # Recent commit activity (last ~100 commits, used for recency/frequency)
-            commits_resp = await client.get(
-                f"{GITHUB_API_BASE}/repos/{owner}/{repo}/commits",
-                params={"per_page": 100},
-            )
             commits = commits_resp.json() if commits_resp.status_code == 200 else []
-
-            # Root directory listing (used to detect tests/ and CI config)
-            contents_resp = await client.get(
-                f"{GITHUB_API_BASE}/repos/{owner}/{repo}/contents"
-            )
             root_contents = contents_resp.json() if contents_resp.status_code == 200 else []
-
-            # CI workflow presence
-            workflows_resp = await client.get(
-                f"{GITHUB_API_BASE}/repos/{owner}/{repo}/contents/.github/workflows"
-            )
             has_ci = workflows_resp.status_code == 200
-
-            # README presence
-            readme_resp = await client.get(f"{GITHUB_API_BASE}/repos/{owner}/{repo}/readme")
             has_readme = readme_resp.status_code == 200
             readme_size = readme_resp.json().get("size", 0) if has_readme else 0
 

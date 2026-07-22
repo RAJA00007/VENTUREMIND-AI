@@ -37,7 +37,10 @@ async def main():
     risk = RiskAgent()
 
     risk_result = await risk.execute(
-        results
+        {
+            "company": startup["company"],
+            "other_findings": {r.agent: r for r in results}
+        }
     )
 
 

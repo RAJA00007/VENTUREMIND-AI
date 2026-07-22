@@ -1,3 +1,4 @@
+import asyncio
 from tavily import TavilyClient
 
 from core.config import settings
@@ -8,11 +9,16 @@ from core.logging import app_logger
 class SearchTool:
 
     def __init__(self):
+        self._client = None
 
-        self.client = TavilyClient(
-            api_key=settings.TAVILY_API_KEY
-        )
-
+    @property
+    def client(self):
+        if self._client is None:
+            key = (settings.TAVILY_API_KEY or "").strip()
+            if not key:
+                raise ValueError("No valid TAVILY_API_KEY configured.")
+            self._client = TavilyClient(api_key=key)
+        return self._client
 
     async def search(
         self,
@@ -30,10 +36,16 @@ class SearchTool:
         else:
             app_logger.info(f"[Cache Bypass] Bypassing search cache for query: '{query}'")
 
-        response = self.client.search(
-            query=query,
-            max_results=5
-        )
+        try:
+            client = self.client
+            response = await asyncio.to_thread(
+                client.search,
+                query=query,
+                max_results=5
+            )
+        except Exception as exc:
+            app_logger.warning(f"[SearchTool] search failed for query '{query}': {exc}")
+            return []
 
         results = []
 
