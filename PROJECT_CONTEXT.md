@@ -11,8 +11,8 @@ This document serves as the authoritative context file for AI agents (and human 
 ### Key Architectural Principles:
 1. **Rubric-Gated Scoring (0–100 Scale)**: Every agent evaluates startups against explicit rubrics with fixed point maximums.
 2. **Deterministic Synthesis**: The Investment Committee score is calculated via code using fixed weight profiles (`TECH`, `NON_TECH`, `HYBRID`), eliminating black-box LLM score fabrication.
-3. **LLM Provider Failover Chain**: Resilient 6-provider failover chain:
-   **Gemini 2.0 Flash** ➔ **Groq Llama 3.3 70B** ➔ **OpenRouter Free** ➔ **Cerebras AI (Llama 3.1 70B)** ➔ **Together AI (Llama 3.1 70B Turbo)** ➔ **DeepSeek AI (V3)** ➔ **Gated Mock Fallback**.
+3. **LLM Provider Failover Chain**: Resilient failover chain:
+   **Gemini 2.0 Flash** ➔ **Groq Llama 3.3 70B** ➔ **OpenRouter Free** ➔ **Cerebras AI** ➔ **Together AI** ➔ **DeepSeek AI** ➔ **Local Ollama LLM** ➔ **Gated Mock Fallback**.
 4. **Lazy Client Instantiation**: All API clients initialize lazily to prevent module import crashes if keys are absent or rate-limited.
 5. **Trust & Safety Controls**: Disagreement detection (surfacing high score variance between agents) and confidence capping (preventing unconfident data from generating an "INVEST" verdict).
 

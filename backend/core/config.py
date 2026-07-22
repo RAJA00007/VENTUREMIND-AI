@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     TOGETHER_API_KEY: Optional[str] = None
     DEEPSEEK_API_KEY: Optional[str] = None
 
+    # Local Ollama Provider Configuration
+    OLLAMA_BASE_URL: str = "http://localhost:11434/v1"
+    OLLAMA_MODEL: str = "llama3.2"
+
     DATABASE_URL: str = ""
 
     # Caching Layer Configuration

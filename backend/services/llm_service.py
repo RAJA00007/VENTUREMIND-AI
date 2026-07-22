@@ -21,6 +21,7 @@ class LLMService:
         self._cerebras = None
         self._together = None
         self._deepseek = None
+        self._ollama = None
         self._provider_cooldown: dict[str, float] = {}
 
     @property
@@ -70,6 +71,14 @@ class LLMService:
             from openai import OpenAI
             self._deepseek = OpenAI(base_url="https://api.deepseek.com/v1", api_key=key)
         return self._deepseek
+
+    @property
+    def ollama(self):
+        if self._ollama is None:
+            url = (getattr(settings, "OLLAMA_BASE_URL", "http://localhost:11434/v1") or "").strip()
+            from openai import OpenAI
+            self._ollama = OpenAI(base_url=url, api_key="ollama")
+        return self._ollama
 
     async def generate_chat(self, prompt: str) -> str:
         """Dedicated chat completion using OpenRouter directly as the primary provider."""
@@ -291,16 +300,41 @@ class LLMService:
             except Exception as e6:
                 if any(term in str(e6).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
                     self._provider_cooldown["deepseek"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
-                app_logger.warning(f"DeepSeek AI fallback failed: {e6}")
+                app_logger.warning(f"DeepSeek AI fallback failed: {e6}, trying local Ollama...")
         else:
             app_logger.info("[LLM] Skipping DeepSeek AI (in cooldown).")
+
+        # Provider 7: Local Ollama
+        if time.monotonic() >= self._provider_cooldown.get("ollama", 0.0):
+            try:
+                ollama_client = self.ollama
+                model_name = getattr(settings, "OLLAMA_MODEL", "llama3.2")
+                app_logger.info(f"Trying local Ollama provider ({model_name})...")
+                start_time = time.monotonic()
+                response = await asyncio.wait_for(
+                    asyncio.to_thread(
+                        ollama_client.chat.completions.create,
+                        model=model_name,
+                        messages=[{"role": "user", "content": prompt}]
+                    ),
+                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
+                )
+                duration = time.monotonic() - start_time
+                app_logger.info(f"[LLM] served by local ollama in {duration:.2f}s")
+                await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
+                return response.choices[0].message.content
+            except Exception as e7:
+                self._provider_cooldown["ollama"] = time.monotonic() + 15
+                app_logger.warning(f"Local Ollama provider failed: {e7}")
+        else:
+            app_logger.info("[LLM] Skipping local Ollama (in cooldown).")
 
         # Final Fallback: Gated Mock Response
         if settings.ALLOW_MOCK_FALLBACK:
             app_logger.warning("Gated mock fallback triggered for general generation after all live providers failed.")
             return self._generate_mock_fallback(prompt)
 
-        raise AllLLMProvidersFailedError("All LLM providers (Gemini, Groq, OpenRouter, Cerebras, Together, DeepSeek) failed or in cooldown.")
+        raise AllLLMProvidersFailedError("All LLM providers (Gemini, Groq, OpenRouter, Cerebras, Together, DeepSeek, Ollama) failed or in cooldown.")
 
     def _generate_mock_fallback(self, prompt: str) -> str:
         # Check if this is the chatbot assistant prompt
