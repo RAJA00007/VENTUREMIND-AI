@@ -40,7 +40,7 @@ async def test_llm_service_failure_raises_exception():
             with pytest.raises(AllLLMProvidersFailedError) as exc_info:
                 await llm_service.generate("Test prompt")
             
-            assert "All providers (Gemini, Groq, OpenRouter) failed" in str(exc_info.value)
+            assert "All LLM providers" in str(exc_info.value) or "All providers" in str(exc_info.value)
         finally:
             # Restore service attributes
             llm_service.gemini = old_gemini

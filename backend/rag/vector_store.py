@@ -8,22 +8,28 @@ class VectorStore:
 
 
     def __init__(self):
+        import os
+        chroma_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "chroma_db")
+        try:
+            self.client = chromadb.PersistentClient(path=chroma_path)
+            self.collection = self.client.get_or_create_collection(name="startup_docs")
+        except Exception:
+            # ChromaDB corrupted — reset and retry
+            import shutil
+            if os.path.exists(chroma_path):
+                shutil.rmtree(chroma_path, ignore_errors=True)
+            self.client = chromadb.PersistentClient(path=chroma_path)
+            self.collection = self.client.get_or_create_collection(name="startup_docs")
 
-        self.client = chromadb.PersistentClient(
-            path="./chroma_db"
-        )
 
+        self._embedding_model = None
 
-        self.collection = (
-            self.client.get_or_create_collection(
-                name="startup_docs"
-            )
-        )
-
-
-        self.embedding_model = SentenceTransformer(
-            "all-MiniLM-L6-v2"
-        )
+    @property
+    def embedding_model(self):
+        if not hasattr(self, "_embedding_model") or self._embedding_model is None:
+            from sentence_transformers import SentenceTransformer
+            self._embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+        return self._embedding_model
 
 
 

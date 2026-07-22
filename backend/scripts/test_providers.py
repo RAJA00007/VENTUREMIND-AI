@@ -12,7 +12,10 @@ if str(backend_dir) not in sys.path:
     sys.path.insert(0, str(backend_dir))
 
 from core.config import settings
-from google import genai
+try:
+    from google import genai
+except ImportError:
+    import google.generativeai as genai
 from groq import Groq
 from openai import OpenAI
 
@@ -29,12 +32,17 @@ async def test_all_providers():
         print("   [FAILED] Gemini: No key configured.")
     else:
         try:
-            client = genai.Client(api_key=key)
-            resp = await asyncio.to_thread(
-                client.models.generate_content,
-                model="gemini-2.0-flash",
-                contents="Say 'OK'",
-            )
+            if hasattr(genai, "Client"):
+                client = genai.Client(api_key=key)
+                resp = await asyncio.to_thread(
+                    client.models.generate_content,
+                    model="gemini-2.0-flash",
+                    contents="Say 'OK'",
+                )
+            else:
+                genai.configure(api_key=key)
+                model = genai.GenerativeModel("gemini-1.5-flash")
+                resp = await asyncio.to_thread(model.generate_content, "Say 'OK'")
             print(f"   [SUCCESS] Gemini: '{resp.text.strip()}'")
         except Exception as e:
             print(f"   [FAILED] Gemini: {e}")

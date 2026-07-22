@@ -3,7 +3,10 @@ import re
 import random
 import time
 import asyncio
-from google import genai
+try:
+    from google import genai
+except ImportError:
+    import google.generativeai as genai
 from groq import Groq
 from core.config import settings
 from core.logging import app_logger
@@ -28,9 +31,13 @@ class LLMService:
     def gemini(self):
         if self._gemini is None:
             key = (settings.GEMINI_API_KEY or "").strip()
-            if not key:
+            if not key or key == "dummy":
                 raise ValueError("No valid GEMINI_API_KEY configured.")
-            self._gemini = genai.Client(api_key=key)
+            if hasattr(genai, "Client"):
+                self._gemini = genai.Client(api_key=key)
+            else:
+                genai.configure(api_key=key)
+                self._gemini = genai.GenerativeModel("gemini-1.5-flash")
         return self._gemini
 
     @property
@@ -81,13 +88,9 @@ class LLMService:
         return self._ollama
 
     async def generate_chat(self, prompt: str) -> str:
-        """Dedicated chat completion using OpenRouter directly as the primary provider."""
-        if settings.OPENROUTER_API_KEY:
+        """Dedicated chat completion using OpenRouter directly as primary provider with full fallback pipeline."""
+        if settings.OPENROUTER_API_KEY and time.monotonic() >= self._provider_cooldown.get("openrouter", 0.0):
             try:
-                if time.monotonic() < self._provider_cooldown.get("openrouter", 0.0):
-                    app_logger.info("[LLM] Skipping OpenRouter for chat (in cooldown).")
-                    raise Exception("OpenRouter is in cooldown")
-
                 app_logger.info("[Chat] Calling OpenRouter (openrouter/free)...")
                 from openai import OpenAI
                 openrouter_client = OpenAI(
@@ -115,17 +118,10 @@ class LLMService:
                 if any(term in str(e).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
                     self._provider_cooldown["openrouter"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
                     app_logger.warning(f"[LLM] OpenRouter rate limited. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
-                app_logger.error(f"[Chat] OpenRouter auto-free failed: {e}.")
-                if settings.ALLOW_MOCK_FALLBACK:
-                    app_logger.warning("Gated mock fallback triggered for chat generation.")
-                    return self._generate_mock_fallback(prompt)
-                raise AllLLMProvidersFailedError(f"All providers failed for chat completion. Primary OpenRouter error: {e}")
-        else:
-            app_logger.warning("[Chat] No OpenRouter API key configured.")
-            if settings.ALLOW_MOCK_FALLBACK:
-                app_logger.warning("Gated mock fallback triggered for chat generation.")
-                return self._generate_mock_fallback(prompt)
-            raise AllLLMProvidersFailedError("No OpenRouter API key configured for chat completion.")
+                app_logger.error(f"[Chat] OpenRouter auto-free failed: {e}, attempting provider chain fallback...")
+        
+        # Fall back through full provider pipeline (Gemini, Groq, Cerebras, Together, DeepSeek, Local Ollama)
+        return await self.generate(prompt, bypass_cache=True)
 
     async def generate(self, prompt: str, bypass_cache: bool = False) -> str:
         # Cache check
@@ -144,12 +140,13 @@ class LLMService:
         if time.monotonic() >= self._provider_cooldown.get("gemini", 0.0):
             try:
                 start_time = time.monotonic()
+                client_obj = self.gemini
+                if hasattr(client_obj, "models"):
+                    fn = lambda: client_obj.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+                else:
+                    fn = lambda: client_obj.generate_content(prompt)
                 response = await asyncio.wait_for(
-                    asyncio.to_thread(
-                        self.gemini.models.generate_content,
-                        model="gemini-2.0-flash",
-                        contents=prompt
-                    ),
+                    asyncio.to_thread(fn),
                     timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
                 )
                 duration = time.monotonic() - start_time
@@ -304,25 +301,12 @@ class LLMService:
         else:
             app_logger.info("[LLM] Skipping DeepSeek AI (in cooldown).")
 
-        # Provider 7: Local Ollama
+        # Provider 7: Local Ollama (with multi-model fallback)
         if time.monotonic() >= self._provider_cooldown.get("ollama", 0.0):
             try:
-                ollama_client = self.ollama
-                model_name = getattr(settings, "OLLAMA_MODEL", "llama3.2")
-                app_logger.info(f"Trying local Ollama provider ({model_name})...")
-                start_time = time.monotonic()
-                response = await asyncio.wait_for(
-                    asyncio.to_thread(
-                        ollama_client.chat.completions.create,
-                        model=model_name,
-                        messages=[{"role": "user", "content": prompt}]
-                    ),
-                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
-                )
-                duration = time.monotonic() - start_time
-                app_logger.info(f"[LLM] served by local ollama in {duration:.2f}s")
-                await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
-                return response.choices[0].message.content
+                content = await self._try_ollama_fallback(prompt)
+                await cache.set(cache_key, content, settings.LLM_CACHE_TTL_SECONDS)
+                return content
             except Exception as e7:
                 self._provider_cooldown["ollama"] = time.monotonic() + 15
                 app_logger.warning(f"Local Ollama provider failed: {e7}")
@@ -335,6 +319,69 @@ class LLMService:
             return self._generate_mock_fallback(prompt)
 
         raise AllLLMProvidersFailedError("All LLM providers (Gemini, Groq, OpenRouter, Cerebras, Together, DeepSeek, Ollama) failed or in cooldown.")
+
+    async def _try_ollama_fallback(self, prompt: str) -> str:
+        ollama_client = self.ollama
+        configured_model = getattr(settings, "OLLAMA_MODEL", "llama3.2")
+        
+        # Discover available local models dynamically
+        discovered_models = []
+        try:
+            models_resp = await asyncio.to_thread(ollama_client.models.list)
+            if models_resp and hasattr(models_resp, "data") and models_resp.data:
+                discovered_models = [m.id for m in models_resp.data if hasattr(m, "id") and m.id]
+                if discovered_models:
+                    app_logger.info(f"[Ollama] Discovered local models: {discovered_models}")
+        except Exception as e:
+            app_logger.debug(f"[Ollama] Dynamic model list check skipped: {e}")
+
+        # Popular local Ollama model fallback names
+        fallback_candidates = [
+            configured_model,
+            "llama3.2",
+            "llama3.2:latest",
+            "llama3",
+            "llama3:latest",
+            "llama3.1",
+            "llama3.1:latest",
+            "mistral",
+            "mistral:latest",
+            "qwen2.5",
+            "qwen2.5:latest",
+            "gemma2",
+            "phi3",
+            "tinyllama"
+        ]
+
+        # Prioritize: configured model -> discovered installed models -> static candidate names
+        candidate_queue = []
+        if configured_model:
+            candidate_queue.append(configured_model)
+        for m in discovered_models + fallback_candidates:
+            if m and m not in candidate_queue:
+                candidate_queue.append(m)
+
+        last_error = None
+        for model_name in candidate_queue:
+            try:
+                app_logger.info(f"Trying local Ollama provider with model '{model_name}'...")
+                start_time = time.monotonic()
+                response = await asyncio.wait_for(
+                    asyncio.to_thread(
+                        ollama_client.chat.completions.create,
+                        model=model_name,
+                        messages=[{"role": "user", "content": prompt}]
+                    ),
+                    timeout=60
+                )
+                duration = time.monotonic() - start_time
+                app_logger.info(f"[LLM] served by local ollama model '{model_name}' in {duration:.2f}s")
+                return response.choices[0].message.content
+            except Exception as e:
+                last_error = e
+                app_logger.warning(f"Local Ollama model '{model_name}' failed: {e}")
+
+        raise Exception(f"All local Ollama models failed. Last error: {last_error}")
 
     def _generate_mock_fallback(self, prompt: str) -> str:
         # Check if this is the chatbot assistant prompt

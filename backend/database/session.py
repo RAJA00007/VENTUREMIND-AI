@@ -17,6 +17,8 @@ if not db_url or "sqlite" in db_url:
     connect_args = {"check_same_thread": False}
 
 try:
+    if "postgresql" in db_url:
+        connect_args["connect_timeout"] = 2
     engine = create_engine(
         db_url,
         echo=settings.DEBUG,

@@ -40,6 +40,13 @@ class ScoreFactor(BaseModel):
         default=None, description="URL this judgment is based on, if applicable"
     )
 
+    @field_validator("source", mode="before")
+    @classmethod
+    def normalize_source(cls, v):
+        if isinstance(v, list):
+            return ", ".join(str(item) for item in v if item)
+        return v
+
     @field_validator("points")
     @classmethod
     def points_within_bounds(cls, v: float, info) -> float:
