@@ -169,3 +169,31 @@ ALLOW_MOCK_FALLBACK=True
 2. **No Eager Client Instantiations**: Always use `@property` lazy instantiation for external API clients in `llm_service.py` and `search_tool.py`.
 3. **Preserve Error Isolation**: Never allow exceptions inside an individual agent `run()` method to propagate uncaught — `execute()` must return a valid degraded `AgentScoreResult` with status `"failed"` or `"no_data"`.
 4. **Use `.venv` for Python Commands**: Always run terminal python scripts using `.venv\Scripts\python.exe`.
+
+---
+
+## 8. Today's Completed Work Log
+
+### A. LangGraph Chatbot Workflow & Streaming System
+- **StateGraph & Memory**: Integrated LangGraph chatbot workflow ([`chat_workflow.py`](file:///c:/Users/Raja/venturemind-ai/backend/workflows/chat_workflow.py)) using `StateGraph(ChatState)` with `InMemorySaver` memory checkpointer and `add_messages` reducer to persist thread history.
+- **Groq Primary Engine**: Standardized LLM initialization on Groq (`llama-3.3-70b-versatile`) with automatic multi-provider fallback.
+- **RAG Integration**: Integrated ChromaDB vector store search (`startup_docs`) into `chat_node` to query uploaded pitch decks/specs and incorporate document context directly into replies.
+- **VentureMind Co-Pilot Persona**: Configured SystemMessage persona specializing in VC due diligence, financial metrics (ARR, CAC/LTV, Burn Rate, Runway, TAM, IRR), and risk analysis.
+
+### B. Dual-Mode API Endpoints & Frontend Safety
+- **Dual Endpoints ([`chat.py`](file:///c:/Users/Raja/venturemind-ai/backend/api/chat.py))**:
+  - `POST /api/v1/chat`: Standard REST JSON endpoint returning `{ "response": "...", "thread_id": "..." }`.
+  - `POST /api/v1/chat/stream`: Event-stream endpoint (`text/event-stream`) returning real-time streaming chunks.
+- **Frontend Fail-Safe ([`dashboard.js`](file:///c:/Users/Raja/venturemind-ai/venturemind-frontend/venturemind/js/dashboard.js))**:
+  - Implemented `Content-Type` header inspection to read both JSON responses and stream readers safely.
+  - Sanitized exception catch blocks to prevent raw V8 `SyntaxError` strings (e.g., `Unexpected token 'H'...`) from ever rendering in chat bubbles.
+
+### C. Company Data & Ingestion Architecture
+- **Data Models ([`backend/models/company.py`](file:///c:/Users/Raja/venturemind-ai/backend/models/company.py))**:
+  - Built comprehensive SQLAlchemy model for `Company` including MCA attributes (`cin`, `legal_name`, `incorporation_date`, `roc`, `registered_state`, `company_status`, `company_type`), DPIIT startup recognition (`dpiit_recognized`, `dpiit_certificate_number`), and source audit fields (`source`, `source_url`, `confidence_score`, `last_verified_at`).
+  - Implemented normalized child entity models: `Founder`, `FundingRound`, and `CompanyFinancial`.
+- **Pydantic Schemas ([`backend/schemas/company.py`](file:///c:/Users/Raja/venturemind-ai/backend/schemas/company.py))**:
+  - Added type-safe Pydantic models: `CompanyCreate`, `CompanyResponse`, `FounderSchema`, `FundingRoundSchema`, and `CompanyFinancialSchema`.
+- **Persistence Service ([`backend/services/company_service.py`](file:///c:/Users/Raja/venturemind-ai/backend/services/company_service.py))**:
+  - Added transactional entity creation & retrieval functions: `create_company()`, `get_company_by_cin()`, `get_company_by_id()`, and `list_companies()`.
+
