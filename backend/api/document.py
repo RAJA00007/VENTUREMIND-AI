@@ -1,7 +1,8 @@
 from fastapi import (
     APIRouter,
     UploadFile,
-    File
+    File,
+    HTTPException,
 )
 
 import shutil
@@ -45,12 +46,11 @@ async def upload_document(
     file: UploadFile = File(...)
 
 ):
+    filename = Path(file.filename or "").name
+    if not filename or Path(filename).suffix.lower() != ".pdf":
+        raise HTTPException(status_code=400, detail="Only PDF files are supported")
 
-
-    file_path = (
-        UPLOAD_DIR /
-        file.filename
-    )
+    file_path = UPLOAD_DIR / filename
 
 
     with open(
@@ -83,7 +83,7 @@ async def upload_document(
 
         text=text,
 
-        document_name=file.filename
+        document_name=filename
 
     )
 
@@ -91,7 +91,7 @@ async def upload_document(
 
     return {
 
-        "filename": file.filename,
+        "filename": filename,
 
         "status": "stored in AI memory",
 

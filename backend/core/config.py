@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     OLLAMA_MODEL: str = "llama3.2"
 
     DATABASE_URL: str = ""
+    JWT_SECRET_KEY: Optional[str] = None
 
     # Caching Layer Configuration
     REDIS_URL: Optional[str] = None

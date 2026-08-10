@@ -5,7 +5,9 @@
    Document upload, and deep-dive Interactive Memo reports.
    ============================================================================ */
 
-const API_BASE = 'http://127.0.0.1:8000/api/v1';
+const API_BASE = (window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1'))
+  ? 'http://localhost:8000/api/v1'
+  : '/api/v1';
 
 // Direct redirect to login if no active mock account exists
 function checkAuth() {
@@ -608,48 +610,120 @@ function initChatBot() {
       const res = await fetch(`${API_BASE}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: chatHistory })
+        body: JSON.stringify({ message: text, thread_id: 'user_dashboard_session' })
       });
       
       if (loader) loader.remove();
       
       if (!res.ok) {
-        let errMessage = 'Chat session error';
+        let errMessage = `Server error (${res.status})`;
         try {
-          const errData = await res.json();
-          if (errData && errData.detail) {
-            errMessage = errData.detail;
+          const rawText = await res.text();
+          if (rawText && rawText.trim()) {
+            try {
+              const errData = JSON.parse(rawText);
+              if (errData && errData.detail) {
+                errMessage = typeof errData.detail === 'string' ? errData.detail : JSON.stringify(errData.detail);
+              }
+            } catch (_) {
+              // If plain text error, suppress raw string syntax error messages
+              if (!rawText.includes('is not valid JSON')) {
+                errMessage = rawText.trim();
+              }
+            }
           }
         } catch (_) {}
         throw new Error(errMessage);
       }
-      const data = await res.json();
+
+      const bubbleObj = createChatBubble('assistant', '');
+      let fullText = '';
       
-      appendChatBubble('assistant', data.content);
-      chatHistory.push({ role: 'assistant', content: data.content });
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        const data = await res.json();
+        fullText = data.response || data.content || data.detail || JSON.stringify(data);
+        bubbleObj.updateText(fullText);
+      } else {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunkText = decoder.decode(value, { stream: true });
+          fullText += chunkText;
+          bubbleObj.updateText(fullText);
+        }
+      }
+
+      if (!fullText.trim()) {
+        bubbleObj.updateText('No response content returned.');
+      }
+
+      chatHistory.push({ role: 'assistant', content: fullText });
     } catch (err) {
       console.error(err);
       if (loader) loader.remove();
-      appendChatBubble('assistant', err.message || 'Unable to fetch response. Make sure the backend FastAPI service is running on port 8000.');
+      const rawErrMsg = (err && err.message) ? err.message : '';
+      if (rawErrMsg && !rawErrMsg.includes('is not valid JSON') && !rawErrMsg.includes('JSON at position')) {
+        appendChatBubble('assistant', rawErrMsg);
+      } else {
+        appendChatBubble('assistant', 'Unable to fetch response from backend service. Please check server logs or refresh page.');
+      }
     }
   });
 }
 
-function appendChatBubble(role, content) {
+function createChatBubble(role, content) {
   const area = document.getElementById('chatMessagesArea');
-  if (!area) return;
+  if (!area) return { element: null, updateText: () => {}, setStatus: () => {} };
   
   const bubble = document.createElement('div');
   bubble.className = `chat-bubble ${role}`;
   
   const sender = role === 'user' ? 'Investor' : 'VentureMind AI Co-Pilot';
-  bubble.innerHTML = `
-    <div class="cb-sender">${sender}</div>
-    <div class="cb-text">${content}</div>
-  `;
+
+  const statusDiv = document.createElement('div');
+  statusDiv.className = 'cb-status-badge';
+  statusDiv.style.fontSize = '0.8rem';
+  statusDiv.style.opacity = '0.8';
+  statusDiv.style.fontStyle = 'italic';
+  statusDiv.style.marginBottom = '6px';
+  statusDiv.style.display = 'none';
+
+  const textDiv = document.createElement('div');
+  textDiv.className = 'cb-text';
+  textDiv.textContent = content;
+
+  bubble.innerHTML = `<div class="cb-sender">${sender}</div>`;
+  bubble.appendChild(statusDiv);
+  bubble.appendChild(textDiv);
   
   area.appendChild(bubble);
   area.scrollTop = area.scrollHeight;
+
+  return {
+    element: bubble,
+    setStatus: (statusText) => {
+      if (statusText) {
+        statusDiv.textContent = `⚡ ${statusText}`;
+        statusDiv.style.display = 'block';
+      } else {
+        statusDiv.style.display = 'none';
+      }
+      area.scrollTop = area.scrollHeight;
+    },
+    updateText: (newContent) => {
+      statusDiv.style.display = 'none';
+      textDiv.textContent = newContent;
+      area.scrollTop = area.scrollHeight;
+    }
+  };
+}
+
+function appendChatBubble(role, content) {
+  createChatBubble(role, content);
 }
 
 function appendTypingIndicator() {

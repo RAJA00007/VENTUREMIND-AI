@@ -3,7 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from core.config import settings
 from database.base import Base
-from models.analysis import Analysis  # noqa: F401
+# Import every mapped model before creating tables.  Otherwise a fresh database
+# misses tables whose modules have not yet been imported by an API route.
+from models import Analysis, Company, User  # noqa: F401
 
 db_url = settings.DATABASE_URL or ""
 connect_args = {}

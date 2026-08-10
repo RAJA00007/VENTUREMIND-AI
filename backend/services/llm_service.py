@@ -123,6 +123,72 @@ class LLMService:
         # Fall back through full provider pipeline (Gemini, Groq, Cerebras, Together, DeepSeek, Local Ollama)
         return await self.generate(prompt, bypass_cache=True)
 
+    async def generate_chat_stream(self, prompt: str):
+        """Truly non-blocking async token streaming with multi-provider fallback (OpenRouter -> Groq -> Local)."""
+        from openai import AsyncOpenAI
+
+        # Provider 1: OpenRouter Stream
+        if settings.OPENROUTER_API_KEY and time.monotonic() >= self._provider_cooldown.get("openrouter", 0.0):
+            try:
+                app_logger.info("[Chat Stream] Non-blocking streaming from OpenRouter (openrouter/free)...")
+                openrouter_client = AsyncOpenAI(
+                    base_url="https://openrouter.ai/api/v1",
+                    api_key=settings.OPENROUTER_API_KEY
+                )
+                stream_resp = await openrouter_client.chat.completions.create(
+                    model="openrouter/free",
+                    messages=[{"role": "user", "content": prompt}],
+                    stream=True,
+                    extra_headers={
+                        "HTTP-Referer": "http://localhost:8000",
+                        "X-Title": "VentureMind AI"
+                    }
+                )
+                async for chunk in stream_resp:
+                    if chunk.choices and len(chunk.choices) > 0:
+                        delta = chunk.choices[0].delta
+                        if hasattr(delta, "content") and delta.content:
+                            yield delta.content
+                return
+            except Exception as e:
+                if any(term in str(e).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                    self._provider_cooldown["openrouter"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                app_logger.warning(f"[Chat Stream] OpenRouter failed: {e}, falling back to Groq stream...")
+
+        # Provider 2: Groq Stream
+        if settings.GROQ_API_KEY and time.monotonic() >= self._provider_cooldown.get("groq", 0.0):
+            try:
+                app_logger.info("[Chat Stream] Non-blocking streaming from Groq (llama-3.3-70b-versatile)...")
+                groq_client = AsyncOpenAI(
+                    base_url="https://api.groq.com/openai/v1",
+                    api_key=settings.GROQ_API_KEY
+                )
+                stream_resp = await groq_client.chat.completions.create(
+                    model="llama-3.3-70b-versatile",
+                    messages=[{"role": "user", "content": prompt}],
+                    stream=True
+                )
+                async for chunk in stream_resp:
+                    if chunk.choices and len(chunk.choices) > 0:
+                        delta = chunk.choices[0].delta
+                        if hasattr(delta, "content") and delta.content:
+                            yield delta.content
+                return
+            except Exception as e2:
+                if any(term in str(e2).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                    self._provider_cooldown["groq"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                app_logger.warning(f"[Chat Stream] Groq stream failed: {e2}")
+
+        # Fallback async chunk generator if all live streams fail
+        full_text = await self.generate_chat(prompt)
+        words = full_text.split(" ")
+        for i, word in enumerate(words):
+            yield word + (" " if i < len(words) - 1 else "")
+            await asyncio.sleep(0.01)
+
+
+
+
     async def generate(self, prompt: str, bypass_cache: bool = False) -> str:
         # Cache check
         cache_key = make_cache_key("llm_generate", prompt)

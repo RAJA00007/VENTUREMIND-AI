@@ -31,32 +31,90 @@ function showSignup(){
   document.getElementById('signupError').classList.remove('show');
 }
 
-function submitLogin(){
+const API_BASE_URL = (window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1'))
+  ? 'http://localhost:8000/api/v1'
+  : '/api/v1';
+
+async function submitLogin(){
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPassword').value.trim();
-  if(!email || !pass){ document.getElementById('loginError').classList.add('show'); return; }
-  const name = email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g, c => c.toUpperCase());
-  addAccount({name, email, type: modalType});
+  const errorEl = document.getElementById('loginError');
+
+  if(!email || !pass){
+    if(errorEl) { errorEl.textContent = 'Please fill in all fields'; errorEl.classList.add('show'); }
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.detail || 'Login failed');
+    }
+
+    const data = await res.json();
+    localStorage.setItem('auth_token', data.access_token);
+    const name = data.user_name || email.split('@')[0];
+    addAccount({ name, email: data.email, type: modalType });
+  } catch (err) {
+    if (errorEl) {
+      errorEl.textContent = err.message || 'Login failed. Check server connection.';
+      errorEl.classList.add('show');
+    }
+  }
 }
 
-function submitSignup(){
+async function submitSignup(){
   const name = document.getElementById('signupName').value.trim();
   const email = document.getElementById('signupEmail').value.trim();
   const pass = document.getElementById('signupPassword').value.trim();
   const company = document.getElementById('signupCompany').value.trim();
-  if(!name || !email || !pass){ document.getElementById('signupError').classList.add('show'); return; }
-  const displayName = modalType==='business' && company ? `${name} · ${company}` : name;
-  addAccount({name: displayName, email, type: modalType});
+  const errorEl = document.getElementById('signupError');
+
+  if(!name || !email || !pass){
+    if(errorEl) { errorEl.textContent = 'Please fill in all required fields'; errorEl.classList.add('show'); }
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        password: pass,
+        account_type: modalType,
+        company: company || null
+      })
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.detail || 'Registration failed');
+    }
+
+    const data = await res.json();
+    localStorage.setItem('auth_token', data.access_token);
+    const displayName = modalType==='business' && company ? `${name} · ${company}` : name;
+    addAccount({ name: displayName, email: data.email, type: modalType });
+  } catch (err) {
+    if (errorEl) {
+      errorEl.textContent = err.message || 'Registration failed. Check server connection.';
+      errorEl.classList.add('show');
+    }
+  }
 }
 
 function addAccount(acc){
   accounts.push(acc);
   activeIndex = accounts.length - 1;
   AccountStore.save(accounts, activeIndex);
-  // Go straight to the main site after logging in/signing up — not to the
-  // account panel. The account panel is still kept ready in the background
-  // for next time this page is opened while already signed in (or reached
-  // via "Manage account" from the main site's nav).
   location.href = 'dashboard.html';
 }
 
