@@ -197,3 +197,28 @@ ALLOW_MOCK_FALLBACK=True
 - **Persistence Service ([`backend/services/company_service.py`](file:///c:/Users/Raja/venturemind-ai/backend/services/company_service.py))**:
   - Added transactional entity creation & retrieval functions: `create_company()`, `get_company_by_cin()`, `get_company_by_id()`, and `list_companies()`.
 
+---
+
+## 9. Recent Phase Implementations & Milestones
+
+### A. PostgreSQL LangGraph Persistence (Phase 1)
+- **Persistent PostgresSaver Checkpointer**: Replaced `InMemorySaver` with `PostgresSaver` context manager connected to PostgreSQL database (`postgresql://postgres:admin123@localhost:5432/venturemind`).
+- **Clean Connection Management**: Added explicit `psycopg` connection pool shutdown handler to prevent `RuntimeError: cannot join current thread` during FastAPI server shutdown.
+- **State Recovery**: Thread state survives server restarts, Uvicorn reloads, and crash recoveries. Verified via `backend/scripts/test_postgres_persistence.py` (**100% PASS**, 99 checkpoints in DB).
+
+### B. Phase 2 — Benchmark & Evaluation System
+- **Golden Benchmark Dataset**: Built decoupled 20-startup golden dataset (`backend/evaluation/data/startup_cases.json`) covering synthetic cases, real historical cases (Theranos, WeWork), and bench cases (Scale AI, Datadog).
+- **Evaluation Pipeline**: Implemented evaluation runner (`runner.py`), metrics engine (`metrics.py`), CLI reporter (`report.py`), and Pydantic schemas (`schemas.py`).
+
+### C. Phase 2.1 — Evaluation Reliability Engine
+- **Evaluation Mode Enforcer**: Added `EVALUATION_MODE = True` flag in `config.py` which strictly overrides and disables `ALLOW_MOCK_FALLBACK`. No fabricated numbers, random scores, or fake data during benchmarks.
+- **Structured Generation & Repair**: Implemented `generate_structured()` in `llm_service.py` with code-fence stripping, schema validation, and **1-retry repair prompt**.
+- **Provider Telemetry**: Recorded LLM provider attempts (`provider`, `model`, `status`, `latency_ms`, `error`).
+- **Validity Capping**: Marked incomplete/failed cases as `valid = False` and restricted accuracy metrics (MAE, Verdict Accuracy, Risk F1) to valid runs only.
+
+### D. Phase 2.2 — Debug and Fix Ollama Structured Output
+- **Direct Diagnostic Suite**: Created `backend/scripts/test_ollama_direct.py` verifying direct structured JSON generation on local Ollama `llama3:latest`.
+- **Parallel Timeout Optimization**: Fixed Ollama 15s timeout boundary to `90s` and added `response_format={"type": "json_object"}` to allow parallel multi-agent CPU inference without premature request cancellations.
+- **Agent Try-Except Fixes**: Corrected try-except block structure in `market_agent.py`, `finance_agent.py`, `risk_agent.py`, `competitor_agent.py`, `founder_agent.py`, and `research_agent.py`.
+- **Single-Case Verification**: Successfully completed `SYN-001` (CloudScale AI) with **`Case Validity: VALID`**, **0 agent failures**, **`Verdict: INVEST (Score 68.8)`**, and **100% agent completion**.
+
