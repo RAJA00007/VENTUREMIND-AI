@@ -87,6 +87,21 @@ async function loadHistoryData() {
   }
 }
 
+/**
+ * Normalizes verdict strings across historical data ("BUY") and canonical outputs ("INVEST", "WATCH", "PASS").
+ * Historical "BUY" values are mapped to "INVEST" for statistics and rendering.
+ */
+function normalizeVerdict(verdict) {
+  const val = String(verdict || '').trim().toUpperCase();
+  if (val === 'BUY' || val === 'INVEST') return 'INVEST';
+  if (val === 'WATCH') return 'WATCH';
+  if (val === 'PASS') return 'PASS';
+  if (val) {
+    console.warn(`[VentureMind UI] Unrecognized verdict encountered: '${verdict}'. Defaulting to 'WATCH'.`);
+  }
+  return 'WATCH';
+}
+
 function renderOverviewStats() {
   const count = analysisHistory.length;
   document.getElementById('statTotalAnalyses').textContent = count;
@@ -99,10 +114,11 @@ function renderOverviewStats() {
   analysisHistory.forEach(item => {
     const dec = item.final_decision || {};
     const score = dec.final_score || item.final_score || 0;
-    const verdict = (dec.verdict || item.verdict || '').toUpperCase();
+    const rawVerdict = dec.verdict || item.verdict || '';
+    const verdict = normalizeVerdict(rawVerdict);
 
     totalScore += score;
-    if (verdict === 'BUY') buyCount++;
+    if (verdict === 'INVEST') buyCount++;
     else if (verdict === 'WATCH') watchCount++;
     else if (verdict === 'PASS') passCount++;
   });
@@ -129,7 +145,8 @@ function renderHistoryTable() {
 
   sorted.forEach(item => {
     const dec = item.final_decision || {};
-    const verdict = (dec.verdict || item.verdict || 'WATCH').toUpperCase();
+    const rawVerdict = dec.verdict || item.verdict || 'WATCH';
+    const verdict = normalizeVerdict(rawVerdict);
     const score = (dec.final_score || item.final_score || 0).toFixed(1);
     const category = dec.category || item.category || 'HYBRID';
     const date = new Date(item.created_at).toLocaleDateString(undefined, {
@@ -167,7 +184,8 @@ function renderOverviewList() {
 
   sorted.forEach(item => {
     const dec = item.final_decision || {};
-    const verdict = (dec.verdict || item.verdict || 'WATCH').toUpperCase();
+    const rawVerdict = dec.verdict || item.verdict || 'WATCH';
+    const verdict = normalizeVerdict(rawVerdict);
     const score = (dec.final_score || item.final_score || 0).toFixed(1);
     const narrative = dec.narrative || item.narrative || 'No synthesis narrative provided.';
 
@@ -344,7 +362,7 @@ function renderReportMarkup(item) {
   const dec = item.final_decision || item;
   const company = item.company_name || dec.company || 'Company';
   const score = (dec.final_score || 0).toFixed(1);
-  const verdict = (dec.verdict || 'WATCH').toUpperCase();
+  const verdict = normalizeVerdict(dec.verdict || item.verdict);
   const category = dec.category || 'HYBRID';
   const date = new Date(item.created_at || new Date()).toLocaleDateString(undefined, {
     month: 'long',

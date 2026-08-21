@@ -308,6 +308,7 @@
   text-transform: uppercase;
 }
 
+.verdict-invest,
 .verdict-buy {
   background: rgba(22, 163, 74, 0.15);
   color: #22c55e;
