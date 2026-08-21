@@ -58,10 +58,10 @@ FEATURE_WEIGHTS = {
 
 DEFAULTS = {
     "industry": "AI",
-    "funding": 100,
+    "funding": 10.0,
     "employees": 100,
     "age": 3,
-    "revenue": 10,
+    "revenue": 1.0,
     "growth": 20,
 }
 
@@ -134,10 +134,10 @@ If a field is not mentioned, return null for it — do NOT guess or estimate.
 
 Fields:
 - industry: string, e.g. "fintech", "healthtech"
-- funding: total funding raised in USD thousands (number), e.g. 500 for $500K
+- funding: total funding raised in USD millions (number), e.g. 0.5 for $500K, 10.0 for $10M, 100.0 for $100M
 - employees: employee count (number)
 - age: company age in years (number)
-- revenue: annual revenue in USD thousands (number)
+- revenue: annual revenue in USD millions (number), e.g. 0.1 for $100K, 1.2 for $1.2M
 - growth: year-over-year growth rate as a percentage (number)
 
 EVIDENCE:
@@ -164,6 +164,11 @@ Return ONLY a JSON object, no markdown fences, no preamble:
         field_is_real = {}
         for field, default_value in DEFAULTS.items():
             value = extracted.get(field)
+            if value is None and field == "funding":
+                value = extracted.get("funding_million")
+            if value is None and field == "revenue":
+                value = extracted.get("revenue_million")
+
             if value is not None:
                 features[field] = value
                 field_is_real[field] = True
@@ -197,13 +202,19 @@ Return ONLY a JSON object, no markdown fences, no preamble:
             )
         except Exception as exc:
             app_logger.error(f"[Prediction Agent] model inference failed: {exc}")
-            raise
+            return make_no_data_result(
+                self.name,
+                f"ML model inference unavailable: {exc}"
+            )
 
         # Defensively handle whatever shape the model returns.
         if isinstance(raw_prediction, dict):
             probability = raw_prediction.get("success_probability") or raw_prediction.get("probability")
         else:
             probability = getattr(raw_prediction, "success_probability", None)
+
+        if isinstance(probability, dict):
+            probability = probability.get("score") or probability.get("value") or probability.get("probability") or probability.get("success_probability")
 
         if probability is None:
             raise ValueError(
