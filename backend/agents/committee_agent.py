@@ -228,8 +228,8 @@ Return ONLY a JSON object, no markdown fences, no preamble:
 }}"""
 
         try:
-            raw_response = await llm_service.generate(prompt)
-            parsed = _extract_json(raw_response)
+            from core.config import settings
+            parsed = await llm_service.generate_structured(prompt, bypass_cache=getattr(settings, "EVALUATION_MODE", False))
             narrative = parsed.get("narrative", "")
             key_opportunities = parsed.get("key_opportunities", [])
             key_risks = parsed.get("key_risks", [])

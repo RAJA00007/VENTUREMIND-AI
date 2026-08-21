@@ -97,6 +97,14 @@ class AgentScoreResult(BaseModel):
         "evidence found. Low confidence = thin or conflicting data."
     )
     sources: List[str] = Field(default_factory=list, description="All URLs consulted")
+
+    @field_validator("sources", mode="before")
+    @classmethod
+    def sanitize_sources(cls, v):
+        if isinstance(v, list):
+            return [str(s) for s in v if s is not None and str(s).strip()]
+        return v
+
     status: str = Field(
         default="ok", description="'ok' | 'no_data' | 'failed' — lets the Committee "
         "Agent and frontend distinguish a real low score from a missing one"

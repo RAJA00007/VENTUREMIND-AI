@@ -36,6 +36,7 @@ import re
 from typing import Any, List, Optional
 
 from agents.base_agent import BaseAgent
+from core.config import settings
 from core.logging import app_logger
 from schemas.scoring import AgentScoreResult, ScoreFactor, make_no_data_result
 from services.llm_service import llm_service, AllLLMProvidersFailedError
@@ -204,15 +205,7 @@ confidence should be LOW (below 0.4) if evidence was thin — thin evidence
 means uncertainty, not automatically low risk."""
 
         try:
-            raw_response = await llm_service.generate(prompt)
-        except AllLLMProvidersFailedError as exc:
-            return make_no_data_result(
-                self.name,
-                "All LLM providers unavailable — evaluation could not be completed for this factor."
-            )
-
-        try:
-            parsed = _extract_json(raw_response)
+            parsed = await llm_service.generate_structured(prompt, bypass_cache=getattr(settings, "EVALUATION_MODE", False))
             factors = [ScoreFactor(**f) for f in parsed["score_breakdown"]]
             total_score = sum(f.points for f in factors)
 
@@ -224,6 +217,11 @@ means uncertainty, not automatically low risk."""
                 confidence=float(parsed["confidence"]),
                 sources=parsed.get("sources", []),
                 status="ok",
+            )
+        except AllLLMProvidersFailedError:
+            return make_no_data_result(
+                self.name,
+                "All LLM providers unavailable — evaluation could not be completed for this factor."
             )
         except Exception as exc:
             app_logger.error(f"[Risk Agent] failed to parse LLM output: {exc}")

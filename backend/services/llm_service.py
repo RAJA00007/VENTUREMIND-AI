@@ -3,6 +3,7 @@ import re
 import random
 import time
 import asyncio
+from typing import Optional, List, Any
 try:
     from google import genai
 except ImportError:
@@ -16,6 +17,30 @@ class AllLLMProvidersFailedError(Exception):
     """Raised when all LLM providers (Gemini, Groq, OpenRouter) fail."""
     pass
 
+class StructuredOutputParsingError(Exception):
+    """Raised when an LLM fails to output valid JSON matching schema after retry."""
+    pass
+
+
+def _parse_and_clean_json(text: str) -> dict:
+    """Helper to strip markdown code fences and extract JSON object dict."""
+    if not text:
+        raise ValueError("Empty LLM response text")
+    
+    # 1. Strip markdown fences ```json ... ``` or ``` ... ```
+    fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
+    if fenced:
+        return json.loads(fenced.group(1))
+
+    # 2. Match raw JSON object {...}
+    brace = re.search(r"\{.*\}", text, re.DOTALL)
+    if brace:
+        return json.loads(brace.group(0))
+
+    # 3. Direct json.loads fallback
+    return json.loads(text.strip())
+
+
 class LLMService:
 
     def __init__(self):
@@ -26,6 +51,43 @@ class LLMService:
         self._deepseek = None
         self._ollama = None
         self._provider_cooldown: dict[str, float] = {}
+        self._semaphores: dict = {}
+        self.telemetry_history: list[dict] = []
+
+    def _get_semaphore(self, provider: str) -> asyncio.Semaphore:
+        limits = {
+            "gemini": getattr(settings, "GEMINI_MAX_CONCURRENCY", 3),
+            "groq": getattr(settings, "GROQ_MAX_CONCURRENCY", 2),
+            "openrouter": getattr(settings, "OPENROUTER_MAX_CONCURRENCY", 2),
+            "ollama": getattr(settings, "OLLAMA_MAX_CONCURRENCY", 1),
+        }
+        limit = limits.get(provider.lower(), 2)
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+        
+        if not hasattr(self, "_semaphores") or self._semaphores is None:
+            self._semaphores = {}
+            
+        if provider not in self._semaphores or self._semaphores[provider][0] != loop:
+            self._semaphores[provider] = (loop, asyncio.Semaphore(limit))
+        return self._semaphores[provider][1]
+
+    def get_and_clear_telemetry(self) -> list[dict]:
+        records = list(self.telemetry_history)
+        self.telemetry_history.clear()
+        return records
+
+    def _record_telemetry(self, provider: str, model: str, status: str, latency_ms: float, error: Optional[str] = None):
+        self.telemetry_history.append({
+            "timestamp": time.time(),
+            "provider": provider,
+            "model": model,
+            "status": status,
+            "latency_ms": round(latency_ms, 2),
+            "error": error
+        })
 
     @property
     def gemini(self):
@@ -189,6 +251,50 @@ class LLMService:
 
 
 
+    async def generate_structured(
+        self,
+        prompt: str,
+        schema_cls: Optional[Any] = None,
+        bypass_cache: bool = False
+    ) -> dict:
+        """
+        Reusable structured JSON generation. Strips code fences, parses JSON,
+        validates against optional Pydantic schema, and executes ONE controlled
+        repair/retry on parsing failure before raising StructuredOutputParsingError.
+        """
+        json_prompt = prompt
+        if "json" not in prompt.lower():
+            json_prompt += "\n\nCRITICAL REQUIREMENT: Return ONLY a valid JSON object. Do not include extra commentary or markdown outside the JSON."
+
+        first_text = await self.generate(json_prompt, bypass_cache=bypass_cache)
+        try:
+            parsed = _parse_and_clean_json(first_text)
+            if schema_cls and hasattr(schema_cls, "model_validate"):
+                schema_cls.model_validate(parsed)
+            return parsed
+        except Exception as first_error:
+            app_logger.warning(
+                f"[LLM Structured Output] Initial parsing failed: {first_error}. Initiating 1-retry repair..."
+            )
+            repair_prompt = (
+                f"Your previous response failed JSON parsing/validation:\n"
+                f"ERROR: {first_error}\n\n"
+                f"Original Task:\n{prompt}\n\n"
+                f"CRITICAL: Return ONLY a valid, correctly formatted JSON object with double quotes and no markdown fences."
+            )
+            retry_text = await self.generate(repair_prompt, bypass_cache=True)
+            try:
+                parsed_retry = _parse_and_clean_json(retry_text)
+                if schema_cls and hasattr(schema_cls, "model_validate"):
+                    schema_cls.model_validate(parsed_retry)
+                app_logger.info("[LLM Structured Output] Controlled JSON repair retry succeeded!")
+                return parsed_retry
+            except Exception as retry_error:
+                app_logger.error(f"[LLM Structured Output] Controlled JSON repair failed: {retry_error}")
+                raise StructuredOutputParsingError(
+                    f"Failed to generate valid structured JSON after 1 retry: {retry_error}"
+                )
+
     async def generate(self, prompt: str, bypass_cache: bool = False) -> str:
         # Cache check
         cache_key = make_cache_key("llm_generate", prompt)
@@ -202,95 +308,124 @@ class LLMService:
             app_logger.info("[Cache Bypass] Bypassing LLM cache.")
 
         # Falls through to provider chain
-        # Provider 1: Gemini
-        if time.monotonic() >= self._provider_cooldown.get("gemini", 0.0):
-            try:
-                start_time = time.monotonic()
-                client_obj = self.gemini
-                if hasattr(client_obj, "models"):
-                    fn = lambda: client_obj.models.generate_content(model="gemini-2.0-flash", contents=prompt)
-                else:
-                    fn = lambda: client_obj.generate_content(prompt)
-                response = await asyncio.wait_for(
-                    asyncio.to_thread(fn),
-                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
-                )
-                duration = time.monotonic() - start_time
-                app_logger.info(f"[LLM] served by gemini in {duration:.2f}s")
-                await cache.set(cache_key, response.text, settings.LLM_CACHE_TTL_SECONDS)
-                return response.text
-            except Exception as e:
-                if any(term in str(e).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
-                    self._provider_cooldown["gemini"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
-                    app_logger.warning(f"[LLM] Gemini rate limited. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
-                app_logger.warning(f"Gemini failed, trying Groq fallback: {e}")
-        else:
-            app_logger.info("[LLM] Skipping Gemini (in cooldown).")
-
-        # Provider 2: Groq
+        # Provider 1: Groq (with controlled 429 retry + exponential backoff + jitter)
         if time.monotonic() >= self._provider_cooldown.get("groq", 0.0):
-            try:
-                kwargs = {
-                    "model": "llama-3.3-70b-versatile",
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": prompt
+            groq_sem = self._get_semaphore("groq")
+            async with groq_sem:
+                max_retries = 2
+                for attempt in range(max_retries + 1):
+                    try:
+                        kwargs = {
+                            "model": "llama-3.3-70b-versatile",
+                            "messages": [{"role": "user", "content": prompt}]
                         }
-                    ]
-                }
-                if "json" in prompt.lower():
-                    kwargs["response_format"] = {"type": "json_object"}
-                
-                start_time = time.monotonic()
-                response = await asyncio.wait_for(
-                    asyncio.to_thread(
-                        self.groq.chat.completions.create,
-                        **kwargs
-                    ),
-                    timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
-                )
-                duration = time.monotonic() - start_time
-                app_logger.info(f"[LLM] served by groq in {duration:.2f}s")
-                await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
-                return response.choices[0].message.content
-            except Exception as e2:
-                if any(term in str(e2).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
-                    self._provider_cooldown["groq"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
-                    app_logger.warning(f"[LLM] Groq rate limited. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
-                app_logger.warning(f"Groq failed, trying OpenRouter fallback: {e2}")
+                        if "json" in prompt.lower():
+                            kwargs["response_format"] = {"type": "json_object"}
+                        
+                        start_time = time.monotonic()
+                        response = await asyncio.wait_for(
+                            asyncio.to_thread(self.groq.chat.completions.create, **kwargs),
+                            timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
+                        )
+                        duration = time.monotonic() - start_time
+                        self._record_telemetry("groq", "llama-3.3-70b-versatile", "success", duration * 1000)
+                        app_logger.info(f"[LLM] served by groq in {duration:.2f}s (attempt {attempt+1})")
+                        await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
+                        return response.choices[0].message.content
+                    except Exception as e2:
+                        duration = time.monotonic() - start_time
+                        is_rl = any(term in str(e2).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"])
+                        
+                        if is_rl and attempt < max_retries:
+                            jitter = random.uniform(0.1, 0.4)
+                            backoff_sec = (1.5 ** attempt) + jitter
+                            app_logger.warning(f"[LLM] Groq 429 rate limited. Retrying in {backoff_sec:.2f}s (attempt {attempt+1}/{max_retries})...")
+                            self._record_telemetry("groq", "llama-3.3-70b-versatile", "rate_limit_retry", duration * 1000, str(e2))
+                            await asyncio.sleep(backoff_sec)
+                            continue
+                        
+                        self._record_telemetry("groq", "llama-3.3-70b-versatile", "rate_limited" if is_rl else "failed", duration * 1000, str(e2))
+                        if is_rl:
+                            self._provider_cooldown["groq"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                            app_logger.warning(f"[LLM] Groq rate limited after retries. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
+                        app_logger.warning(f"Groq failed, trying Gemini fallback: {e2}")
+                        break
         else:
             app_logger.info("[LLM] Skipping Groq (in cooldown).")
 
-        # Provider 3: OpenRouter
-        if settings.OPENROUTER_API_KEY:
-            if time.monotonic() >= self._provider_cooldown.get("openrouter", 0.0):
+        # Provider 2: Gemini
+        if time.monotonic() >= self._provider_cooldown.get("gemini", 0.0):
+            gemini_sem = self._get_semaphore("gemini")
+            async with gemini_sem:
                 try:
-                    app_logger.info("Trying OpenRouter client fallback (openrouter/free)...")
-                    from openai import OpenAI
-                    openrouter_client = OpenAI(
-                        base_url="https://openrouter.ai/api/v1",
-                        api_key=settings.OPENROUTER_API_KEY
-                    )
                     start_time = time.monotonic()
+                    client_obj = self.gemini
+                    if hasattr(client_obj, "models"):
+                        fn = lambda: client_obj.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+                    else:
+                        fn = lambda: client_obj.generate_content(prompt)
                     response = await asyncio.wait_for(
-                        asyncio.to_thread(
-                            openrouter_client.chat.completions.create,
-                            model="openrouter/free",
-                            messages=[{"role": "user", "content": prompt}]
-                        ),
+                        asyncio.to_thread(fn),
                         timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
                     )
                     duration = time.monotonic() - start_time
-                    app_logger.info(f"[LLM] served by openrouter in {duration:.2f}s")
-                    await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
-                    return response.choices[0].message.content
-                except Exception as e3:
-                    if any(term in str(e3).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
-                        self._provider_cooldown["openrouter"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
-                    app_logger.warning(f"OpenRouter fallback failed: {e3}, trying Cerebras AI...")
-            else:
-                app_logger.info("[LLM] Skipping OpenRouter (in cooldown).")
+                    self._record_telemetry("gemini", "gemini-2.5-flash", "success", duration * 1000)
+                    app_logger.info(f"[LLM] served by gemini in {duration:.2f}s")
+                    await cache.set(cache_key, response.text, settings.LLM_CACHE_TTL_SECONDS)
+                    return response.text
+                except Exception as e:
+                    duration = time.monotonic() - start_time
+                    is_rl = any(term in str(e).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"])
+                    self._record_telemetry("gemini", "gemini-2.5-flash", "rate_limited" if is_rl else "failed", duration * 1000, str(e))
+                    if is_rl:
+                        self._provider_cooldown["gemini"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                        app_logger.warning(f"[LLM] Gemini rate limited. Cooldown set for {settings.PROVIDER_COOLDOWN_SECONDS}s.")
+                    app_logger.warning(f"Gemini failed, trying OpenRouter fallback: {e}")
+        else:
+            app_logger.info("[LLM] Skipping Gemini (in cooldown).")
+
+        # Provider 3: OpenRouter (with semaphore & backoff retry)
+        if settings.OPENROUTER_API_KEY and time.monotonic() >= self._provider_cooldown.get("openrouter", 0.0):
+            openrouter_sem = self._get_semaphore("openrouter")
+            async with openrouter_sem:
+                max_retries = 1
+                for attempt in range(max_retries + 1):
+                    try:
+                        app_logger.info("Trying OpenRouter client fallback (openrouter/free)...")
+                        from openai import OpenAI
+                        openrouter_client = OpenAI(
+                            base_url="https://openrouter.ai/api/v1",
+                            api_key=settings.OPENROUTER_API_KEY
+                        )
+                        start_time = time.monotonic()
+                        response = await asyncio.wait_for(
+                            asyncio.to_thread(
+                                openrouter_client.chat.completions.create,
+                                model="openrouter/free",
+                                messages=[{"role": "user", "content": prompt}]
+                            ),
+                            timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
+                        )
+                        duration = time.monotonic() - start_time
+                        self._record_telemetry("openrouter", "openrouter/free", "success", duration * 1000)
+                        app_logger.info(f"[LLM] served by openrouter in {duration:.2f}s")
+                        await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
+                        return response.choices[0].message.content
+                    except Exception as e3:
+                        duration = time.monotonic() - start_time
+                        is_rl = any(term in str(e3).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"])
+                        if is_rl and attempt < max_retries:
+                            backoff_sec = 1.0 + random.uniform(0.1, 0.3)
+                            app_logger.warning(f"[LLM] OpenRouter 429 rate limited. Retrying in {backoff_sec:.2f}s...")
+                            await asyncio.sleep(backoff_sec)
+                            continue
+                        self._record_telemetry("openrouter", "openrouter/free", "rate_limited" if is_rl else "failed", duration * 1000, str(e3))
+                        if is_rl:
+                            self._provider_cooldown["openrouter"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
+                        app_logger.warning(f"OpenRouter fallback failed: {e3}, trying Cerebras AI...")
+                        break
+        else:
+            app_logger.info("[LLM] Skipping OpenRouter (in cooldown).")
 
         # Provider 4: Cerebras AI
         if time.monotonic() >= self._provider_cooldown.get("cerebras", 0.0):
@@ -307,11 +442,15 @@ class LLMService:
                     timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
                 )
                 duration = time.monotonic() - start_time
+                self._record_telemetry("cerebras", "llama3.1-70b", "success", duration * 1000)
                 app_logger.info(f"[LLM] served by cerebras in {duration:.2f}s")
                 await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
                 return response.choices[0].message.content
             except Exception as e4:
-                if any(term in str(e4).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                duration = time.monotonic() - start_time
+                is_rl = any(term in str(e4).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"])
+                self._record_telemetry("cerebras", "llama3.1-70b", "rate_limited" if is_rl else "failed", duration * 1000, str(e4))
+                if is_rl:
                     self._provider_cooldown["cerebras"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
                 app_logger.warning(f"Cerebras AI fallback failed: {e4}, trying Together AI...")
         else:
@@ -332,11 +471,15 @@ class LLMService:
                     timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
                 )
                 duration = time.monotonic() - start_time
+                self._record_telemetry("together", "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo", "success", duration * 1000)
                 app_logger.info(f"[LLM] served by together in {duration:.2f}s")
                 await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
                 return response.choices[0].message.content
             except Exception as e5:
-                if any(term in str(e5).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                duration = time.monotonic() - start_time
+                is_rl = any(term in str(e5).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"])
+                self._record_telemetry("together", "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo", "rate_limited" if is_rl else "failed", duration * 1000, str(e5))
+                if is_rl:
                     self._provider_cooldown["together"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
                 app_logger.warning(f"Together AI fallback failed: {e5}, trying DeepSeek AI...")
         else:
@@ -357,30 +500,36 @@ class LLMService:
                     timeout=settings.LLM_PROVIDER_TIMEOUT_SECONDS
                 )
                 duration = time.monotonic() - start_time
+                self._record_telemetry("deepseek", "deepseek-chat", "success", duration * 1000)
                 app_logger.info(f"[LLM] served by deepseek in {duration:.2f}s")
                 await cache.set(cache_key, response.choices[0].message.content, settings.LLM_CACHE_TTL_SECONDS)
                 return response.choices[0].message.content
             except Exception as e6:
-                if any(term in str(e6).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"]):
+                duration = time.monotonic() - start_time
+                is_rl = any(term in str(e6).lower() for term in ["429", "quota", "rate_limit", "rate limit", "limit exceeded"])
+                self._record_telemetry("deepseek", "deepseek-chat", "rate_limited" if is_rl else "failed", duration * 1000, str(e6))
+                if is_rl:
                     self._provider_cooldown["deepseek"] = time.monotonic() + settings.PROVIDER_COOLDOWN_SECONDS
                 app_logger.warning(f"DeepSeek AI fallback failed: {e6}, trying local Ollama...")
         else:
             app_logger.info("[LLM] Skipping DeepSeek AI (in cooldown).")
 
-        # Provider 7: Local Ollama (with multi-model fallback)
+        # Provider 7: Local Ollama (with controlled single-model evaluation fallback)
         if time.monotonic() >= self._provider_cooldown.get("ollama", 0.0):
-            try:
-                content = await self._try_ollama_fallback(prompt)
-                await cache.set(cache_key, content, settings.LLM_CACHE_TTL_SECONDS)
-                return content
-            except Exception as e7:
-                self._provider_cooldown["ollama"] = time.monotonic() + 15
-                app_logger.warning(f"Local Ollama provider failed: {e7}")
+            ollama_sem = self._get_semaphore("ollama")
+            async with ollama_sem:
+                try:
+                    content = await self._try_ollama_fallback(prompt)
+                    await cache.set(cache_key, content, settings.LLM_CACHE_TTL_SECONDS)
+                    return content
+                except Exception as e7:
+                    self._provider_cooldown["ollama"] = time.monotonic() + 15
+                    app_logger.warning(f"Local Ollama provider failed: {e7}")
         else:
             app_logger.info("[LLM] Skipping local Ollama (in cooldown).")
 
-        # Final Fallback: Gated Mock Response
-        if settings.ALLOW_MOCK_FALLBACK:
+        # Final Fallback: Gated Mock Response (DISABLED during EVALUATION_MODE)
+        if settings.ALLOW_MOCK_FALLBACK and not getattr(settings, "EVALUATION_MODE", False):
             app_logger.warning("Gated mock fallback triggered for general generation after all live providers failed.")
             return self._generate_mock_fallback(prompt)
 
@@ -388,38 +537,48 @@ class LLMService:
 
     async def _try_ollama_fallback(self, prompt: str) -> str:
         ollama_client = self.ollama
-        configured_model = getattr(settings, "OLLAMA_MODEL", "llama3.2")
+        configured_model = getattr(settings, "OLLAMA_MODEL", "llama3:latest")
+        if configured_model == "llama3.2":
+            configured_model = "llama3:latest"
         
-        # Discover available local models dynamically
+        # When in EVALUATION_MODE, use single model with a 90s timeout to allow local CPU inference across all parallel agents
+        if getattr(settings, "EVALUATION_MODE", False):
+            start_time = time.monotonic()
+            try:
+                app_logger.info(f"[Ollama Evaluation Mode] Calling model '{configured_model}'...")
+                kwargs = {
+                    "model": configured_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                }
+                if "json" in prompt.lower():
+                    kwargs["response_format"] = {"type": "json_object"}
+
+                response = await asyncio.wait_for(
+                    asyncio.to_thread(
+                        ollama_client.chat.completions.create,
+                        **kwargs
+                    ),
+                    timeout=90
+                )
+                duration = time.monotonic() - start_time
+                self._record_telemetry("ollama", configured_model, "success", duration * 1000)
+                app_logger.info(f"[LLM] served by local ollama model '{configured_model}' in {duration:.2f}s")
+                return response.choices[0].message.content
+            except Exception as e:
+                duration = time.monotonic() - start_time
+                self._record_telemetry("ollama", configured_model, "failed", duration * 1000, str(e))
+                raise Exception(f"Ollama model '{configured_model}' failed in evaluation mode: {e}")
+
+        # Discover available local models dynamically (Dev mode)
         discovered_models = []
         try:
             models_resp = await asyncio.to_thread(ollama_client.models.list)
             if models_resp and hasattr(models_resp, "data") and models_resp.data:
                 discovered_models = [m.id for m in models_resp.data if hasattr(m, "id") and m.id]
-                if discovered_models:
-                    app_logger.info(f"[Ollama] Discovered local models: {discovered_models}")
         except Exception as e:
             app_logger.debug(f"[Ollama] Dynamic model list check skipped: {e}")
 
-        # Popular local Ollama model fallback names
-        fallback_candidates = [
-            configured_model,
-            "llama3.2",
-            "llama3.2:latest",
-            "llama3",
-            "llama3:latest",
-            "llama3.1",
-            "llama3.1:latest",
-            "mistral",
-            "mistral:latest",
-            "qwen2.5",
-            "qwen2.5:latest",
-            "gemma2",
-            "phi3",
-            "tinyllama"
-        ]
-
-        # Prioritize: configured model -> discovered installed models -> static candidate names
+        fallback_candidates = [configured_model, "llama3.2", "llama3:latest", "mistral", "qwen2.5:latest"]
         candidate_queue = []
         if configured_model:
             candidate_queue.append(configured_model)
@@ -430,7 +589,6 @@ class LLMService:
         last_error = None
         for model_name in candidate_queue:
             try:
-                app_logger.info(f"Trying local Ollama provider with model '{model_name}'...")
                 start_time = time.monotonic()
                 response = await asyncio.wait_for(
                     asyncio.to_thread(
@@ -438,14 +596,16 @@ class LLMService:
                         model=model_name,
                         messages=[{"role": "user", "content": prompt}]
                     ),
-                    timeout=60
+                    timeout=30
                 )
                 duration = time.monotonic() - start_time
+                self._record_telemetry("ollama", model_name, "success", duration * 1000)
                 app_logger.info(f"[LLM] served by local ollama model '{model_name}' in {duration:.2f}s")
                 return response.choices[0].message.content
             except Exception as e:
                 last_error = e
-                app_logger.warning(f"Local Ollama model '{model_name}' failed: {e}")
+                duration = time.monotonic() - start_time
+                self._record_telemetry("ollama", model_name, "failed", duration * 1000, str(e))
 
         raise Exception(f"All local Ollama models failed. Last error: {last_error}")
 

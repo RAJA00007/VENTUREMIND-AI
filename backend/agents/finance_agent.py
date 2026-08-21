@@ -29,6 +29,7 @@ import re
 from typing import Any, List
 
 from agents.base_agent import BaseAgent
+from core.config import settings
 from core.logging import app_logger
 from schemas.scoring import AgentScoreResult, ScoreFactor, make_no_data_result
 from services.llm_service import llm_service, AllLLMProvidersFailedError
@@ -191,15 +192,7 @@ entirely self-reported/unverified, or if funding history and investor
 information could not be found at all."""
 
         try:
-            raw_response = await llm_service.generate(prompt)
-        except AllLLMProvidersFailedError as exc:
-            return make_no_data_result(
-                self.name,
-                "All LLM providers unavailable — evaluation could not be completed for this factor."
-            )
-
-        try:
-            parsed = _extract_json(raw_response)
+            parsed = await llm_service.generate_structured(prompt, bypass_cache=getattr(settings, "EVALUATION_MODE", False))
             factors = [ScoreFactor(**f) for f in parsed["score_breakdown"]]
             total_score = sum(f.points for f in factors)
 
@@ -211,6 +204,11 @@ information could not be found at all."""
                 confidence=float(parsed["confidence"]),
                 sources=parsed.get("sources", []),
                 status="ok",
+            )
+        except AllLLMProvidersFailedError:
+            return make_no_data_result(
+                self.name,
+                "All LLM providers unavailable — evaluation could not be completed for this factor."
             )
         except Exception as exc:
             app_logger.error(f"[Finance Agent] failed to parse LLM output: {exc}")

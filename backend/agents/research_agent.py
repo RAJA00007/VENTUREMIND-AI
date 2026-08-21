@@ -22,6 +22,7 @@ import re
 from typing import Any, List
 
 from agents.base_agent import BaseAgent
+from core.config import settings
 from core.logging import app_logger
 from rag.vector_store import vector_store
 from schemas.scoring import AgentScoreResult, BusinessProfile, ScoreFactor, make_no_data_result
@@ -209,15 +210,7 @@ or mostly absent — do not report high confidence just because you produced
 an answer."""
 
         try:
-            raw_response = await llm_service.generate(prompt)
-        except AllLLMProvidersFailedError as exc:
-            return make_no_data_result(
-                self.name,
-                "All LLM providers unavailable — evaluation could not be completed for this factor."
-            )
-
-        try:
-            parsed = _extract_json(raw_response)
+            parsed = await llm_service.generate_structured(prompt, bypass_cache=getattr(settings, "EVALUATION_MODE", False))
             factors = [ScoreFactor(**f) for f in parsed["score_breakdown"]]
             total_score = sum(f.points for f in factors)
 
@@ -243,11 +236,11 @@ an answer."""
                 status="ok",
                 business_profile=business_profile,
             )
+        except AllLLMProvidersFailedError:
+            return make_no_data_result(
+                self.name,
+                "All LLM providers unavailable — evaluation could not be completed for this factor."
+            )
         except Exception as exc:
-            # The LLM didn't follow the contract. This is a failure of this
-            # run, not a "the company scored 0" situation — surface it as
-            # failed so the Committee Agent and frontend can tell the
-            # difference and possibly retry, rather than silently treating
-            # a parse error as a real score of 0.
             app_logger.error(f"[Research Agent] failed to parse LLM output: {exc}")
             raise
