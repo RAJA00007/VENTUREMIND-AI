@@ -1,0 +1,854 @@
+{
+  "timestamp": "2026-08-13T20:28:49.816240",
+  "dataset_path": "C:\\Users\\Raja\\venturemind-ai\\backend\\evaluation\\datasets\\startup_cases.json",
+  "metrics": {
+    "total_cases": 1,
+    "completed_cases": 1,
+    "valid_cases_count": 1,
+    "invalid_cases_count": 0,
+    "provider_failures_count": 0,
+    "failed_cases": 0,
+    "workflow_success_rate": 100.0,
+    "agent_failure_rate": 0.0,
+    "overall_score_mae": 71.0,
+    "overall_score_median_ae": 71.0,
+    "overall_score_max_error": 71.0,
+    "verdict_accuracy": 0.0,
+    "verdict_confusion_matrix": {
+      "INVEST": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 1
+      },
+      "WATCH": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      },
+      "PASS": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      }
+    },
+    "risk_classification_accuracy": 0.0,
+    "risk_classification_precision": 75.0,
+    "risk_classification_recall": 75.0,
+    "risk_classification_f1": 75.0,
+    "dimension_maes": {
+      "market_score": 67.0,
+      "competition_score": 68.5,
+      "founder_score": 88.0,
+      "finance_score": 71.0,
+      "technology_score": 85.0,
+      "risk_score": 62.5
+    },
+    "high_confidence_error_rate": 0.0,
+    "overconfident_case_ids": [],
+    "total_runtime_seconds": 93.74267840385437,
+    "avg_runtime_seconds": 93.74267840385437,
+    "min_runtime_seconds": 93.74267840385437,
+    "max_runtime_seconds": 93.74267840385437,
+    "avg_sources_per_case": 34.0,
+    "llm_token_usage": "NOT AVAILABLE",
+    "llm_estimated_cost": "NOT AVAILABLE",
+    "hallucination_accuracy": "NOT MEASURED"
+  },
+  "cases": [
+    {
+      "case_id": "SYN-001",
+      "company_name": "CloudScale AI",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "TECH",
+        "market_score": 82.0,
+        "competition_score": 70.0,
+        "founder_score": 88.0,
+        "finance_score": 75.0,
+        "technology_score": 85.0,
+        "risk_score": 65.0,
+        "overall_score": 78.5,
+        "risk_level": "LOW",
+        "verdict": "INVEST"
+      },
+      "actual_overall_score": 7.5,
+      "actual_verdict": "PASS",
+      "actual_overall_confidence": 0.57,
+      "actual_company_type": "HYBRID",
+      "actual_risk_level": "CRITICAL",
+      "actual_dimension_scores": {
+        "market_score": 15.0,
+        "competition_score": 1.5,
+        "founder_score": 0.0,
+        "finance_score": 4.0,
+        "technology_score": 0.0,
+        "risk_score": 2.5
+      },
+      "runtime_seconds": 93.74267840385437,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 0,
+      "no_data_agents": 1,
+      "total_sources_cited": 34,
+      "schema_valid": true,
+      "valid": true,
+      "invalidation_reason": null,
+      "provider_telemetry": [
+        {
+          "timestamp": 1786633046.6183746,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 7593.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786633046.6801875,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 7375.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786633047.0201051,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 344.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786633047.0283945,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 344.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786633047.3004973,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786633049.8593879,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "success",
+          "latency_ms": 3187.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633054.6900754,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "failed",
+          "latency_ms": 8079.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633055.8664982,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "failed",
+          "latency_ms": 8843.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633055.8777316,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "failed",
+          "latency_ms": 8844.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633055.8830156,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "failed",
+          "latency_ms": 8578.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633059.7459505,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 3859.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633060.3454843,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786633063.877367,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 8641.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633063.8849494,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 8000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633063.9083822,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 8015.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633064.4963768,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 609.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786633064.5482724,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 641.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786633065.2448385,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 734.0,
+          "error": "Error code: 401 - {'id': 'ow3eTqH-2kFHot-a2a892ecaf4b693d', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786633065.32427,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 766.0,
+          "error": "Error code: 401 - {'id': 'ow3eTrL-2kFHot-a2a892ecd875c6d2', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786633065.6762357,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 1797.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786633065.998149,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786633066.063972,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786633066.2796323,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 609.0,
+          "error": "Error code: 401 - {'id': 'ow3eU95-2kFHot-a2a892f35f42693d', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786633066.8760786,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786633068.354235,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "failed",
+          "latency_ms": 8000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633074.3808992,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 8375.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633076.3814309,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 8016.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633077.0597363,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 672.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786633078.9756439,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1906.0,
+          "error": "Error code: 401 - {'id': 'ow3eXug-2kFHot-a2a8933ba9f03a48', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786633079.7798645,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 812.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786633081.9840257,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 15921.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633089.0319817,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 22156.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633097.9600666,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 18172.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633098.5933278,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 625.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786633099.0273764,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "success",
+          "latency_ms": 422.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633100.9348397,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 219.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786633108.9373627,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "failed",
+          "latency_ms": 8000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633116.9432366,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 8000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633117.525499,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 578.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786633118.353174,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 828.0,
+          "error": "Error code: 401 - {'id': 'ow3ejd4-2kFHot-a2a89438aa08ff62', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786633119.0606058,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 719.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786633128.266668,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 9203.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633128.875755,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 609.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786633129.8015935,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "success",
+          "latency_ms": 922.0,
+          "error": null
+        }
+      ],
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "CloudScale AI",
+        "category": "HYBRID",
+        "final_score": 7.5,
+        "verdict": "PASS",
+        "overall_confidence": 0.57,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 5.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "This report analyzes CloudScale AI's business profile and product features based on publicly available data."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 15.0,
+            "confidence": 0.6,
+            "status": "ok",
+            "summary": "Cloud artificial intelligence in healthcare offers several data management benefits, enabling automatic reports and metrics generation based on actual time data."
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 1.5,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "CloudScale AI appears to have a strong competitive moat due to its focus on making backup data instantly queryable for AI, at half the cost of traditional cloud backup solutions. Identified competitors: Self-Hosted AI Workspaces vs Cloud Platforms: Privacy, Cost, and Performance Trade-Offs | MindStudio, Competitive Moats in the AI Era | Future of Competitive Advantage in AI | Exeed College."
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 0.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "The founding team of CloudScale AI appears to be unidentified, with no clear information on their professional experience, background, or prior ventures. The provided sources do not offer sufficient evidence to determine the team's composition or assess their expertise. As a result, the evaluation is based on limited data, and the confidence level is low. "
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 4.0,
+            "confidence": 0.6,
+            "status": "ok",
+            "summary": "AI startup valuations have been impacted by the rise of OpenAI and Anthropic, leading to a decrease in the value of other AI startups."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "Repository 'cloudscale-ai/core' not found or private."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 2.5,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "CloudScale AI's risk profile is concerning due to the company's focus on AI-driven restructuring and layoffs."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 31.5,
+            "confidence": 0.17,
+            "status": "ok",
+            "summary": "ML model estimates a 32% success probability for 'CloudScale AI', based on 1/6 features extracted from real evidence (remaining 5 used defaults)."
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          }
+        ],
+        "significant_disagreement": false,
+        "disagreement_note": null,
+        "key_opportunities": [
+          "Competitive Moat in Data Querying",
+          "Healthcare Data Management Benefits",
+          "Lower Cost Than Traditional Solutions"
+        ],
+        "key_risks": [
+          "Unidentified Founding Team",
+          "Risk Profile Concerns",
+          "AI Startup Valuation Decreases"
+        ],
+        "narrative": "The score and verdict for CloudScale AI take into account both the company's potential benefits and drawbacks. On one hand, its focus on making backup data instantly queryable for AI at a lower cost than traditional solutions presents a compelling value proposition. On the other hand, the lack of information about the founding team, concerns about the company's risk profile, and the impact of AI startup valuation decreases all contribute to the overall assessment. Despite these challenges, the company's unique competitive moat and potential for data management benefits in healthcare suggest opportunities for growth. The verdict reflects a cautious optimism about CloudScale AI's potential, grounded in the available data and analyses.",
+        "was_overridden": false,
+        "override_reason": null,
+        "confidence_breakdown": {
+          "raw_avg": 0.35,
+          "data_coverage": 0.88,
+          "agreement_factor": 0.69
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 5.0,
+          "score_breakdown": [
+            {
+              "factor": "Company mentions",
+              "points": 2.0,
+              "max_points": 4.0,
+              "reason": "CloudScale AI is mentioned in the Cirrascale and Cloud Computing News articles, with specific product features like Gemini On-Premises and Innovation Cloud.",
+              "source": null
+            },
+            {
+              "factor": "AI-related products/services",
+              "points": 3.0,
+              "max_points": 4.0,
+              "reason": "CloudScale AI offers AI-related products and services, including the Cirrascale Inference Platform with HGX B300 support and private AI solutions.",
+              "source": null
+            },
+            {
+              "factor": "Software-centric revenue model",
+              "points": 0.0,
+              "max_points": 4.0,
+              "reason": "No direct evidence suggests that CloudScale AI's primary source of revenue is software-centric. They could provide physical goods or services.",
+              "source": null
+            }
+          ],
+          "summary": "This report analyzes CloudScale AI's business profile and product features based on publicly available data.",
+          "confidence": 0.3,
+          "sources": [
+            "https://www.ciodive.com",
+            "https://www.infoworld.com"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": {
+            "category": "HYBRID",
+            "is_core_product_software": false,
+            "is_revenue_physical_goods": null,
+            "reasoning": "While CloudScale AI has a software-centric product portfolio, it's unclear whether their primary revenue source is physical goods. Further investigation and data would be needed to answer this question definitively."
+          }
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 15.0,
+          "score_breakdown": [
+            {
+              "factor": "Market Size",
+              "points": 8.0,
+              "max_points": 10.0,
+              "reason": "The cloud AI market size is projected to dominate, with a share of 26.36% in 2026.",
+              "source": "https://www.snsinsider.com/reports/cloud-ai-market-4151"
+            },
+            {
+              "factor": "Scalability",
+              "points": 7.0,
+              "max_points": 10.0,
+              "reason": "Cloud AI solutions sustain scalability, permitting organizations to modify their usage to current requirements.",
+              "source": null
+            },
+            {
+              "factor": "Competitive Landscape",
+              "points": 0.0,
+              "max_points": 10.0,
+              "reason": "No explicit information about competitive landscape provided.",
+              "source": null
+            }
+          ],
+          "summary": "Cloud artificial intelligence in healthcare offers several data management benefits, enabling automatic reports and metrics generation based on actual time data.",
+          "confidence": 0.6,
+          "sources": [
+            "https://www.snsinsider.com/reports/cloud-ai-market-4151"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 1.5,
+          "score_breakdown": [
+            {
+              "factor": "Technology and AI Models as Moats",
+              "points": 0.0,
+              "max_points": 1.0,
+              "reason": "While CloudScale AI has a strong product, its technology alone does not create an unassailable moat.",
+              "source": null
+            },
+            {
+              "factor": "Data Governance and Trust",
+              "points": 1.5,
+              "max_points": 2.0,
+              "reason": "CloudScale AI's focus on data governance and trust contributes significantly to its competitive advantage.",
+              "source": "How Eon compares"
+            },
+            {
+              "factor": "Operational Efficiency",
+              "points": 0.0,
+              "max_points": 1.0,
+              "reason": "There is no explicit evidence of CloudScale AI's operational efficiency in the provided texts.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI appears to have a strong competitive moat due to its focus on making backup data instantly queryable for AI, at half the cost of traditional cloud backup solutions. Identified competitors: Self-Hosted AI Workspaces vs Cloud Platforms: Privacy, Cost, and Performance Trade-Offs | MindStudio, Competitive Moats in the AI Era | Future of Competitive Advantage in AI | Exeed College.",
+          "confidence": 0.3,
+          "sources": [
+            "https://www.mindstudio.ai/blog/self-hosted-ai-workspaces-vs-cloud-platforms",
+            "https://exeedcollege.com/blog/competitive-moats-in-the-ai-era"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 0.0,
+          "score_breakdown": [
+            {
+              "factor": "Relevant domain experience",
+              "points": 0.0,
+              "max_points": 30.0,
+              "reason": "No documented prior work directly relevant to this venture's domain was found.",
+              "source": null
+            },
+            {
+              "factor": "Prior track record",
+              "points": 0.0,
+              "max_points": 25.0,
+              "reason": "No documented prior founder or executive experience was found.",
+              "source": null
+            },
+            {
+              "factor": "Team completeness",
+              "points": 0.0,
+              "max_points": 25.0,
+              "reason": "The team composition cannot be determined from the provided evidence.",
+              "source": null
+            },
+            {
+              "factor": "Execution signals",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No concrete evidence of shipping or executing, such as launched products or raised funding, was found.",
+              "source": null
+            }
+          ],
+          "summary": "The founding team of CloudScale AI appears to be unidentified, with no clear information on their professional experience, background, or prior ventures. The provided sources do not offer sufficient evidence to determine the team's composition or assess their expertise. As a result, the evaluation is based on limited data, and the confidence level is low. ",
+          "confidence": 0.2,
+          "sources": [
+            "https://cloudscale365.com/leadership-team",
+            "https://www.youtube.com/watch?v=14_oXw-AVZ4",
+            "https://www.linkedin.com/company/cloudscaleio",
+            "https://www.gritt.io/company/cloudscale-capital-partners-llc",
+            "https://cloudscale.consulting",
+            "https://www.axios.com/2026/07/30/scale-ai-google-cloud-coo-francis-desouza",
+            "https://www.cxotalk.com/episode/google-clouds-cto-inside-the-ai-strategy",
+            "https://aws.amazon.com/executive-insights/content/cloud-for-ceos",
+            "https://c3.ai/leadership",
+            "https://www.youtube.com/watch?v=Kcfpew9V-Us",
+            "https://www.forbes.com/sites/stevenli1/2019/12/22/scale-ai-growth-story",
+            "https://www.youtube.com/watch?v=YxK16blZnig",
+            "https://alexvancefreelance.com/about-me",
+            "https://github.com/alex-vance",
+            "https://dejan.ai/media/html/page/index.htm",
+            "https://sites.uclouvain.be/gravitai/people/sarah-chen",
+            "https://www.generalassemb.ly/instructors/sarah-chen/21457",
+            "https://www.linkedin.com/in/sarahchen22",
+            "https://www.linkedin.com/posts/sarahchenglobal_futureofwork-ai-activity-7317910735005581313-qaVS"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 4.0,
+          "score_breakdown": [
+            {
+              "factor": "Down Rounds",
+              "points": 2.0,
+              "max_points": 3.0,
+              "reason": "A down round occurred for Anthropic, Aisera reported no valuation is too big if the business is healthy, and Michael Moritz of Sequoia Capital called out investors in a down round announcement.",
+              "source": null
+            },
+            {
+              "factor": "Valuation Resets",
+              "points": 2.0,
+              "max_points": 3.0,
+              "reason": "The valuation for OpenAI (157B) and Databricks ($43.2B) was seen as a misread of the AI's future, and over 220 companies that once hit billion-dollar valuations are now considered 'fallen unicorns'",
+              "source": "https://foundationcapital.com/ideas/why-openai-s-157b-valuation-misreads-ai-s-future, https://news.crunchbase.com/venture/startup-valuation-fluctuations-ai-openai-msft-eoy-2023"
+            }
+          ],
+          "summary": "AI startup valuations have been impacted by the rise of OpenAI and Anthropic, leading to a decrease in the value of other AI startups.",
+          "confidence": 0.6,
+          "sources": [
+            "https://fortune.com/2024/05/01/silicon-valley-ai-startups-billion-dollar-dilemma-lofty-valuations-complicates-hiring",
+            "https://www.youtube.com/watch?v=u6gvoC_Zsbs",
+            "https://news.crunchbase.com/venture/startup-valuation-fluctuations-ai-openai-msft-eoy-2023",
+            "https://foundationcapital.com/ideas/why-openai-s-157b-valuation-misreads-ai-s-future",
+            "https://www.cnbc.com/2026/06/01/ai-startup-valuations-pre-chatgpt.html"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Repository 'cloudscale-ai/core' not found or private.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 2.5,
+          "score_breakdown": [
+            {
+              "factor": "AI-related workforce reduction plans",
+              "points": 1.0,
+              "max_points": 2.0,
+              "reason": "Cloudscale AI is following the trend of many companies cutting out traditional roles while investing in AI, as seen in the layoffs reported by Cloudflare and Meta.",
+              "source": null
+            },
+            {
+              "factor": "Thin competition analysis",
+              "points": 1.0,
+              "max_points": 2.0,
+              "reason": "The founding team's composition or expertise could not be determined from available sources, making it difficult to assess their competitive edge.",
+              "source": null
+            },
+            {
+              "factor": "Unclear market relevance",
+              "points": 0.5,
+              "max_points": 1.0,
+              "reason": "The exact impact of AI-driven restructuring on CloudScale AI's market relevance is unclear, but it may lead to negative effects.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI's risk profile is concerning due to the company's focus on AI-driven restructuring and layoffs.",
+          "confidence": 0.3,
+          "sources": [
+            "https://founderreports.com/ai-layoffs-tracker",
+            "cnbc; axios",
+            "fortune; cnn business",
+            "youtube",
+            "www.securityweek.com"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 31.5,
+          "score_breakdown": [
+            {
+              "factor": "Input: industry",
+              "points": 10.0,
+              "max_points": 10.0,
+              "reason": "Used real extracted value (healthtech)",
+              "source": null
+            },
+            {
+              "factor": "Input: funding",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: employees",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: age",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (3), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: revenue",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (10), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: growth",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (20), this reduces overall prediction confidence",
+              "source": null
+            }
+          ],
+          "summary": "ML model estimates a 32% success probability for 'CloudScale AI', based on 1/6 features extracted from real evidence (remaining 5 used defaults).",
+          "confidence": 0.17,
+          "sources": [],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        }
+      }
+    }
+  ]
+}

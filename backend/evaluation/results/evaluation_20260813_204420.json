@@ -1,0 +1,776 @@
+{
+  "timestamp": "2026-08-13T20:44:20.859374",
+  "dataset_path": "C:\\Users\\Raja\\venturemind-ai\\backend\\evaluation\\datasets\\startup_cases.json",
+  "metrics": {
+    "total_cases": 1,
+    "completed_cases": 1,
+    "valid_cases_count": 0,
+    "invalid_cases_count": 1,
+    "provider_failures_count": 1,
+    "failed_cases": 0,
+    "workflow_success_rate": 100.0,
+    "agent_failure_rate": 12.5,
+    "overall_score_mae": 0.0,
+    "overall_score_median_ae": 0.0,
+    "overall_score_max_error": 0.0,
+    "verdict_accuracy": 0.0,
+    "verdict_confusion_matrix": {
+      "INVEST": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      },
+      "WATCH": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      },
+      "PASS": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      }
+    },
+    "risk_classification_accuracy": 0.0,
+    "risk_classification_precision": 0.0,
+    "risk_classification_recall": 0.0,
+    "risk_classification_f1": 0.0,
+    "dimension_maes": {
+      "market_score": 0.0,
+      "competition_score": 0.0,
+      "founder_score": 0.0,
+      "finance_score": 0.0,
+      "technology_score": 0.0,
+      "risk_score": 0.0
+    },
+    "high_confidence_error_rate": 0.0,
+    "overconfident_case_ids": [],
+    "total_runtime_seconds": 141.98970794677734,
+    "avg_runtime_seconds": 141.98970794677734,
+    "p50_runtime_seconds": 141.99,
+    "p95_runtime_seconds": 141.99,
+    "min_runtime_seconds": 141.98970794677734,
+    "max_runtime_seconds": 141.98970794677734,
+    "avg_sources_per_case": 33.0,
+    "slowest_agent": "N/A",
+    "avg_agent_latency_ms": 0.0,
+    "ollama_percentage": 9.7,
+    "remote_provider_percentage": 16.1,
+    "fallback_percentage": 54.8,
+    "provider_usage_breakdown": {
+      "groq": 3,
+      "gemini": 1,
+      "openrouter": 1,
+      "ollama": 3
+    },
+    "total_llm_calls": 31,
+    "total_fallbacks": 17,
+    "llm_token_usage": "NOT AVAILABLE",
+    "llm_estimated_cost": "NOT AVAILABLE",
+    "hallucination_accuracy": "NOT MEASURED"
+  },
+  "cases": [
+    {
+      "case_id": "SYN-001",
+      "company_name": "CloudScale AI",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "TECH",
+        "market_score": 82.0,
+        "competition_score": 70.0,
+        "founder_score": 88.0,
+        "finance_score": 75.0,
+        "technology_score": 85.0,
+        "risk_score": 65.0,
+        "overall_score": 78.5,
+        "risk_level": "LOW",
+        "verdict": "INVEST"
+      },
+      "actual_overall_score": 47.5,
+      "actual_verdict": "PASS",
+      "actual_overall_confidence": 0.43,
+      "actual_company_type": "TECH",
+      "actual_risk_level": "CRITICAL",
+      "actual_dimension_scores": {
+        "market_score": 83.0,
+        "competition_score": 30.0,
+        "founder_score": 0.0,
+        "finance_score": 24.0,
+        "technology_score": 0.0,
+        "risk_score": 6.0
+      },
+      "runtime_seconds": 141.98970794677734,
+      "total_runtime_ms": 141989.71,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 1,
+      "no_data_agents": 1,
+      "total_sources_cited": 33,
+      "schema_valid": true,
+      "valid": false,
+      "invalidation_reason": "1 agent failures encountered",
+      "provider_telemetry": [
+        {
+          "timestamp": 1786633928.4318817,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "success",
+          "latency_ms": 2656.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633947.036273,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "success",
+          "latency_ms": 18578.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633947.1945832,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 157.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 94479, Requested 8689. Please try again in 45m37.152s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786633948.7291799,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 125.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 94478, Requested 8677. Please try again in 45m25.92s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786633950.5344453,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 125.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 94475, Requested 8808. Please try again in 47m16.511999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786633950.69734,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 141.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 94475, Requested 11574. Please try again in 1h27m6.336s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786633952.0884147,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 109.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 94474, Requested 11574. Please try again in 1h27m5.472s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786633953.222296,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 27500.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 94472, Requested 9802. Please try again in 1h1m32.736s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786633954.0418024,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 125.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 94471, Requested 11693. Please try again in 1h28m45.696s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786633954.4631662,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 125.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 94471, Requested 9683. Please try again in 59m49.056s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786633956.2477667,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 141.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 94469, Requested 9683. Please try again in 59m47.328s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786633967.2291372,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "success",
+          "latency_ms": 16688.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633967.5064783,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 266.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 12.713500214s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '12s'}]}}"
+        },
+        {
+          "timestamp": 1786633968.8383226,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 281.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 11.384649915s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '11s'}]}}"
+        },
+        {
+          "timestamp": 1786633984.109849,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 15265.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786633998.5601718,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30641.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786633999.272362,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634000.0553489,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 766.0,
+          "error": "Error code: 401 - {'id': 'ow3jFiq-2kFHot-a2a8a9bf1af022a8', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634001.0653453,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 1000.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634013.6901245,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 12625.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634043.722934,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634043.7236555,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 29985.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634044.3201234,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634044.353899,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 625.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634045.3314075,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1015.0,
+          "error": "Error code: 401 - {'id': 'ow3jVBy-2kFHot-a2a8aad90e7e4738', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634045.3994238,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1047.0,
+          "error": "Error code: 401 - {'id': 'ow3jVCa-2kFHot-a2a8aad90ae32074', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634046.0308373,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634046.0895643,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 687.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634050.2715218,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 4235.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634059.412375,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 9140.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634060.5528922,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "success",
+          "latency_ms": 1125.0,
+          "error": null
+        }
+      ],
+      "agent_runtimes_ms": {},
+      "provider_runtimes_ms": {},
+      "fallback_count": 17,
+      "ollama_call_count": 3,
+      "remote_provider_call_count": 5,
+      "total_llm_calls": 31,
+      "slowest_agent": null,
+      "fastest_agent": null,
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "CloudScale AI",
+        "category": "TECH",
+        "final_score": 47.5,
+        "verdict": "PASS",
+        "overall_confidence": 0.43,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 73.0,
+            "confidence": 0.55,
+            "status": "ok",
+            "summary": "CloudScale Consulting, accessible via cloudscale.consulting, is a technology consultancy that offers AI\u2011powered WordPress plugins for small businesses (SEO automation, cyber resilience) and enterprise AWS, cybersecurity, and Zero Trust services. Its leadership includes Andrew Baker, with experience at Capitec Bank, AWS, and ABSA Group, and the company reports tens of millions of users and technical posts as evidence of market traction. It sells plugins on a $10\u2011per\u2011month subscription model, indicating a software\u2011as\u2011a\u2011service revenue model. No public funding history is disclosed."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 83.0,
+            "confidence": 0.7,
+            "status": "ok",
+            "summary": "The market opportunity for CloudScale AI appears strong, with a significant total addressable market and growing demand for cloud AI solutions. The global cloud AI market is projected to reach $780.64 billion by 2034, with a compound annual growth rate of 23.80% during the forecast period. Customer demand signals are positive, with enterprises increasingly relying on robust cloud infrastructure to support AI workloads. However, the market timing is subject to various headwinds and tailwinds, including regulatory, technological, and macro trends."
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 30.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "The competitive landscape for CloudScale AI is highly contested, with major players such as Amazon Web Services, Google Cloud, and Microsoft Azure offering a range of AI services. The market is characterized by a high degree of competition, with numerous startups and established companies vying for market share. CloudScale AI's competitors include Scale AI, Vertex AI, and others, with the market evolving rapidly due to advancements in AI technology. However, the evidence provided does not reveal a strong moat for CloudScale AI, suggesting a high risk of competition. Identified competitors: Scale AI, Vertex AI, AWS, Google Cloud, Microsoft Azure."
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 0.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "The founding team of 'CloudScale AI' could not be definitively identified from the provided evidence. As a result, no information regarding their relevant domain experience, prior track record, or complementary skills is available, leading to zero points across these categories. Specific execution signals attributable to a founding team also could not be assessed without identified founders."
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 24.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "CloudScale AI's valuation is under pressure due to the current market conditions and AI boom, which has led to many startups experiencing down rounds, reduced valuations, or even becoming 'fallen unicorns'. The company's financial picture is uncertain."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "Repository 'cloudscale-ai/core' not found or private."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 6.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "CloudScale AI's risk profile is uncertain due to numerous layoff events tied to AI across multiple industries, highlighting the potential impact of AI on human employment."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "failed",
+            "summary": "Prediction Agent could not complete analysis: float() argument must be a string or a real number, not 'dict'"
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          },
+          {
+            "agent": "Prediction Agent",
+            "reason": "failed"
+          }
+        ],
+        "significant_disagreement": true,
+        "disagreement_note": "Market Agent scored this highly (83.0) while Founder Agent scored it much lower (0.0) \u2014 a 83-point spread. This is not averaged away; both signals should be weighed independently.",
+        "key_opportunities": [
+          "Growing demand for cloud AI solutions",
+          "Significant total addressable market",
+          "Strong market opportunity"
+        ],
+        "key_risks": [
+          "Intense competition from major players",
+          "Uncertain financials and valuation pressure",
+          "Unverified founding team and leadership"
+        ],
+        "narrative": "The score and verdict align with the evidence as the company demonstrates a strong market opportunity, significant customer demand, and a growing total addressable market, but is hindered by intense competition, uncertain financials, and an unverified founding team. The high score from the Market Agent and moderate score from the Research Agent highlight the company's potential, while the low scores from the Competitor, Founder, Finance, and Risk Agents emphasize the challenges it faces. The significant disagreement between agents underscores the complexity of evaluating CloudScale AI. The verdict reflects a careful consideration of both the opportunities and risks. The confidence level of 0.43 suggests that there is still substantial uncertainty surrounding the company's prospects.",
+        "was_overridden": false,
+        "override_reason": null,
+        "confidence_breakdown": {
+          "raw_avg": 0.39,
+          "data_coverage": 0.75,
+          "agreement_factor": 0.17
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 73.0,
+          "score_breakdown": [
+            {
+              "factor": "Company overview clarity",
+              "points": 15.0,
+              "max_points": 15.0,
+              "reason": "The evidence clearly states the company sells AI\u2011powered WordPress plugins for small businesses and provides enterprise AWS, cybersecurity, and Zero Trust consulting, with pricing and target customers described.",
+              "source": "https://cloudscale.consulting"
+            },
+            {
+              "factor": "Founder credibility",
+              "points": 18.0,
+              "max_points": 20.0,
+              "reason": "Founder Andrew Baker\u2019s background includes Group CIO at Capitec Bank, former Director of Engineering at EC2 (AWS), and CTO at ABSA Group, demonstrating relevant domain expertise and prior leadership.",
+              "source": "https://cloudscale.consulting"
+            },
+            {
+              "factor": "Product maturity",
+              "points": 20.0,
+              "max_points": 20.0,
+              "reason": "The site lists specific, shipped plugins (e.g., SEO AI Optimizer, Threat Monitor) and provides pricing, tech stack, and user numbers, confirming a live, commercial product.",
+              "source": "https://cloudscale.consulting"
+            },
+            {
+              "factor": "Traction evidence",
+              "points": 20.0,
+              "max_points": 25.0,
+              "reason": "Evidence includes '22M+ Users at scale', '233+ Technical posts', 'Continents of scale', and $10/month pricing, indicating a notable user base and market presence.",
+              "source": "https://cloudscale.consulting"
+            },
+            {
+              "factor": "Funding history",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No information about prior funding rounds, investors, or capital raised is found in the provided evidence.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale Consulting, accessible via cloudscale.consulting, is a technology consultancy that offers AI\u2011powered WordPress plugins for small businesses (SEO automation, cyber resilience) and enterprise AWS, cybersecurity, and Zero Trust services. Its leadership includes Andrew Baker, with experience at Capitec Bank, AWS, and ABSA Group, and the company reports tens of millions of users and technical posts as evidence of market traction. It sells plugins on a $10\u2011per\u2011month subscription model, indicating a software\u2011as\u2011a\u2011service revenue model. No public funding history is disclosed.",
+          "confidence": 0.55,
+          "sources": [
+            "https://cloudscale.consulting"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": {
+            "category": "TECH",
+            "is_core_product_software": true,
+            "is_revenue_physical_goods": false,
+            "reasoning": "The company sells SaaS WordPress plugins on a subscription basis, indicating software as its core product and revenue, not physical goods."
+          }
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 83.0,
+          "score_breakdown": [
+            {
+              "factor": "Market size (TAM/SAM)",
+              "points": 25.0,
+              "max_points": 30.0,
+              "reason": "The global cloud AI market is projected to reach $780.64 billion by 2034, with a significant total addressable market. However, the exact TAM and SAM for CloudScale AI are not specified, resulting in a slightly lower score.",
+              "source": "https://www.fortunebusinessinsights.com/cloud-ai-market-108878"
+            },
+            {
+              "factor": "Growth rate",
+              "points": 20.0,
+              "max_points": 25.0,
+              "reason": "The global cloud AI market is projected to grow at a compound annual growth rate of 23.80% during the forecast period. However, the growth rate for CloudScale AI specifically is not provided.",
+              "source": "https://www.fortunebusinessinsights.com/cloud-ai-market-108878"
+            },
+            {
+              "factor": "Customer demand signals",
+              "points": 18.0,
+              "max_points": 20.0,
+              "reason": "Enterprises are increasingly relying on robust cloud infrastructure to support AI workloads, indicating strong customer demand. However, specific demand signals for CloudScale AI are not available.",
+              "source": "https://www.nscale.com/blog/ai-vertical-clouds-cloud-infrastructure-for-artificial-intelligence"
+            },
+            {
+              "factor": "Market timing (tailwinds vs. headwinds)",
+              "points": 20.0,
+              "max_points": 25.0,
+              "reason": "The market is subject to various headwinds and tailwinds, including regulatory, technological, and macro trends. While some trends are positive, others may pose challenges for CloudScale AI.",
+              "source": "https://www.bain.com/insights/ai-brings-headwinds-and-tailwinds-to-the-rule-of-40"
+            }
+          ],
+          "summary": "The market opportunity for CloudScale AI appears strong, with a significant total addressable market and growing demand for cloud AI solutions. The global cloud AI market is projected to reach $780.64 billion by 2034, with a compound annual growth rate of 23.80% during the forecast period. Customer demand signals are positive, with enterprises increasingly relying on robust cloud infrastructure to support AI workloads. However, the market timing is subject to various headwinds and tailwinds, including regulatory, technological, and macro trends.",
+          "confidence": 0.7,
+          "sources": [
+            "https://www.fortunebusinessinsights.com/cloud-ai-market-108878",
+            "https://www.nscale.com/blog/ai-vertical-clouds-cloud-infrastructure-for-artificial-intelligence",
+            "https://www.bain.com/insights/ai-brings-headwinds-and-tailwinds-to-the-rule-of-40",
+            "https://www.marketsandmarkets.com/Market-Reports/cloud-ai-market-24849814.html"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 30.0,
+          "score_breakdown": [
+            {
+              "factor": "Competitive landscape mapping",
+              "points": 15.0,
+              "max_points": 20.0,
+              "reason": "While several competitors were identified, the evidence did not provide a comprehensive overview of the entire competitive landscape, citing only a few key players.",
+              "source": "https://www.superannotate.com/blog/scale-ai-alternatives"
+            },
+            {
+              "factor": "Differentiation clarity",
+              "points": 5.0,
+              "max_points": 20.0,
+              "reason": "There is limited evidence to suggest how CloudScale AI differentiates itself from competitors, with no specific features or services highlighted.",
+              "source": null
+            },
+            {
+              "factor": "Moat strength",
+              "points": 0.0,
+              "max_points": 35.0,
+              "reason": "No concrete mechanism was found in the evidence to suggest a strong moat for CloudScale AI, such as proprietary data or technology, network effects, switching costs, or regulatory barriers.",
+              "source": null
+            },
+            {
+              "factor": "Competitive risk exposure",
+              "points": 10.0,
+              "max_points": 25.0,
+              "reason": "The high degree of competition in the market and lack of a strong moat for CloudScale AI suggests a relatively high risk of competition, although some competitors are shifting towards independent, enterprise-grade platforms.",
+              "source": "https://www.superannotate.com/blog/scale-ai-alternatives"
+            }
+          ],
+          "summary": "The competitive landscape for CloudScale AI is highly contested, with major players such as Amazon Web Services, Google Cloud, and Microsoft Azure offering a range of AI services. The market is characterized by a high degree of competition, with numerous startups and established companies vying for market share. CloudScale AI's competitors include Scale AI, Vertex AI, and others, with the market evolving rapidly due to advancements in AI technology. However, the evidence provided does not reveal a strong moat for CloudScale AI, suggesting a high risk of competition. Identified competitors: Scale AI, Vertex AI, AWS, Google Cloud, Microsoft Azure.",
+          "confidence": 0.3,
+          "sources": [
+            "https://www.superannotate.com/blog/scale-ai-alternatives",
+            "https://www.truefoundry.com/blog/exploring-alternatives-to-vertexai",
+            "https://northflank.com/blog/6-best-vast-ai-alternatives",
+            "https://www.cloudzero.com/blog/cast-ai-alternatives",
+            "https://www.gartner.com/reviews/product/cast-ai/alternatives",
+            "https://www.intellectualmarketinsights.com/blogs/top-20-leading-companies-in-the-global-cloud-computing-market",
+            "https://www.crn.com/news/cloud/2026/the-20-hottest-ai-cloud-companies-the-2026-crn-ai-100",
+            "https://www.forbes.com/lists/ai50",
+            "https://www.fortunebusinessinsights.com/blog/top-10-cloud-computing-companies-11159",
+            "https://northflank.com/blog/7-best-ai-cloud-providers",
+            "https://intervision.com/blog-cloud-ai-platforms-and-their-competitive-edge-comparing-cloud-ai-providers",
+            "https://iot-analytics.com/who-is-winning-the-cloud-ai-race",
+            "https://www.eon.io/compare",
+            "https://www.mindstudio.ai/blog/self-hosted-ai-workspaces-vs-cloud-platforms",
+            "https://exeedcollege.com/blog/competitive-moats-in-the-ai-era",
+            "https://thedataguy.pro/writing/2025/05/building-your-ai-data-moat",
+            "https://www.acceldata.io/blog/how-to-build-a-data-moat-a-strategic-guide-for-modern-enterprises",
+            "https://unfoldingai.substack.com/p/do-ai-companies-have-moats",
+            "https://www.cloudsyntrix.com/blogs/nvidias-ai-dominance-how-full-stack-thinking-built-an-unassailable-moat"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 0.0,
+          "score_breakdown": [
+            {
+              "factor": "Relevant domain experience",
+              "points": 0.0,
+              "max_points": 30.0,
+              "reason": "The founders of 'CloudScale AI' could not be identified from the provided evidence, making it impossible to assess their individual domain experience.",
+              "source": null
+            },
+            {
+              "factor": "Prior track record",
+              "points": 0.0,
+              "max_points": 25.0,
+              "reason": "The founders of 'CloudScale AI' could not be identified from the provided evidence, making it impossible to assess their prior founder or executive experience.",
+              "source": null
+            },
+            {
+              "factor": "Team completeness",
+              "points": 0.0,
+              "max_points": 25.0,
+              "reason": "The team composition of 'CloudScale AI' cannot be determined as its founders could not be identified from the provided evidence.",
+              "source": null
+            },
+            {
+              "factor": "Execution signals",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "Without identified founders, concrete evidence of their individual execution (e.g., launched products before, raised funding before, public technical work) cannot be attributed. The 'CloudScale' company (which lists AI as a specialty) indicates 'Funding: N/A', suggesting no prior funding raised for this entity.",
+              "source": "https://www.linkedin.com/company/cloudscaleio"
+            }
+          ],
+          "summary": "The founding team of 'CloudScale AI' could not be definitively identified from the provided evidence. As a result, no information regarding their relevant domain experience, prior track record, or complementary skills is available, leading to zero points across these categories. Specific execution signals attributable to a founding team also could not be assessed without identified founders.",
+          "confidence": 0.2,
+          "sources": [
+            "https://www.linkedin.com/company/cloudscaleio"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 24.0,
+          "score_breakdown": [
+            {
+              "factor": "2-4 month hiring freeze for non-critical roles",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "According to Jumpstart Partners, a hiring freeze can extend their runway by 1.5-2 months.",
+              "source": null
+            },
+            {
+              "factor": "Down rounds in the AI sector",
+              "points": 8.0,
+              "max_points": 10.0,
+              "reason": "Many AI startups have already experienced down rounds, with some having their valuations cut by as much as sixfold from 2021 peaks (PitchBook).",
+              "source": "https://news.crunchbase.com/venture/startup-valuation-fluctuations-ai-openai-msft-eoy-2023"
+            },
+            {
+              "factor": "Uncertainty around the future of AI startups",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "The market has become increasingly uncertain, with many AI startups facing a steeper climb to viability.",
+              "source": "https://www.cnbc.com/2026/06/01/ai-startup-valuations-pre-chatgpt.html"
+            },
+            {
+              "factor": "Potential for reduced valuation",
+              "points": 4.0,
+              "max_points": 10.0,
+              "reason": "CloudScale AI, like many other startups, is at risk of experiencing a reduced valuation if it fails to meet growth expectations.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI's valuation is under pressure due to the current market conditions and AI boom, which has led to many startups experiencing down rounds, reduced valuations, or even becoming 'fallen unicorns'. The company's financial picture is uncertain.",
+          "confidence": 0.3,
+          "sources": [
+            "https://fortune.com/2024/05/01/silicon-valley-ai-startups-billion-dollar-dilemma-lofty-valuations-complicates-hiring",
+            "https://www.youtube.com/watch?v=u6gvoC_Zsbs",
+            "https://news.crunchbase.com/venture/startup-valuation-fluctuations-ai-openai-msft-eoy-2023",
+            "https://foundationcapital.com/ideas/why-openai-s-157b-valuation-misreads-ai-s-future",
+            "https://www.cnbc.com/2026/06/01/ai-startup-valuations-pre-chatgpt.html"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Repository 'cloudscale-ai/core' not found or private.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 6.0,
+          "score_breakdown": [
+            {
+              "factor": "Major Layoffs Tied to AI",
+              "points": 2.0,
+              "max_points": 3.0,
+              "reason": "The company's code is written by AI, and many companies are already cutting out their workforce blamed on market conditions rather than waiting for real financial trouble. (Source: https://www.youtube.com/watch?v=7jNFvNVI2FQ)",
+              "source": null
+            },
+            {
+              "factor": "AI Driving Restructuring",
+              "points": 1.0,
+              "max_points": 3.0,
+              "reason": "Cloudflare layed off 1,100 employees in an AI-driven restructuring effort. (Source: https://www.securityweek.com/cloudflare-lays-off-1100-employees-in-ai-driven-restructuring)",
+              "source": null
+            },
+            {
+              "factor": "Predictions of Future Layoffs",
+              "points": 3.0,
+              "max_points": 3.0,
+              "reason": "99% of CEOs are planning AI layoffs in the next 2 years. (Source: https://finance.yahoo.com/sectors/technology/articles/99-ceos-planning-ai-layoffs-173000476.html)",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI's risk profile is uncertain due to numerous layoff events tied to AI across multiple industries, highlighting the potential impact of AI on human employment.",
+          "confidence": 0.3,
+          "sources": [
+            "https://www.youtube.com/watch?v=7jNFvNVI2FQ",
+            "https://www.securityweek.com/cloudflare-lays-off-1100-employees-in-ai-driven-restructuring",
+            "https://finance.yahoo.com/sectors/technology/articles/99-ceos-planning-ai-layoffs-173000476.html"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Prediction Agent could not complete analysis: float() argument must be a string or a real number, not 'dict'",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "failed",
+          "error": "float() argument must be a string or a real number, not 'dict'",
+          "business_profile": null
+        }
+      }
+    }
+  ]
+}

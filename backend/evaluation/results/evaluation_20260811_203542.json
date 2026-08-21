@@ -1,0 +1,646 @@
+{
+  "timestamp": "2026-08-11T20:35:42.260331",
+  "dataset_path": "C:\\Users\\Raja\\venturemind-ai\\backend\\evaluation\\datasets\\startup_cases.json",
+  "metrics": {
+    "total_cases": 1,
+    "completed_cases": 1,
+    "valid_cases_count": 0,
+    "invalid_cases_count": 1,
+    "provider_failures_count": 1,
+    "failed_cases": 0,
+    "workflow_success_rate": 100.0,
+    "agent_failure_rate": 12.5,
+    "overall_score_mae": 0.0,
+    "overall_score_median_ae": 0.0,
+    "overall_score_max_error": 0.0,
+    "verdict_accuracy": 0.0,
+    "verdict_confusion_matrix": {
+      "INVEST": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      },
+      "WATCH": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      },
+      "PASS": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      }
+    },
+    "risk_classification_accuracy": 0.0,
+    "risk_classification_precision": 0.0,
+    "risk_classification_recall": 0.0,
+    "risk_classification_f1": 0.0,
+    "dimension_maes": {
+      "market_score": 0.0,
+      "competition_score": 0.0,
+      "founder_score": 0.0,
+      "finance_score": 0.0,
+      "technology_score": 0.0,
+      "risk_score": 0.0
+    },
+    "high_confidence_error_rate": 0.0,
+    "overconfident_case_ids": [],
+    "total_runtime_seconds": 52.75956344604492,
+    "avg_runtime_seconds": 52.75956344604492,
+    "min_runtime_seconds": 52.75956344604492,
+    "max_runtime_seconds": 52.75956344604492,
+    "avg_sources_per_case": 0.0,
+    "llm_token_usage": "NOT AVAILABLE",
+    "llm_estimated_cost": "NOT AVAILABLE",
+    "hallucination_accuracy": "NOT MEASURED"
+  },
+  "cases": [
+    {
+      "case_id": "SYN-001",
+      "company_name": "CloudScale AI",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "TECH",
+        "market_score": 82.0,
+        "competition_score": 70.0,
+        "founder_score": 88.0,
+        "finance_score": 75.0,
+        "technology_score": 85.0,
+        "risk_score": 65.0,
+        "overall_score": 78.5,
+        "risk_level": "LOW",
+        "verdict": "INVEST"
+      },
+      "actual_overall_score": 0.0,
+      "actual_verdict": "WATCH",
+      "actual_overall_confidence": 0.0,
+      "actual_company_type": "HYBRID",
+      "actual_risk_level": "CRITICAL",
+      "actual_dimension_scores": {
+        "market_score": 0.0,
+        "competition_score": 0.0,
+        "founder_score": 0.0,
+        "finance_score": 0.0,
+        "technology_score": 0.0,
+        "risk_score": 0.0
+      },
+      "runtime_seconds": 52.75956344604492,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 1,
+      "no_data_agents": 7,
+      "total_sources_cited": 0,
+      "schema_valid": true,
+      "valid": false,
+      "invalidation_reason": "1 agent(s) failed during execution",
+      "provider_telemetry": [
+        {
+          "timestamp": 1786460697.7154253,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 625.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460697.8250926,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 735.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460697.8258066,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460697.8263178,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460697.826879,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 781.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460698.077077,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 250.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99770, Requested 7020. Please try again in 1h37m46.56s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460699.8920267,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 2063.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99770, Requested 10457. Please try again in 2h27m16.128s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460699.897636,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 2172.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99770, Requested 6490. Please try again in 1h30m8.64s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460699.903569,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 2063.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99770, Requested 6438. Please try again in 1h29m23.712s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460699.9102526,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 2078.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99770, Requested 8307. Please try again in 1h56m18.527999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460701.6479402,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1735.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460701.967453,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2672.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460702.0234566,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2125.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460702.0371556,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2125.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460702.0801327,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 422.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460702.3305807,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2437.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460702.4165442,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 437.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460702.4719229,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 453.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460702.5340447,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 500.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460702.6926346,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 360.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460703.1798837,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 766.0,
+          "error": "Error code: 401 - {'id': 'ovnR4m8-2kFHot-a29822e14ac0f2de', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460703.2003558,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1110.0,
+          "error": "Error code: 401 - {'id': 'ovnR4mj-2kFHot-a29822df2961cda0', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460703.2468371,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 765.0,
+          "error": "Error code: 401 - {'id': 'ovnR4nY-2kFHot-a29822e1c8ced27b', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460703.4598775,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 922.0,
+          "error": "Error code: 401 - {'id': 'ovnR4qL-2kFHot-a29822e20ce396c0', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460703.512657,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 812.0,
+          "error": "Error code: 401 - {'id': 'ovnR4rJ-2kFHot-a29822e2ea4d0997', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460704.0108674,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 812.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460704.090414,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 828.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460704.1020632,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 891.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460704.3319786,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 875.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460704.4047785,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 890.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460737.6448653,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 33625.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786460739.0972617,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "failed",
+          "latency_ms": 35016.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786460739.09793,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "failed",
+          "latency_ms": 35000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786460739.345737,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "failed",
+          "latency_ms": 35016.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786460739.4238892,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "failed",
+          "latency_ms": 35016.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786460740.065971,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 641.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460740.0930903,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 672.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460740.618119,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 546.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460740.7236817,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 625.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460741.336067,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 719.0,
+          "error": "Error code: 401 - {'id': 'ovnRG7b-2kFHot-a29823d04f0b5a14', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460741.4760587,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 401 - {'id': 'ovnRG9W-2kFHot-a29823d05aee91d6', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460742.0656488,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 735.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460742.2506418,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 781.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        }
+      ],
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "CloudScale AI",
+        "category": "HYBRID",
+        "final_score": 0.0,
+        "verdict": "WATCH",
+        "overall_confidence": 0.0,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "failed",
+            "summary": "Market Agent could not complete analysis: Market Agent.run() must return an AgentScoreResult, got NoneType. Fix the agent implementation."
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor."
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor."
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "Repository 'cloudscale-ai/core' not found or private."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor."
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Research Agent",
+            "reason": "no_data"
+          },
+          {
+            "agent": "Market Agent",
+            "reason": "failed"
+          },
+          {
+            "agent": "Competitor Agent",
+            "reason": "no_data"
+          },
+          {
+            "agent": "Founder Agent",
+            "reason": "no_data"
+          },
+          {
+            "agent": "Finance Agent",
+            "reason": "no_data"
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          },
+          {
+            "agent": "Risk Agent",
+            "reason": "no_data"
+          },
+          {
+            "agent": "Prediction Agent",
+            "reason": "no_data"
+          }
+        ],
+        "significant_disagreement": false,
+        "disagreement_note": null,
+        "key_opportunities": [],
+        "key_risks": [],
+        "narrative": "No agent produced usable data for 'CloudScale AI' (all agents returned no_data or failed). Cannot make an investment assessment \u2014 this requires re-evaluation, not a PASS decision, since PASS would imply evidence of weakness that we don't actually have.",
+        "was_overridden": true,
+        "override_reason": "Verdict PASS upgraded to WATCH due to very low confidence (0%)",
+        "confidence_breakdown": {
+          "raw_avg": 0.0,
+          "data_coverage": 0.0,
+          "agreement_factor": 0.0
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Market Agent could not complete analysis: Market Agent.run() must return an AgentScoreResult, got NoneType. Fix the agent implementation.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "failed",
+          "error": "Market Agent.run() must return an AgentScoreResult, got NoneType. Fix the agent implementation.",
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Repository 'cloudscale-ai/core' not found or private.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "All LLM providers unavailable \u2014 evaluation could not be completed for this factor.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        }
+      }
+    }
+  ]
+}

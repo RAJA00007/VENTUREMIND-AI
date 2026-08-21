@@ -1,0 +1,956 @@
+{
+  "timestamp": "2026-08-11T20:38:47.875228",
+  "dataset_path": "C:\\Users\\Raja\\venturemind-ai\\backend\\evaluation\\datasets\\startup_cases.json",
+  "metrics": {
+    "total_cases": 1,
+    "completed_cases": 1,
+    "valid_cases_count": 1,
+    "invalid_cases_count": 0,
+    "provider_failures_count": 0,
+    "failed_cases": 0,
+    "workflow_success_rate": 100.0,
+    "agent_failure_rate": 0.0,
+    "overall_score_mae": 63.5,
+    "overall_score_median_ae": 63.5,
+    "overall_score_max_error": 63.5,
+    "verdict_accuracy": 0.0,
+    "verdict_confusion_matrix": {
+      "INVEST": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 1
+      },
+      "WATCH": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      },
+      "PASS": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      }
+    },
+    "risk_classification_accuracy": 0.0,
+    "risk_classification_precision": 75.0,
+    "risk_classification_recall": 75.0,
+    "risk_classification_f1": 75.0,
+    "dimension_maes": {
+      "market_score": 49.0,
+      "competition_score": 58.0,
+      "founder_score": 85.0,
+      "finance_score": 74.0,
+      "technology_score": 85.0,
+      "risk_score": 56.0
+    },
+    "high_confidence_error_rate": 0.0,
+    "overconfident_case_ids": [],
+    "total_runtime_seconds": 105.40395736694336,
+    "avg_runtime_seconds": 105.40395736694336,
+    "min_runtime_seconds": 105.40395736694336,
+    "max_runtime_seconds": 105.40395736694336,
+    "avg_sources_per_case": 23.0,
+    "llm_token_usage": "NOT AVAILABLE",
+    "llm_estimated_cost": "NOT AVAILABLE",
+    "hallucination_accuracy": "NOT MEASURED"
+  },
+  "cases": [
+    {
+      "case_id": "SYN-001",
+      "company_name": "CloudScale AI",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "TECH",
+        "market_score": 82.0,
+        "competition_score": 70.0,
+        "founder_score": 88.0,
+        "finance_score": 75.0,
+        "technology_score": 85.0,
+        "risk_score": 65.0,
+        "overall_score": 78.5,
+        "risk_level": "LOW",
+        "verdict": "INVEST"
+      },
+      "actual_overall_score": 15.0,
+      "actual_verdict": "PASS",
+      "actual_overall_confidence": 0.57,
+      "actual_company_type": "HYBRID",
+      "actual_risk_level": "CRITICAL",
+      "actual_dimension_scores": {
+        "market_score": 33.0,
+        "competition_score": 12.0,
+        "founder_score": 3.0,
+        "finance_score": 1.0,
+        "technology_score": 0.0,
+        "risk_score": 9.0
+      },
+      "runtime_seconds": 105.40395736694336,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 0,
+      "no_data_agents": 1,
+      "total_sources_cited": 23,
+      "schema_valid": true,
+      "valid": true,
+      "invalidation_reason": null,
+      "provider_telemetry": [
+        {
+          "timestamp": 1786460831.2571986,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 344.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460831.4442506,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 532.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460831.527029,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 625.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460831.527029,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 610.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460831.5625112,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 688.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460831.679312,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 422.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99615, Requested 6490. Please try again in 1h27m54.72s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460833.6582816,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 2218.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99615, Requested 6438. Please try again in 1h27m9.792s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460833.6647718,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 2140.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99615, Requested 7020. Please try again in 1h35m32.64s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460833.6711276,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 2109.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99615, Requested 8348. Please try again in 1h54m40.032s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460833.677448,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 2156.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99615, Requested 10457. Please try again in 2h25m2.208s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460835.424081,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1766.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460835.4709637,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1797.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460835.5220659,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1844.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460835.6092143,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1937.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460835.847301,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 422.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460835.922063,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 406.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460835.9636695,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 484.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460836.0625463,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 3204.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460836.0950904,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 485.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460836.3539958,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 281.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460836.9404695,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1094.0,
+          "error": "Error code: 401 - {'id': 'ovnRkXW-2kFHot-a29826237fd15703', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460836.950215,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 985.0,
+          "error": "Error code: 401 - {'id': 'ovnRkXV-2kFHot-a2982623de64fa33', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460836.9785905,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1047.0,
+          "error": "Error code: 401 - {'id': 'ovnRkYA-2kFHot-a29826239dbff2de', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460837.1213002,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1015.0,
+          "error": "Error code: 401 - {'id': 'ovnRkaP-2kFHot-a2982624be7591e2', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460837.2585793,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 906.0,
+          "error": "Error code: 401 - {'id': 'ovnRkdA-2kFHot-a29826266b1b90b5', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460837.7034686,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 765.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460837.7301307,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460837.7581973,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 812.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460838.007692,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 891.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460838.0201836,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 766.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460854.400768,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 16688.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786460871.0877175,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 33359.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786460882.2723923,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 44516.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786460890.6588964,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 52656.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786460902.1110163,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 64093.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786460902.7620785,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 609.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460902.8305779,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 672.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460903.0374062,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 203.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99533, Requested 6405. Please try again in 1h25m30.432s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460905.1105807,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2062.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460905.8976932,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 782.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460907.4400682,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1547.0,
+          "error": "Error code: 401 - {'id': 'ovnS7Qr-2kFHot-a29827d93b095513', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460908.2323706,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 796.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460910.77786,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "failed",
+          "latency_ms": 8000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786460911.0805554,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 312.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460911.6579633,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 578.0,
+          "error": "Error code: 401 - {'id': 'ovnS8jz-2kFHot-a29827f8ae845513', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460912.1868825,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 532.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460920.0406036,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 11797.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786460920.869509,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 8671.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786460921.5914896,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 625.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460922.017138,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 422.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460923.4470744,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1422.0,
+          "error": "Error code: 401 - {'id': 'ovnSCFU-2kFHot-a298283e2d4390d3', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460924.1882212,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460927.6662927,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 3468.0,
+          "error": null
+        }
+      ],
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "CloudScale AI",
+        "category": "HYBRID",
+        "final_score": 15.0,
+        "verdict": "PASS",
+        "overall_confidence": 0.57,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 15.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "CloudScale AI appears to be a company focused on providing cloud-based services for Artificial Intelligence (AI) and Machine Learning (ML) workloads."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 33.0,
+            "confidence": 0.6,
+            "status": "ok",
+            "summary": "The CloudScale AI opportunity has both headwinds and tailwinds. The market is driven by the demand for cloud-based services, particularly generative AI and cloud-native AI."
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 12.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "CloudScale AI operates in a highly competitive space, with several strong competitors vying for market share. Its main advantage is its proprietary data collection and annotation capabilities, which are difficult to replicate. Identified competitors: Scale AI, Appen."
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 3.0,
+            "confidence": 0.6,
+            "status": "ok",
+            "summary": "CloudScale AI's founding team appears to consist of Alex Wang, a well-known expert in artificial intelligence, and Sarah Chen, who has significant experience in enterprise software and AI. While there is not much information about their roles within the company, they seem to be prominent figures in the industry. Founders identified: Alex Wang, Sarah Chen."
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 1.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "CloudScale AI faces significant valuation pressure with lofty valuations hindering hiring and potential down rounds; cash burn rate is high."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "Repository 'cloudscale-ai/core' not found or private."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 9.0,
+            "confidence": 0.35,
+            "status": "ok",
+            "summary": "CloudScale AI presents a moderate investment risk profile due to a mix of promising factors and concerning signs."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 31.5,
+            "confidence": 0.17,
+            "status": "ok",
+            "summary": "ML model estimates a 32% success probability for 'CloudScale AI', based on 1/6 features extracted from real evidence (remaining 5 used defaults)."
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          }
+        ],
+        "significant_disagreement": false,
+        "disagreement_note": null,
+        "key_opportunities": [
+          "Cloud-based AI and ML services gaining traction",
+          "Proprietary data collection and annotation capabilities providing a unique selling point"
+        ],
+        "key_risks": [
+          "High cash burn rate and valuation pressure limiting financial flexibility",
+          "Competitive landscape with established players in the market",
+          "Company's reliance on Alex Wang and Sarah Chen, potentially leading to founder-dependency issues"
+        ],
+        "narrative": "The final verdict of PASS for CloudScale AI is justified due to a balance between promising opportunities and concerning risks. The company's focus on cloud-based services for AI and ML workloads, combined with its proprietary data collection capabilities, present a significant chance for success. However, the high cash burn rate, valuation pressure, and competitive landscape increase the investment risk profile.",
+        "was_overridden": false,
+        "override_reason": null,
+        "confidence_breakdown": {
+          "raw_avg": 0.36,
+          "data_coverage": 0.88,
+          "agreement_factor": 0.68
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 15.0,
+          "score_breakdown": [
+            {
+              "factor": "AI/ML focus",
+              "points": 7.0,
+              "max_points": 10.0,
+              "reason": "The company name 'CloudScale AI' suggests a strong emphasis on AI and ML workloads, reinforced by the presence of related news articles (e.g., 'Generative AI', 'Artificial Intelligence & Cloud') in their associated metadata.",
+              "source": "https://aibusiness.com/verticals/cloud-computing, https://www.ciodive.com/topic/cloud"
+            },
+            {
+              "factor": "Cloud-based services",
+              "points": 3.0,
+              "max_points": 5.0,
+              "reason": "The company name 'CloudScale AI' and the presence of cloud-related news articles in their associated metadata suggest that the company provides cloud-based services for AI/ML workloads.",
+              "source": "https://www.ciodive.com/topic/cloud, https://dbta.com/Categories/Cloud-Computing-328.aspx"
+            },
+            {
+              "factor": "Minimal physical goods",
+              "points": 0.0,
+              "max_points": 1.0,
+              "reason": "There is no indication in the provided metadata that CloudScale AI's revenue comes primarily from physical goods or retail transactions.",
+              "source": null
+            },
+            {
+              "factor": "Core software product",
+              "points": 5.0,
+              "max_points": 7.0,
+              "reason": "The company name 'CloudScale AI' and the focus on AI/ML workloads suggest that the company's core product/offering is a cloud-based software service.",
+              "source": "https://aibusiness.com/verticals/cloud-computing, https://dbta.com/Categories/Cloud-Computing-328.aspx"
+            }
+          ],
+          "summary": "CloudScale AI appears to be a company focused on providing cloud-based services for Artificial Intelligence (AI) and Machine Learning (ML) workloads.",
+          "confidence": 0.3,
+          "sources": [
+            "https://aibusiness.com/verticals/cloud-computing",
+            "https://www.ciodive.com/topic/cloud",
+            "https://dbta.com/Categories/Cloud-Computing-328.aspx"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": {
+            "category": "HYBRID",
+            "is_core_product_software": true,
+            "is_revenue_physical_goods": null,
+            "reasoning": "The company name and focus on AI/ML workloads suggest that the company's core product/offering is a cloud-based software service, but there is no information provided to support or refute the idea that revenue primarily comes from physical goods."
+          }
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 33.0,
+          "score_breakdown": [
+            {
+              "factor": "Growing Demand for Cloud-Based Services",
+              "points": 8.0,
+              "max_points": 10.0,
+              "reason": "The McKinsey report highlights the growth of demand for data center capacity, driven by AI and hyperscalers.",
+              "source": "https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/ai-power-expanding-data-center-capacity-to-meet-growing-demand"
+            },
+            {
+              "factor": "Cloud-Native AI Adoption",
+              "points": 7.0,
+              "max_points": 10.0,
+              "reason": "The MarketsandMarkets report states that generative AI and cloud adoption are driving growth, with self-hosting deployments growing due to enterprise demand.",
+              "source": "https://www.marketsandmarkets.com/Market-Reports/cloud-ai-market-24849814.html"
+            },
+            {
+              "factor": "AI Enablers Turning into AI Users",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "Tony Welch's keynote suggests that as the trend turns away from AI enablers, companies will become new AI users.",
+              "source": "https://www.youtube.com/watch?v=-VKYff3moJg"
+            },
+            {
+              "factor": "Cybersecurity Opportunities",
+              "points": 5.0,
+              "max_points": 10.0,
+              "reason": "The Evolve ETFs article highlights the growth opportunity in cybersecurity as AI headwinds become tailwinds.",
+              "source": "https://evolveetfs.com/2026/06/ai-headwinds-have-become-tailwinds-for-cybersecurity"
+            },
+            {
+              "factor": "SaaS Companies Investing in AI",
+              "points": 4.0,
+              "max_points": 10.0,
+              "reason": "The Bain & Company report notes that some SaaS companies are achieving 10% to 25% increases in EBITDA by investing in AI.",
+              "source": "https://www.bain.com/insights/ai-brings-headwinds-and-tailwinds-to-the-rule-of-40"
+            },
+            {
+              "factor": "AI Infrastructure Costs",
+              "points": 3.0,
+              "max_points": 10.0,
+              "reason": "The Carlsquare article highlights the increasing costs of AI infrastructure and hosting, which are still growing.",
+              "source": "https://carlsquare.com/insights/ai-as-a-tailwind-which-saas-subsectors-are-built-to-win"
+            }
+          ],
+          "summary": "The CloudScale AI opportunity has both headwinds and tailwinds. The market is driven by the demand for cloud-based services, particularly generative AI and cloud-native AI.",
+          "confidence": 0.6,
+          "sources": [
+            "https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/ai-power-expanding-data-center-capacity-to-meet-growing-demand",
+            "https://www.marketsandmarkets.com/Market-Reports/cloud-ai-market-24849814.html",
+            "https://www.youtube.com/watch?v=-VKYff3moJg",
+            "https://evolveetfs.com/2026/06/ai-headwinds-have-become-tailwinds-for-cybersecurity",
+            "https://www.bain.com/insights/ai-brings-headwinds-and-tailwinds-to-the-rule-of-40",
+            "https://carlsquare.com/insights/ai-as-a-tailwind-which-saas-subsectors-are-built-to-win"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 12.0,
+          "score_breakdown": [
+            {
+              "factor": "Proprietary Data Collection",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "CloudScale AI's ability to collect data through various mechanisms, including APIs and sensors, sets it apart from competitors. While other companies may offer similar services, CloudScale AI's proprietary data collection is a significant competitive advantage.",
+              "source": null
+            },
+            {
+              "factor": "Cost Structure",
+              "points": 4.0,
+              "max_points": 5.0,
+              "reason": "CloudScale AI operates at a lower cost than some of its competitors, which allows it to offer more affordable services. However, this advantage is not as significant as the first factor.",
+              "source": null
+            },
+            {
+              "factor": "Technical Expertise",
+              "points": 2.0,
+              "max_points": 5.0,
+              "reason": "CloudScale AI has a strong technical team that can create custom AI models and integrate them with clients' systems. While this is an important factor, it does not provide as significant of a competitive advantage as the first two factors.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI operates in a highly competitive space, with several strong competitors vying for market share. Its main advantage is its proprietary data collection and annotation capabilities, which are difficult to replicate. Identified competitors: Scale AI, Appen.",
+          "confidence": 0.3,
+          "sources": [
+            "https://scematics.io/compare/scale-ai-alternatives",
+            "https://exeedcollege.com/blog/competitive-moats-in-the-ai-era",
+            "https://thedataguy.pro/writing/2025/05/building-your-ai-data-moat",
+            "https://unfoldingai.substack.com/p/do-ai-companies-have-moats",
+            "https://www.cloudsyntrix.com/blogs/nvidias-ai-dominance-how-full-stack-thinking-built-an-unassailable-moat"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 3.0,
+          "score_breakdown": [
+            {
+              "factor": "Expertise",
+              "points": 2.0,
+              "max_points": 3.0,
+              "reason": "Both Alex Wang and Sarah Chen have significant experience in artificial intelligence, as seen in their respective interviews and LinkedIn profiles.",
+              "source": "https://www.youtube.com/watch?v=bYM_VMs7EO0&vl=en-US, https://www.linkedin.com/in/sarah-chen-6706b2229"
+            },
+            {
+              "factor": "Industry Recognition",
+              "points": 1.0,
+              "max_points": 3.0,
+              "reason": "Alex Wang's co-founding of Scale AI and his involvement in Meta's artificial intelligence push have both received industry recognition. Sarah Chen has also gained recognition for her work in enterprise software and AI.",
+              "source": ""
+            },
+            {
+              "factor": "Clear Roles",
+              "points": 0.0,
+              "max_points": 3.0,
+              "reason": "Unfortunately, the documentation does not provide clear information on the roles of Alex Wang and Sarah Chen within CloudScale AI, making it difficult to assess their specific contributions.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI's founding team appears to consist of Alex Wang, a well-known expert in artificial intelligence, and Sarah Chen, who has significant experience in enterprise software and AI. While there is not much information about their roles within the company, they seem to be prominent figures in the industry. Founders identified: Alex Wang, Sarah Chen.",
+          "confidence": 0.6,
+          "sources": [
+            "https://www.youtube.com/watch?v=bYM_VMs7EO0&vl=en-US",
+            "https://www.linkedin.com/in/sarah-chen-6706b2229"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 1.0,
+          "score_breakdown": [
+            {
+              "factor": "Runway Under Pressure",
+              "points": 1.0,
+              "max_points": 1.0,
+              "reason": "CloudScale AI's runway projection has not been explicitly mentioned, but their valuation suggests a high cash burn rate.",
+              "source": null
+            },
+            {
+              "factor": "Burn Multiple Reduction",
+              "points": 0.0,
+              "max_points": 1.0,
+              "reason": "There is no evidence of a significant reduction in CloudScale AI's burn multiple.",
+              "source": null
+            },
+            {
+              "factor": "Investor Readiness",
+              "points": 0.0,
+              "max_points": 1.0,
+              "reason": "CloudScale AI's investor readiness has not been extensively discussed, making it difficult to gauge their preparedness for future funding rounds.",
+              "source": null
+            },
+            {
+              "factor": "Operational Efficiency",
+              "points": 0.0,
+              "max_points": 1.0,
+              "reason": "No evidence suggests CloudScale AI is optimizing their financial reporting and analysis processes for improved efficiency.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI faces significant valuation pressure with lofty valuations hindering hiring and potential down rounds; cash burn rate is high.",
+          "confidence": 0.2,
+          "sources": [
+            "https://puzzle.io/blog/founders-guide-to-burn-and-runway",
+            "https://fortune.com/2024/05/01/silicon-valley-ai-startups-billion-dollar-dilemma-lofty-valuations-complicates-hiring",
+            "https://www.youtube.com/watch?v=u6gvoC_Zsbs",
+            "https://mexicobusiness.news/cloudanddata/news/openai-closes-record-breaking-122-million-funding-round",
+            "https://news.crunchbase.com/venture/startup-valuation-fluctuations-ai-openai-msft-eoy-2023"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Repository 'cloudscale-ai/core' not found or private.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 9.0,
+          "score_breakdown": [
+            {
+              "factor": "Competitive Landscape",
+              "points": 2.0,
+              "max_points": 5.0,
+              "reason": "CloudScale AI operates in a highly competitive space with several strong competitors vying for market share.",
+              "source": null
+            },
+            {
+              "factor": "Valuation Pressure",
+              "points": 3.0,
+              "max_points": 5.0,
+              "reason": "CloudScale AI faces significant valuation pressure with lofty valuations hindering hiring and potential down rounds; cash burn rate is high.",
+              "source": null
+            },
+            {
+              "factor": "Team Founders",
+              "points": 4.0,
+              "max_points": 5.0,
+              "reason": "Alex Wang and Sarah Chen are well-known figures in the AI industry, but their roles within the company are unclear.",
+              "source": "LinkedIn"
+            },
+            {
+              "factor": "Market Demand Drivers",
+              "points": 0.0,
+              "max_points": 5.0,
+              "reason": "The market is driven by demand for cloud-based services, particularly generative AI and cloud-native AI, but this factor is not explicitly discussed in the provided data.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI presents a moderate investment risk profile due to a mix of promising factors and concerning signs.",
+          "confidence": 0.35,
+          "sources": [
+            "https://terralogic.com/ai-compliance-guide",
+            "https://www.linkedin.com/company/cloudscaleio"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 31.5,
+          "score_breakdown": [
+            {
+              "factor": "Input: industry",
+              "points": 10.0,
+              "max_points": 10.0,
+              "reason": "Used real extracted value (healthtech)",
+              "source": null
+            },
+            {
+              "factor": "Input: funding",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: employees",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: age",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (3), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: revenue",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (10), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: growth",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (20), this reduces overall prediction confidence",
+              "source": null
+            }
+          ],
+          "summary": "ML model estimates a 32% success probability for 'CloudScale AI', based on 1/6 features extracted from real evidence (remaining 5 used defaults).",
+          "confidence": 0.17,
+          "sources": [],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        }
+      }
+    }
+  ]
+}

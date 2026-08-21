@@ -1,0 +1,2328 @@
+{
+  "timestamp": "2026-08-11T20:42:53.030906",
+  "dataset_path": "C:\\Users\\Raja\\venturemind-ai\\backend\\evaluation\\datasets\\startup_cases.json",
+  "metrics": {
+    "total_cases": 3,
+    "completed_cases": 3,
+    "valid_cases_count": 1,
+    "invalid_cases_count": 2,
+    "provider_failures_count": 2,
+    "failed_cases": 0,
+    "workflow_success_rate": 100.0,
+    "agent_failure_rate": 16.666666666666664,
+    "overall_score_mae": 66.8,
+    "overall_score_median_ae": 66.8,
+    "overall_score_max_error": 66.8,
+    "verdict_accuracy": 0.0,
+    "verdict_confusion_matrix": {
+      "INVEST": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 1
+      },
+      "WATCH": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      },
+      "PASS": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      }
+    },
+    "risk_classification_accuracy": 0.0,
+    "risk_classification_precision": 75.0,
+    "risk_classification_recall": 75.0,
+    "risk_classification_f1": 75.0,
+    "dimension_maes": {
+      "market_score": 74.0,
+      "competition_score": 56.0,
+      "founder_score": 83.0,
+      "finance_score": 42.5,
+      "technology_score": 85.0,
+      "risk_score": 59.0
+    },
+    "high_confidence_error_rate": 0.0,
+    "overconfident_case_ids": [],
+    "total_runtime_seconds": 208.30253553390503,
+    "avg_runtime_seconds": 69.43417851130168,
+    "min_runtime_seconds": 59.16086459159851,
+    "max_runtime_seconds": 82.3794355392456,
+    "avg_sources_per_case": 21.333333333333332,
+    "llm_token_usage": "NOT AVAILABLE",
+    "llm_estimated_cost": "NOT AVAILABLE",
+    "hallucination_accuracy": "NOT MEASURED"
+  },
+  "cases": [
+    {
+      "case_id": "SYN-001",
+      "company_name": "CloudScale AI",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "TECH",
+        "market_score": 82.0,
+        "competition_score": 70.0,
+        "founder_score": 88.0,
+        "finance_score": 75.0,
+        "technology_score": 85.0,
+        "risk_score": 65.0,
+        "overall_score": 78.5,
+        "risk_level": "LOW",
+        "verdict": "INVEST"
+      },
+      "actual_overall_score": 11.7,
+      "actual_verdict": "PASS",
+      "actual_overall_confidence": 0.58,
+      "actual_company_type": "HYBRID",
+      "actual_risk_level": "CRITICAL",
+      "actual_dimension_scores": {
+        "market_score": 8.0,
+        "competition_score": 14.0,
+        "founder_score": 5.0,
+        "finance_score": 32.5,
+        "technology_score": 0.0,
+        "risk_score": 6.0
+      },
+      "runtime_seconds": 82.3794355392456,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 0,
+      "no_data_agents": 1,
+      "total_sources_cited": 26,
+      "schema_valid": true,
+      "valid": true,
+      "invalidation_reason": null,
+      "provider_telemetry": [
+        {
+          "timestamp": 1786460973.0645077,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 360.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460973.1466217,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 438.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460973.1470618,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 438.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460973.1470618,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 438.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460973.35687,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 687.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786460973.4000945,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 250.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99953, Requested 6490. Please try again in 1h32m46.752s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460974.1590328,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 1093.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99953, Requested 6397. Please try again in 1h31m26.4s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460974.1689932,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 1015.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99953, Requested 7020. Please try again in 1h40m24.672s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460974.1754909,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 1031.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99953, Requested 10457. Please try again in 2h29m54.24s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460974.183122,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 813.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99953, Requested 8307. Please try again in 1h58m56.64s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786460975.9223309,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1953.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460975.9391987,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1782.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460976.0060108,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1828.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460976.1029813,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1906.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460976.4121687,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2234.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786460976.5908992,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 656.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460976.6006935,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460976.6649816,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 562.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460976.9864376,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 578.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460977.2605824,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 1312.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786460977.531287,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 937.0,
+          "error": "Error code: 401 - {'id': 'ovnSUKh-2kFHot-a2982992cac11849', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460977.5418928,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 875.0,
+          "error": "Error code: 401 - {'id': 'ovnSUKk-2kFHot-a29829933beb0c66', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460977.5658097,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 969.0,
+          "error": "Error code: 401 - {'id': 'ovnSULH-2kFHot-a2982992c8fefdd1', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460977.6844516,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 688.0,
+          "error": "Error code: 401 - {'id': 'ovnSUNA-2kFHot-a29829952a58f507', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460977.970001,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 719.0,
+          "error": "Error code: 401 - {'id': 'ovnSUTB-2kFHot-a2982996ee36756a', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786460978.2967608,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 766.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460978.3156762,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 782.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460978.396102,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460978.45359,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 890.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460978.687489,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 719.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786460988.2055402,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 9906.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786460995.1182265,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 16796.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461006.7244503,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 28328.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461016.4633822,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 38000.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461024.7292461,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 46031.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461025.3969426,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 657.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461025.4449856,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 688.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461025.8069036,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 406.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461025.8992147,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 453.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461026.4592726,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 656.0,
+          "error": "Error code: 401 - {'id': 'ovnSisa-2kFHot-a2982ac66ce8693d', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461026.7439044,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 843.0,
+          "error": "Error code: 401 - {'id': 'ovnSiwF-2kFHot-a2982ac71f23d27b', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461027.125023,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 672.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461027.5219278,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 782.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461031.6395996,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 4516.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461038.502566,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 10984.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461038.7991068,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 297.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461039.08993,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 281.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99877, Requested 742. Please try again in 8m54.816s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786461041.3392034,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2234.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786461041.754814,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 422.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461042.656825,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 906.0,
+          "error": "Error code: 401 - {'id': 'ovnSofJ-2kFHot-a2982b2a0a9df4d3', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461043.344345,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 688.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461047.0743537,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 3719.0,
+          "error": null
+        }
+      ],
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "CloudScale AI",
+        "category": "HYBRID",
+        "final_score": 11.7,
+        "verdict": "PASS",
+        "overall_confidence": 0.58,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 14.0,
+            "confidence": 0.4,
+            "status": "ok",
+            "summary": "CloudScale AI appears to be a company that offers software as a service for scaling and optimizing AI and cloud-based infrastructure. The company's products are likely designed to help organizations manage the challenges of AI adoption, including strains on capacity."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 8.0,
+            "confidence": 0.7,
+            "status": "ok",
+            "summary": "'CloudScale AI' has a significant market opportunity driven by increasing demand for scalable cloud-based infrastructure to support the growth of generative AI and machine learning workloads."
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 14.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "CloudScale AI faces increased competition as Eon offers comparable features at half the cost, with a focus on direct accessibility, automatic backup posture, faster recovery without full restores, and lower and more predictable backup costs. Identified competitors: Eon."
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 5.0,
+            "confidence": 0.6,
+            "status": "ok",
+            "summary": "Alex Wang is a co-founder of CloudScale AI, and Sarah Chen is a key figure with a strong background in AI and entrepreneurship. Founders identified: Alex Wang (co-founder), Sarah Chen."
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 32.5,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "AI startups like CloudScale AI are struggling with burn rates and valuations. While some have seen significant funding rounds, others face challenges in securing enough capital to sustain growth."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "Repository 'cloudscale-ai/core' not found or private."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 6.0,
+            "confidence": 0.25,
+            "status": "ok",
+            "summary": "CloudScale AI appears to offer software-as-a-service for scaling and optimizing AI and cloud-based infrastructure, but lacks direct evidence of regulatory compliance automation or significant industry expertise."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 31.5,
+            "confidence": 0.0,
+            "status": "ok",
+            "summary": "ML model estimates a 32% success probability for 'CloudScale AI', based on 0/6 features extracted from real evidence (remaining 6 used defaults)."
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          }
+        ],
+        "significant_disagreement": false,
+        "disagreement_note": null,
+        "key_opportunities": [
+          "Scalable cloud-based infrastructure for generative AI and machine learning",
+          "Strong co-founder team with AI and entrepreneurship expertise",
+          "Growing demand for cloud-based infrastructure"
+        ],
+        "key_risks": [
+          "Competition from Eon with comparable features at a lower cost",
+          "Lack of direct evidence on regulatory compliance automation",
+          "Valuation challenges in the AI startup space"
+        ],
+        "narrative": "The committee's approval is justified by CloudScale AI's potential to capitalize on the growing demand for scalable cloud-based infrastructure, despite facing competition from Eon. The founders' strong background in AI and entrepreneurship adds credibility. However, concerns about regulatory compliance, lack of direct evidence, and valuation challenges in the AI startup space contribute to a calculated risk. This score/verdict reflects a balanced assessment of opportunities and risks.",
+        "was_overridden": false,
+        "override_reason": null,
+        "confidence_breakdown": {
+          "raw_avg": 0.36,
+          "data_coverage": 0.88,
+          "agreement_factor": 0.72
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 14.0,
+          "score_breakdown": [
+            {
+              "factor": "Company description and product/service offerings",
+              "points": 8.0,
+              "max_points": 10.0,
+              "reason": "The articles discussed mention CloudScale AI's focus on providing software for scaling and optimizing AI and cloud-based infrastructure, indicating the company's core offering is likely a software solution.",
+              "source": null
+            },
+            {
+              "factor": "Industry trends and challenges",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "The articles highlighted the growing demand for AI and cloud-based infrastructure, as well as the need for solutions that can help organizations manage these demands and avoid constraints on capacity.",
+              "source": "https://aibusiness.com/verticals/cloud-computing, https://www.ciodive.com/topic/cloud"
+            }
+          ],
+          "summary": "CloudScale AI appears to be a company that offers software as a service for scaling and optimizing AI and cloud-based infrastructure. The company's products are likely designed to help organizations manage the challenges of AI adoption, including strains on capacity.",
+          "confidence": 0.4,
+          "sources": [
+            "https://aibusiness.com/verticals/cloud-computing",
+            "https://www.ciodive.com/topic/cloud"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": {
+            "category": "HYBRID",
+            "is_core_product_software": true,
+            "is_revenue_physical_goods": null,
+            "reasoning": "Based on the articles, it is likely that CloudScale AI's core offering is software-based, but further information is needed to determine their primary source of revenue."
+          }
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 8.0,
+          "score_breakdown": [
+            {
+              "factor": "Demand",
+              "points": 3.0,
+              "max_points": 4.0,
+              "reason": "The McKinsey report highlights the growing demand for data center capacity driven by AI growth. The MarketsandMarkets report also emphasizes the increasing adoption of cloud-based services and applications.",
+              "source": "https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/ai-power-expanding-data-center-capacity-to-meet-growing-demand, https://www.marketsandmarkets.com/Market-Reports/cloud-ai-market-24849814.html"
+            },
+            {
+              "factor": "Adoption Rate",
+              "points": 2.0,
+              "max_points": 4.0,
+              "reason": "The MarketsandMarkets report projects Self-hosting deployments to grow at the fastest rate in the Cloud AI market, driven by enterprise demand for greater control and customization.",
+              "source": "https://www.marketsandmarkets.com/Market-Reports/cloud-ai-market-24849814.html"
+            },
+            {
+              "factor": "Competitive Landscape",
+              "points": 1.0,
+              "max_points": 4.0,
+              "reason": "The market is seeing a shift towards 'AI users' as the trend turns away from 'AI enablers', providing opportunities for companies to leverage AI for scalability and customization.",
+              "source": "https://evolveetfs.com/2026/06/ai-headwinds-have-become-tailwinds-for-cybersecurity"
+            },
+            {
+              "factor": "Economic Factors",
+              "points": 2.0,
+              "max_points": 4.0,
+              "reason": "The Carlsquare report highlights the structural slowdown in growth rates and budget reallocation to AI infrastructure, which is driving demand for CloudScale AI services.",
+              "source": "https://carlsquare.com/insights/ai-as-a-tailwind-which-saas-subsectors-are-built-to-win"
+            }
+          ],
+          "summary": "'CloudScale AI' has a significant market opportunity driven by increasing demand for scalable cloud-based infrastructure to support the growth of generative AI and machine learning workloads.",
+          "confidence": 0.7,
+          "sources": [
+            "https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/ai-power-expanding-data-center-capacity-to-meet-growing-demand",
+            "https://www.marketsandmarkets.com/Market-Reports/cloud-ai-market-24849814.html",
+            "https://evolveetfs.com/2026/06/ai-headwinds-have-become-tailwinds-for-cybersecurity",
+            "https://carlsquare.com/insights/ai-as-a-tailwind-which-saas-subsectors-are-built-to-win"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 14.0,
+          "score_breakdown": [
+            {
+              "factor": "Comparability of features",
+              "points": 8.0,
+              "max_points": 10.0,
+              "reason": "Eon offers comparable features at half the cost, providing a strong competitive pressure on CloudScale AI.",
+              "source": null
+            },
+            {
+              "factor": "Competitive pricing",
+              "points": 6.0,
+              "max_points": 8.0,
+              "reason": "Eon's lower and more predictable backup costs make it an attractive alternative for cost-conscious customers, reducing the competitive advantage of CloudScale AI.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI faces increased competition as Eon offers comparable features at half the cost, with a focus on direct accessibility, automatic backup posture, faster recovery without full restores, and lower and more predictable backup costs. Identified competitors: Eon.",
+          "confidence": 0.3,
+          "sources": [
+            "https://scematics.io/compare/scale-ai-alternatives",
+            "https://exeedcollege.com/blog/competitive-moats-in-the-ai-era",
+            "https://thedataguy.pro/writing/2025/05/building-your-ai-data-moat",
+            "https://unfoldingai.substack.com/p/do-ai-companies-have-moats",
+            "https://www.cloudsyntrix.com/blogs/nvidias-ai-dominance-how-full-stack-thinking-built-an-unassailable-moat",
+            "https://azati.com/blog/generative-ai-competitive-advantage-real-moat"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 5.0,
+          "score_breakdown": [
+            {
+              "factor": "Founding team's experience in AI",
+              "points": 3.0,
+              "max_points": 5.0,
+              "reason": "Alex Wang is the co-founder of Scale AI, and Sarah Chen has experience in enterprise software and artificial intelligence.",
+              "source": null
+            },
+            {
+              "factor": "Founding team's track record in entrepreneurship",
+              "points": 2.0,
+              "max_points": 5.0,
+              "reason": "Sarah Chen has led TechFlow Solutions from a startup idea to a market-leading platform, but there is no clear evidence of Alex Wang's entrepreneurial track record.",
+              "source": null
+            }
+          ],
+          "summary": "Alex Wang is a co-founder of CloudScale AI, and Sarah Chen is a key figure with a strong background in AI and entrepreneurship. Founders identified: Alex Wang (co-founder), Sarah Chen.",
+          "confidence": 0.6,
+          "sources": [
+            "https://www.youtube.com/watch?v=bYM_VMs7EO0&vl=en-US",
+            "https://dejan.ai/media/html/page/index.htm",
+            "https://www.generalassemb.ly/instructors/sarah-chen/21457",
+            "https://www.youtube.com/watch?v=w3Lk5WgUBR0"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 32.5,
+          "score_breakdown": [
+            {
+              "factor": "Burn Multiple Reduction",
+              "points": 8.0,
+              "max_points": 10.0,
+              "reason": "Puzzle AI Suite reports an average improvement from 2.5x to 1.4x within 6 months.",
+              "source": null
+            },
+            {
+              "factor": "Cash Runway Extension",
+              "points": 9.0,
+              "max_points": 10.0,
+              "reason": "The same report indicates a 30-50% increase in months of runway without additional funding.",
+              "source": null
+            },
+            {
+              "factor": "Investor Readiness",
+              "points": 8.5,
+              "max_points": 10.0,
+              "reason": "CFO Advisors reported that 90% of clients secure follow-on funding within 12 months.",
+              "source": null
+            },
+            {
+              "factor": "Operational Efficiency",
+              "points": 7.0,
+              "max_points": 10.0,
+              "reason": "While no specific figure was found, some articles mention the importance of reducing time spent on financial reporting and analysis.",
+              "source": "https://puzzle.io/blog/founders-guide-to-burn-and-runway"
+            },
+            {
+              "factor": "Valuation Pressures",
+              "points": 0.0,
+              "max_points": 10.0,
+              "reason": "Several articles mention the challenges AI startups face in securing funding, including fears of down rounds.",
+              "source": "https://fortune.com/2024/05/01/silicon-valley-ai-startups-billion-dollar-dilemma-lofty-valuations-complicates-hiring, https://www.youtube.com/watch?v=u6gvoC_Zsbs"
+            }
+          ],
+          "summary": "AI startups like CloudScale AI are struggling with burn rates and valuations. While some have seen significant funding rounds, others face challenges in securing enough capital to sustain growth.",
+          "confidence": 0.3,
+          "sources": [
+            "https://puzzle.io/blog/founders-guide-to-burn-and-runway",
+            "https://fortune.com/2024/05/01/silicon-valley-ai-startups-billion-dollar-dilemma-lofty-valuations-complicates-hiring",
+            "https://www.youtube.com/watch?v=u6gvoC_Zsbs",
+            "https://mexicobusiness.news/cloudanddata/news/openai-closes-record-breaking-122-billion-funding-round"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Repository 'cloudscale-ai/core' not found or private.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 6.0,
+          "score_breakdown": [
+            {
+              "factor": "Regulatory Compliance",
+              "points": 1.0,
+              "max_points": 3.0,
+              "reason": "While CloudScale AI mentions regulatory compliance, there is no direct evidence of automation or significant industry expertise in this area.",
+              "source": null
+            },
+            {
+              "factor": "Industry Expertise",
+              "points": 2.0,
+              "max_points": 4.0,
+              "reason": "CloudScale AI does not demonstrate deep industry expertise in AI and cloud-based infrastructure, especially compared to competitors.",
+              "source": null
+            },
+            {
+              "factor": "Team Experience",
+              "points": 3.0,
+              "max_points": 5.0,
+              "reason": "The co-founders of CloudScale AI have some experience, but it is unclear if they have relevant expertise in AI and cloud-based infrastructure.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI appears to offer software-as-a-service for scaling and optimizing AI and cloud-based infrastructure, but lacks direct evidence of regulatory compliance automation or significant industry expertise.",
+          "confidence": 0.25,
+          "sources": [
+            "https://terralogic.com/ai-compliance-guide",
+            "https://www.linkedin.com/company/cloudscaleio",
+            "https://cloudscaletechnology.com",
+            "https://www.cloud-scale.co.uk",
+            "https://cloudscale365.com",
+            "https://www.cloudscale.ch/en"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 31.5,
+          "score_breakdown": [
+            {
+              "factor": "Input: industry",
+              "points": 0.0,
+              "max_points": 10.0,
+              "reason": "No value found in evidence \u2014 used default (AI), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: funding",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: employees",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: age",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (3), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: revenue",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (10), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: growth",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (20), this reduces overall prediction confidence",
+              "source": null
+            }
+          ],
+          "summary": "ML model estimates a 32% success probability for 'CloudScale AI', based on 0/6 features extracted from real evidence (remaining 6 used defaults).",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        }
+      }
+    },
+    {
+      "case_id": "SYN-002",
+      "company_name": "BioHealth Direct",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "HYBRID",
+        "market_score": 55.0,
+        "competition_score": 40.0,
+        "founder_score": 50.0,
+        "finance_score": 45.0,
+        "technology_score": 30.0,
+        "risk_score": 45.0,
+        "overall_score": 44.5,
+        "risk_level": "HIGH",
+        "verdict": "PASS"
+      },
+      "actual_overall_score": 15.5,
+      "actual_verdict": "PASS",
+      "actual_overall_confidence": 0.46,
+      "actual_company_type": "HYBRID",
+      "actual_risk_level": "CRITICAL",
+      "actual_dimension_scores": {
+        "market_score": 0.0,
+        "competition_score": 0.0,
+        "founder_score": 2.0,
+        "finance_score": 13.0,
+        "technology_score": 0.0,
+        "risk_score": 5.0
+      },
+      "runtime_seconds": 59.16086459159851,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 2,
+      "no_data_agents": 1,
+      "total_sources_cited": 16,
+      "schema_valid": true,
+      "valid": false,
+      "invalidation_reason": "2 agent(s) failed during execution",
+      "provider_telemetry": [
+        {
+          "timestamp": 1786461047.7565515,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 609.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461047.7877016,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 640.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461047.7883096,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 640.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461047.8055441,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 656.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461047.8093295,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 656.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461048.4649286,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 672.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461048.47311,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 719.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461048.5675614,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 766.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461048.5723155,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 782.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461048.5913396,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 797.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461049.2313085,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 401 - {'id': 'ovnSqdK-2kFHot-a2982b543a33cd07', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461049.2832496,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 718.0,
+          "error": "Error code: 401 - {'id': 'ovnSqek-2kFHot-a2982b54be991043', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461049.2963562,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 401 - {'id': 'ovnSqes-2kFHot-a2982b54bb2a25d9', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461049.3395598,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 765.0,
+          "error": "Error code: 401 - {'id': 'ovnSqfU-2kFHot-a2982b54bc42b961', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461049.5208826,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1063.0,
+          "error": "Error code: 401 - {'id': 'ovnSqea-2kFHot-a2982b543bc5898a', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461050.0059042,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 781.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461050.0201302,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 719.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461050.0372179,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461050.2146254,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 875.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461050.28976,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 765.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461056.665378,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 6656.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461063.3765934,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 13359.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461069.0587683,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 19016.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461078.2921097,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 28078.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461084.763598,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 34485.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461085.1237605,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 359.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461085.4634967,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 672.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461085.623873,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 500.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461085.9053895,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 453.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461086.244486,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 609.0,
+          "error": "Error code: 401 - {'id': 'ovnT2e3-2kFHot-a2982c3c9f423272', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461086.494558,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 578.0,
+          "error": "Error code: 401 - {'id': 'ovnT2iM-2kFHot-a2982c3df827f4d3', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461086.8595676,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 625.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461087.231857,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461093.702382,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 6844.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461100.1693404,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 12938.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461100.4560785,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 281.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461100.6629488,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 203.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99964, Requested 906. Please try again in 12m31.68s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786461101.119275,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 453.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461102.1046555,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 985.0,
+          "error": "Error code: 401 - {'id': 'ovnT7M8-2kFHot-a2982c9d8aee54ce', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461102.740925,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 640.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461106.2427785,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 3500.0,
+          "error": null
+        }
+      ],
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "BioHealth Direct",
+        "category": "HYBRID",
+        "final_score": 15.5,
+        "verdict": "PASS",
+        "overall_confidence": 0.46,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 10.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "BioHealth Direct appears to be a company focused on delivering healthcare innovation through AI-driven solutions, with an ambitious growth plan to reach $200 million in revenue by 2029."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "failed",
+            "summary": "Market Agent could not complete analysis: 1 validation error for ScoreFactor\nmax_points\n  Field required [type=missing, input_value={'factor': 'Meaningfully ...otech-in-the-spotlight'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing"
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "failed",
+            "summary": "Competitor Agent could not complete analysis: 1 validation error for AgentScoreResult\nsources.1\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type"
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 2.0,
+            "confidence": 0.7,
+            "status": "ok",
+            "summary": "Lynn, a biohealth entrepreneur with expertise in polymer chemistry and the immune system, has brought together an interdisciplinary team to create a nanoscaffold drug delivery platform for immunotherapy treatments. Founders identified: Lynn (biohealth entrepreneur, polymer chemist)."
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 13.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "BioHealth Direct is facing a precarious financial situation. The company's cash runway is short, and it may need to reduce burn or pursue bridge financing soon."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "No GitHub repository provided for 'BioHealth Direct'. Code quality cannot be assessed without a public repo \u2014 this is not a negative signal on its own (many companies keep code private)."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 5.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "BioHealth Direct demonstrates mixed signals for its risk profile. While it leverages human expertise and technology to address complexity, cost, and risk across the product lifecycle, its financial situation appears precarious."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 66.5,
+            "confidence": 0.5,
+            "status": "ok",
+            "summary": "ML model estimates a 66% success probability for 'BioHealth Direct', based on 3/6 features extracted from real evidence (remaining 3 used defaults)."
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Market Agent",
+            "reason": "failed"
+          },
+          {
+            "agent": "Competitor Agent",
+            "reason": "failed"
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          }
+        ],
+        "significant_disagreement": true,
+        "disagreement_note": "Prediction Agent scored this highly (66.5) while Founder Agent scored it much lower (2.0) \u2014 a 64-point spread. This is not averaged away; both signals should be weighed independently.",
+        "key_opportunities": [
+          "Advantages of combining human expertise with AI-driven solutions",
+          "Nanoscaffold drug delivery platform for immunotherapy treatments"
+        ],
+        "key_risks": [
+          "Precarious financial situation requiring immediate attention",
+          "Insufficient funding and potential need to reduce burn or pursue bridge financing soon"
+        ],
+        "narrative": "The pass verdict and moderate final score are justified given the mixed signals from various agents. The Research Agent's insights into BioHealth Direct's ambitious growth plan and AI-driven solutions, while promising, do not overcome the precarious financial situation highlighted by the Finance Agent. Meanwhile, the significant disagreement between Prediction Agent (66.5) and Founder Agent (2.0) underscores the uncertainty surrounding this company.",
+        "was_overridden": false,
+        "override_reason": null,
+        "confidence_breakdown": {
+          "raw_avg": 0.42,
+          "data_coverage": 0.62,
+          "agreement_factor": 0.35
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 10.0,
+          "score_breakdown": [
+            {
+              "factor": "Record of financial performance",
+              "points": 5.0,
+              "max_points": 10.0,
+              "reason": "BioHealth Direct reported record first-quarter revenue of $17.9 million, a 31% increase compared to the prior-year period.",
+              "source": null
+            },
+            {
+              "factor": "Evidence of healthcare innovation",
+              "points": 3.0,
+              "max_points": 10.0,
+              "reason": "The company's focus on delivering AI-driven healthcare solutions and its partnership with CVS, a prominent pharmacy chain, suggest a commitment to innovative solutions.",
+              "source": null
+            },
+            {
+              "factor": "Scalability and growth potential",
+              "points": 2.0,
+              "max_points": 10.0,
+              "reason": "The company's projections indicate significant revenue growth from $65.3 million in 2025 to over $200 million by 2029, suggesting a scalable business with potential for growth.",
+              "source": null
+            }
+          ],
+          "summary": "BioHealth Direct appears to be a company focused on delivering healthcare innovation through AI-driven solutions, with an ambitious growth plan to reach $200 million in revenue by 2029.",
+          "confidence": 0.3,
+          "sources": [
+            "https://www.mvp.vc/company-initations/initiation-report-carbon-health",
+            "https://biohealthinnovation.org/biohealth-news/biohealth-news-archive/page/186"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": {
+            "category": "HYBRID",
+            "is_core_product_software": null,
+            "is_revenue_physical_goods": null,
+            "reasoning": ""
+          }
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Market Agent could not complete analysis: 1 validation error for ScoreFactor\nmax_points\n  Field required [type=missing, input_value={'factor': 'Meaningfully ...otech-in-the-spotlight'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "failed",
+          "error": "1 validation error for ScoreFactor\nmax_points\n  Field required [type=missing, input_value={'factor': 'Meaningfully ...otech-in-the-spotlight'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing",
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Competitor Agent could not complete analysis: 1 validation error for AgentScoreResult\nsources.1\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "failed",
+          "error": "1 validation error for AgentScoreResult\nsources.1\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type",
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 2.0,
+          "score_breakdown": [
+            {
+              "factor": "Interdisciplinary expertise",
+              "points": 2.0,
+              "max_points": 3.0,
+              "reason": "Lynn's background in polymer chemistry and the immune system was evident across multiple sources.",
+              "source": null
+            }
+          ],
+          "summary": "Lynn, a biohealth entrepreneur with expertise in polymer chemistry and the immune system, has brought together an interdisciplinary team to create a nanoscaffold drug delivery platform for immunotherapy treatments. Founders identified: Lynn (biohealth entrepreneur, polymer chemist).",
+          "confidence": 0.7,
+          "sources": [
+            "https://www.americangene.com/in-the-news/how-a-disconnected-biohealth-ecosystem-became-the-next-big-thing",
+            "https://www.youtube.com/watch?v=0pXDNuRJTm4",
+            "https://www.rmf.harvard.edu/About-CRICO/Our-Team/Executive-Leadership/Mark-E-Reynolds",
+            "https://directory.sju.edu/mark-f-reynolds",
+            "https://www.linkedin.com/in/mark-reynolds-451152"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 13.0,
+          "score_breakdown": [
+            {
+              "factor": "Cash Runway",
+              "points": 5.0,
+              "max_points": 10.0,
+              "reason": "BioHealth Direct's current cash balance will only last until October 2026, at which point the company will need to replenish funds. This suggests a lack of liquidity and an urgent need for funding.",
+              "source": "https://review.firstround.com/glossary/cash-runway"
+            },
+            {
+              "factor": "Financial Downturn Impact",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "The biotech sector is experiencing a downturn, with many companies facing valuation cuts and reduced investor confidence. This trend may impact BioHealth Direct's ability to raise capital.",
+              "source": null
+            },
+            {
+              "factor": "Funding History",
+              "points": 2.0,
+              "max_points": 10.0,
+              "reason": "The article does not provide specific information on BioHealth Direct's funding history, which makes it difficult to assess the company's ability to raise capital in the future.",
+              "source": null
+            }
+          ],
+          "summary": "BioHealth Direct is facing a precarious financial situation. The company's cash runway is short, and it may need to reduce burn or pursue bridge financing soon.",
+          "confidence": 0.3,
+          "sources": [
+            "https://review.firstround.com/glossary/cash-runway",
+            "https://www.excedr.com/resources/how-biotech-startups-can-navigate-a-down-round",
+            "https://biohealthinnovation.org/bio-investor-forum-opens-with-encouraging-news-on-financing",
+            "https://ca.finance.yahoo.com/news/dreaded-down-rounds-shave-billions-144019471.html",
+            "https://www.reuters.com/business/dreaded-down-rounds-shave-billions-off-startup-valuations-2022-08-09",
+            "https://www.biopharmadive.com/news/biotech-startup-ipo-downturn-venture-financing/621855"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "No GitHub repository provided for 'BioHealth Direct'. Code quality cannot be assessed without a public repo \u2014 this is not a negative signal on its own (many companies keep code private).",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 5.0,
+          "score_breakdown": [
+            {
+              "factor": "Financial Risk",
+              "points": 2.0,
+              "max_points": 5.0,
+              "reason": "BioHealth Direct faces a short cash runway and may need to reduce burn or pursue bridge financing soon, indicating elevated financial risk.",
+              "source": null
+            },
+            {
+              "factor": "Human Expertise and Technology",
+              "points": 3.0,
+              "max_points": 5.0,
+              "reason": "BioHealth Direct successfully blends human expertise and technology to cut complexity, cost, and risk across the product lifecycle, showing promise in its approach.",
+              "source": null
+            }
+          ],
+          "summary": "BioHealth Direct demonstrates mixed signals for its risk profile. While it leverages human expertise and technology to address complexity, cost, and risk across the product lifecycle, its financial situation appears precarious.",
+          "confidence": 0.3,
+          "sources": [
+            "https://www.npr.org/2025/10/07/nx-s1-5563872/government-shutdown-federal-workers-layoffs-rifs",
+            "https://www.axios.com/2025/10/10/trump-federal-layoffs-treasury-education-health",
+            "https://thehill.com/homenews/administration/5550188-government-layoffs-trump-administration"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 66.5,
+          "score_breakdown": [
+            {
+              "factor": "Input: industry",
+              "points": 10.0,
+              "max_points": 10.0,
+              "reason": "Used real extracted value (healthtech)",
+              "source": null
+            },
+            {
+              "factor": "Input: funding",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: employees",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: age",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (3), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: revenue",
+              "points": 20.0,
+              "max_points": 20.0,
+              "reason": "Used real extracted value (2000000)",
+              "source": null
+            },
+            {
+              "factor": "Input: growth",
+              "points": 20.0,
+              "max_points": 20.0,
+              "reason": "Used real extracted value (100)",
+              "source": null
+            }
+          ],
+          "summary": "ML model estimates a 66% success probability for 'BioHealth Direct', based on 3/6 features extracted from real evidence (remaining 3 used defaults).",
+          "confidence": 0.5,
+          "sources": [],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        }
+      }
+    },
+    {
+      "case_id": "SYN-003",
+      "company_name": "QuantumFleet",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "TECH",
+        "market_score": 85.0,
+        "competition_score": 75.0,
+        "founder_score": 90.0,
+        "finance_score": 82.0,
+        "technology_score": 88.0,
+        "risk_score": 70.0,
+        "overall_score": 82.0,
+        "risk_level": "LOW",
+        "verdict": "INVEST"
+      },
+      "actual_overall_score": 13.0,
+      "actual_verdict": "PASS",
+      "actual_overall_confidence": 0.45,
+      "actual_company_type": "TECH",
+      "actual_risk_level": "HIGH",
+      "actual_dimension_scores": {
+        "market_score": 0.0,
+        "competition_score": 18.0,
+        "founder_score": 4.0,
+        "finance_score": 1.0,
+        "technology_score": 0.0,
+        "risk_score": 45.0
+      },
+      "runtime_seconds": 66.76223540306091,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 2,
+      "no_data_agents": 1,
+      "total_sources_cited": 22,
+      "schema_valid": true,
+      "valid": false,
+      "invalidation_reason": "2 agent(s) failed during execution",
+      "provider_telemetry": [
+        {
+          "timestamp": 1786461106.6102731,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 312.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461106.6352832,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 328.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461106.9027655,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461106.9284263,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 625.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461106.9549985,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 656.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461108.7958114,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2188.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786461108.796813,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2156.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786461108.8130252,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 1860.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786461108.9957685,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2078.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786461109.190445,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "rate_limited",
+          "latency_ms": 2250.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786492800000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3GGYvsa9UbEcjQ5k3GjrmfkGEPT'}"
+        },
+        {
+          "timestamp": 1786461109.3370082,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 531.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461109.3413954,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 547.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461109.3491287,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 531.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461109.4225318,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 438.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461109.6935823,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 500.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461110.028956,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 687.0,
+          "error": "Error code: 401 - {'id': 'ovnT9i2-2kFHot-a2982cd05dd4ad7b', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461110.0319204,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 401 - {'id': 'ovnT9i9-2kFHot-a2982cd05cc3d7e5', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461110.0926986,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 401 - {'id': 'ovnT9jG-2kFHot-a2982cd05ecd922a', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461110.1241887,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 401 - {'id': 'ovnT9j8-2kFHot-a2982cd0c9780c2e', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461110.507003,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 812.0,
+          "error": "Error code: 401 - {'id': 'ovnT9r6-2kFHot-a2982cd288378ae1', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461110.8121765,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 782.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461110.8362446,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 797.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461110.8531072,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 719.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461110.9507082,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 859.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461111.2547991,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461118.6870894,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 7875.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461126.7310429,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 15891.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461137.088101,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 26234.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461144.266553,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 33313.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461153.8181267,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 42563.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461154.4852471,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 640.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461154.490234,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 656.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461154.9250312,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 438.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461154.9524662,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 469.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461155.9905512,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1062.0,
+          "error": "Error code: 401 - {'id': 'ovnTPNe-2kFHot-a2982deda8853272', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461156.3742087,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1422.0,
+          "error": "Error code: 401 - {'id': 'ovnTPUy-2kFHot-a2982dedc9aacead', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461156.6670814,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 672.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461157.1251783,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 750.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461158.704987,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 2047.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461167.0069315,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 9875.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786461167.7341845,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "status": "failed",
+          "latency_ms": 656.0,
+          "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).', 'status': 'NOT_FOUND'}}"
+        },
+        {
+          "timestamp": 1786461167.9463274,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 204.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99886, Requested 797. Please try again in 9m50.112s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786461168.343497,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 406.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786461168.9409485,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "Error code: 401 - {'id': 'ovnTTE1-2kFHot-a2982e41896acda0', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786461169.612868,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 671.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786461172.9928524,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 3375.0,
+          "error": null
+        }
+      ],
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "QuantumFleet",
+        "category": "TECH",
+        "final_score": 13.0,
+        "verdict": "PASS",
+        "overall_confidence": 0.45,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 21.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "QuantumFleet appears to be a company focused on quantum computing and unmanned systems, with revenue growing at 10-12% and bottom-line metrics expanding faster."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "failed",
+            "summary": "Market Agent could not complete analysis: 1 validation error for AgentScoreResult\nscore\n  Value error, score must be 0-100, got 240.0 [type=value_error, input_value=240.0, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 18.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "QuantumFleet faces stiff competition in the digital experience analytics platform market, but its strong brand reputation and cost advantages might provide a unique moat. Identified competitors: Glassbox, Apple (Coca-Cola), ...."
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 4.0,
+            "confidence": 0.5,
+            "status": "ok",
+            "summary": "The QuantumFleet founding team consists of Varun, Ajay Marar, Kelsie Caldwell, Marc and Tony Craythorne, all with extensive experience in their respective fields. Founders identified: Varun, Ajay Marar, Kelsie Caldwell, Marc, Tony Craythorne."
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 1.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "QuantumFleet has a complex financial profile with limited publicly available data."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "Repository 'quantumfleet/routing-engine' not found or private."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 45.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "QuantumFleet's financial profile is unknown, and layoffs are common in the tech industry, affecting its credibility."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "failed",
+            "summary": "Prediction Agent could not complete analysis: float() argument must be a string or a real number, not 'dict'"
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Market Agent",
+            "reason": "failed"
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          },
+          {
+            "agent": "Prediction Agent",
+            "reason": "failed"
+          }
+        ],
+        "significant_disagreement": true,
+        "disagreement_note": "Risk Agent scored this highly (45.0) while Finance Agent scored it much lower (1.0) \u2014 a 44-point spread. This is not averaged away; both signals should be weighed independently.",
+        "key_opportunities": [
+          "Growing revenue and profitability",
+          "Strong brand reputation",
+          "Cost advantages"
+        ],
+        "key_risks": [
+          "Unknown complex financial profile",
+          "Layoffs common in tech industry"
+        ],
+        "narrative": "The QuantumFleet company demonstrates a strong foundation in quantum computing and unmanned systems, with growing revenue and expanding profitability. The Research Agent's score of 21/100 supports this assessment. However, Risk Agent's high score of 45/100 due to unknown financials and layoffs in the tech industry raises concerns. Overall, while significant disagreement exists between agents, the pass verdict reflects a balanced view considering both opportunities and risks.",
+        "was_overridden": false,
+        "override_reason": null,
+        "confidence_breakdown": {
+          "raw_avg": 0.3,
+          "data_coverage": 0.62,
+          "agreement_factor": 0.56
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 21.0,
+          "score_breakdown": [
+            {
+              "factor": "Company Growth",
+              "points": 7.0,
+              "max_points": 10.0,
+              "reason": "Revenue growth is strong, but the financials only show one year of data, limiting our confidence.",
+              "source": null
+            },
+            {
+              "factor": "Quantum Computing Focus",
+              "points": 8.0,
+              "max_points": 10.0,
+              "reason": "The company has partnerships in quantum-enhanced mineral exploration and is advancing the Navy's quantum future, indicating a strong focus on quantum computing.",
+              "source": null
+            },
+            {
+              "factor": "Unmanned Systems Involvement",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "The company appears to be involved in unmanned systems through its RELIANT and MOSAIC UXS products, but the evidence is thinner here.",
+              "source": null
+            }
+          ],
+          "summary": "QuantumFleet appears to be a company focused on quantum computing and unmanned systems, with revenue growing at 10-12% and bottom-line metrics expanding faster.",
+          "confidence": 0.3,
+          "sources": [
+            "https://quantumcomputingreport.com/fleet-space-advances-quantum-enhanced-mineral-exploration-with-new-partnerships",
+            "https://www.navy.mil/Press-Office/News-Stories/display-news/Article/4554462/nrl-advances-the-navys-quantum-future-as-america-accelerates-quantum-innovation",
+            "https://www.whitehouse.gov/presidential-actions/2026/06/ushering-in-the-next-frontier-of-quantum-innovation",
+            "https://quantum-systems.com",
+            "https://www.youtube.com/watch?v=iaWpoPsSBf4"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": {
+            "category": "TECH",
+            "is_core_product_software": true,
+            "is_revenue_physical_goods": false,
+            "reasoning": "The company's core product appears to be software-based, and while they may have some physical goods-related business, the primary focus is on quantum computing and unmanned systems."
+          }
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Market Agent could not complete analysis: 1 validation error for AgentScoreResult\nscore\n  Value error, score must be 0-100, got 240.0 [type=value_error, input_value=240.0, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "failed",
+          "error": "1 validation error for AgentScoreResult\nscore\n  Value error, score must be 0-100, got 240.0 [type=value_error, input_value=240.0, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error",
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 18.0,
+          "score_breakdown": [
+            {
+              "factor": "Brand Reputation",
+              "points": 8.0,
+              "max_points": 10.0,
+              "reason": "QuantumFleet's strong brand reputation and customer loyalty provide a competitive advantage, as seen in Glassbox's focus on transparency, data governance, and security.",
+              "source": null
+            },
+            {
+              "factor": "Cost Advantage",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "QuantumFleet has achieved cost advantages through scale, production efficiency, or access to unique resources, as seen in Nvidia's GPU gains and efficient scale.",
+              "source": null
+            },
+            {
+              "factor": "Resilience During Economic Downturns",
+              "points": 4.0,
+              "max_points": 10.0,
+              "reason": "QuantumFleet has displayed resilience during economic downturns, as seen in companies with durable moats that weather storms better than their peers.",
+              "source": null
+            }
+          ],
+          "summary": "QuantumFleet faces stiff competition in the digital experience analytics platform market, but its strong brand reputation and cost advantages might provide a unique moat. Identified competitors: Glassbox, Apple (Coca-Cola), ....",
+          "confidence": 0.3,
+          "sources": [
+            "https://www.quantummetric.com/blog/quantum-metric-alternatives",
+            "https://quasi.pros.com/building-a-unique-moat-part-1-common-strategies",
+            "https://www.investopedia.com/ask/answers/05/economicmoat.asp",
+            "https://site.financialmodelingprep.com/education/other/how-an-economic-moat-provides-a-competitive-advantage"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 4.0,
+          "score_breakdown": [
+            {
+              "factor": "Founding team experience",
+              "points": 2.0,
+              "max_points": 3.0,
+              "reason": "The founding team members have a combined total of over 60 years of experience in their respective fields.",
+              "source": null
+            },
+            {
+              "factor": "Tech expertise",
+              "points": 1.0,
+              "max_points": 2.0,
+              "reason": "The founders have demonstrated technical expertise through their roles and achievements, although the extent of this expertise is not fully documented.",
+              "source": "https://quantumtechsystems.net/our-team"
+            },
+            {
+              "factor": "Business acumen",
+              "points": 1.0,
+              "max_points": 2.0,
+              "reason": "While some founders have business experience, the team's overall business acumen is not entirely clear.",
+              "source": null
+            }
+          ],
+          "summary": "The QuantumFleet founding team consists of Varun, Ajay Marar, Kelsie Caldwell, Marc and Tony Craythorne, all with extensive experience in their respective fields. Founders identified: Varun, Ajay Marar, Kelsie Caldwell, Marc, Tony Craythorne.",
+          "confidence": 0.5,
+          "sources": [
+            "https://quantumtechsystems.net/our-team",
+            "https://www.youtube.com/watch?v=ENVxcj9MPsU",
+            "https://www.answerinformation.com/author/rostova-elena",
+            "https://yourrnd.com/reviews/elena-rostova"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 1.0,
+          "score_breakdown": [
+            {
+              "factor": "Cash Runway",
+              "points": 1.0,
+              "max_points": 1.0,
+              "reason": "The company's Series D funding of $1.2B doubles its valuation to $8B, indicating a extended cash runway.",
+              "source": "https://pulse2.com/quantum-systems-raises-1-2-billion-series-d-at-8-billion-valuation"
+            },
+            {
+              "factor": "Monthly Net Burn Rate",
+              "points": 0.0,
+              "max_points": 3.0,
+              "reason": "The company's burn rate is not publicly disclosed, making it difficult to estimate their monthly net burn.",
+              "source": null
+            }
+          ],
+          "summary": "QuantumFleet has a complex financial profile with limited publicly available data.",
+          "confidence": 0.2,
+          "sources": [
+            "https://optimaoffice.com/how-to-calculate-burn-rate-cash-runway",
+            "https://pulse2.com/quantum-systems-raises-1-2-billion-series-d-at-8-billion-valuation",
+            "https://sg.finance.yahoo.com/news/quantum-systems-more-doubles-valuation-234702157.html",
+            "https://techfundingnews.com/quantum-systems-raises-1-2b-at-8b-valuation-as-blackstone-doubles-down-on-european-defence-tech",
+            "https://www.briefs.co/news/airbus-blackstone-quantum-systems-round",
+            "https://quantum-systems.com/news/quantum-systems-triples-valuation"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Repository 'quantumfleet/routing-engine' not found or private.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 45.0,
+          "score_breakdown": [
+            {
+              "factor": "Unstable Financials",
+              "points": 20.0,
+              "max_points": 30.0,
+              "reason": "Limited publicly available financial data, increasing uncertainty about the company's stability.",
+              "source": null
+            },
+            {
+              "factor": "Industry Layoffs",
+              "points": 25.0,
+              "max_points": 30.0,
+              "reason": "Layoffs are common in the tech industry, including quantum computing, which affects QuantumFleet's credibility.",
+              "source": "www.politico.com/news/2025/10/25/hhs-shutdown-layoffs-doge-vought-00620786, www.crn.com/news/cloud/it-layoffs-quantum-computing-startup-rigetti-cuts-28-percent-of-employees, www.bbc.com/news/articles/czr1lk4k1ejo"
+            }
+          ],
+          "summary": "QuantumFleet's financial profile is unknown, and layoffs are common in the tech industry, affecting its credibility.",
+          "confidence": 0.2,
+          "sources": [
+            "https://www.politico.com/news/2025/10/25/hhs-shutdown-layoffs-doge-vought-00620786",
+            "https://www.crn.com/news/cloud/it-layoffs-quantum-computing-startup-rigetti-cuts-28-percent-of-employees",
+            "https://www.bbc.com/news/articles/czr1lk4k1ejo"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Prediction Agent could not complete analysis: float() argument must be a string or a real number, not 'dict'",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "failed",
+          "error": "float() argument must be a string or a real number, not 'dict'",
+          "business_profile": null
+        }
+      }
+    }
+  ]
+}

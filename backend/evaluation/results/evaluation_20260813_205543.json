@@ -1,0 +1,2424 @@
+{
+  "timestamp": "2026-08-13T20:55:43.228582",
+  "dataset_path": "C:\\Users\\Raja\\venturemind-ai\\backend\\evaluation\\datasets\\startup_cases.json",
+  "metrics": {
+    "total_cases": 3,
+    "completed_cases": 3,
+    "valid_cases_count": 2,
+    "invalid_cases_count": 1,
+    "provider_failures_count": 1,
+    "failed_cases": 0,
+    "workflow_success_rate": 100.0,
+    "agent_failure_rate": 4.166666666666666,
+    "overall_score_mae": 18.8,
+    "overall_score_median_ae": 18.8,
+    "overall_score_max_error": 29.200000000000003,
+    "verdict_accuracy": 50.0,
+    "verdict_confusion_matrix": {
+      "INVEST": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 1
+      },
+      "WATCH": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 0
+      },
+      "PASS": {
+        "INVEST": 0,
+        "WATCH": 0,
+        "PASS": 1
+      }
+    },
+    "risk_classification_accuracy": 0.0,
+    "risk_classification_precision": 50.0,
+    "risk_classification_recall": 50.0,
+    "risk_classification_f1": 50.0,
+    "dimension_maes": {
+      "market_score": 12.5,
+      "competition_score": 34.5,
+      "founder_score": 38.5,
+      "finance_score": 48.0,
+      "technology_score": 57.5,
+      "risk_score": 45.5
+    },
+    "high_confidence_error_rate": 0.0,
+    "overconfident_case_ids": [],
+    "total_runtime_seconds": 459.7808470726013,
+    "avg_runtime_seconds": 153.26028235753378,
+    "p50_runtime_seconds": 171.13,
+    "p95_runtime_seconds": 174.58,
+    "min_runtime_seconds": 114.07211136817932,
+    "max_runtime_seconds": 174.57965207099915,
+    "avg_sources_per_case": 34.0,
+    "slowest_agent": "N/A",
+    "avg_agent_latency_ms": 0.0,
+    "ollama_percentage": 10.3,
+    "remote_provider_percentage": 10.3,
+    "fallback_percentage": 58.6,
+    "provider_usage_breakdown": {
+      "openrouter": 9,
+      "ollama": 12,
+      "groq": 3
+    },
+    "total_llm_calls": 116,
+    "total_fallbacks": 68,
+    "llm_token_usage": "NOT AVAILABLE",
+    "llm_estimated_cost": "NOT AVAILABLE",
+    "hallucination_accuracy": "NOT MEASURED"
+  },
+  "cases": [
+    {
+      "case_id": "SYN-001",
+      "company_name": "CloudScale AI",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "TECH",
+        "market_score": 82.0,
+        "competition_score": 70.0,
+        "founder_score": 88.0,
+        "finance_score": 75.0,
+        "technology_score": 85.0,
+        "risk_score": 65.0,
+        "overall_score": 78.5,
+        "risk_level": "LOW",
+        "verdict": "INVEST"
+      },
+      "actual_overall_score": 49.3,
+      "actual_verdict": "PASS",
+      "actual_overall_confidence": 0.41,
+      "actual_company_type": "HYBRID",
+      "actual_risk_level": "CRITICAL",
+      "actual_dimension_scores": {
+        "market_score": 94.0,
+        "competition_score": 30.0,
+        "founder_score": 13.0,
+        "finance_score": 14.0,
+        "technology_score": 0.0,
+        "risk_score": 4.0
+      },
+      "runtime_seconds": 174.57965207099915,
+      "total_runtime_ms": 174579.65,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 0,
+      "no_data_agents": 1,
+      "total_sources_cited": 24,
+      "schema_valid": true,
+      "valid": true,
+      "invalidation_reason": null,
+      "provider_telemetry": [
+        {
+          "timestamp": 1786634291.045277,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 359.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95919, Requested 7565. Please try again in 50m10.176s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634291.065048,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 438.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95919, Requested 9067. Please try again in 1h11m47.904s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634292.2843375,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 93.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95918, Requested 7565. Please try again in 50m9.312s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634292.3746526,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 94.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95918, Requested 9933. Please try again in 1h24m15.264s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634293.9894602,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 62.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95916, Requested 7565. Please try again in 50m7.584s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634294.1022599,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 94.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95916, Requested 6723. Please try again in 38m0.096s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634294.3521054,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 63.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95915, Requested 9933. Please try again in 1h24m12.672s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634294.4552665,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 109.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95915, Requested 8939. Please try again in 1h9m53.856s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634294.8575494,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 875.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 45.367087686s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '45s'}]}}"
+        },
+        {
+          "timestamp": 1786634296.1199238,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 78.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95913, Requested 6723. Please try again in 37m57.504s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634296.1244109,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 94.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95913, Requested 8808. Please try again in 1h7m58.944s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634296.3052745,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 266.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 43.911755597s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '43s'}]}}"
+        },
+        {
+          "timestamp": 1786634297.811151,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 79.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95911, Requested 7458. Please try again in 48m30.816s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634297.879457,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 62.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95911, Requested 11824. Please try again in 1h51m23.04s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634298.0690277,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 79.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95911, Requested 8939. Please try again in 1h9m50.4s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634299.1034577,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 94.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95910, Requested 11693. Please try again in 1h49m28.992s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634300.9719234,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 78.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 95908, Requested 11693. Please try again in 1h49m27.263999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634305.3405633,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 9937.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634316.015807,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 19703.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634327.6539981,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 22312.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634346.0281188,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634346.6281486,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634347.6773024,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1047.0,
+          "error": "Error code: 401 - {'id': 'ow3m34Y-2kFHot-a2a8b23a9bac3a3c', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634348.442372,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 766.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634357.4857259,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 9046.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634357.6747768,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30016.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634358.3855984,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634359.744611,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1359.0,
+          "error": "Error code: 401 - {'id': 'ow3m6ec-2kFHot-a2a8b2840e450bb8', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634360.625393,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 891.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634372.125074,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 11500.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634372.4275723,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 281.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 97237, Requested 6899. Please try again in 59m33.504s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634372.6564329,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "success",
+          "latency_ms": 531.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634373.7353828,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 140.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96502, Requested 7674. Please try again in 1h0m8.064s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634375.4215612,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 78.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96500, Requested 6939. Please try again in 49m31.296s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634376.303755,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 875.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 23.909499959s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '23s'}]}}"
+        },
+        {
+          "timestamp": 1786634406.326353,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30015.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634406.864105,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 531.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634407.7890127,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 922.0,
+          "error": "Error code: 401 - {'id': 'ow3mLvr-2kFHot-a2a8b3b2c8ad3d30', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634408.5097926,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 719.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634420.0865755,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 11578.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634450.1067443,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30015.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634450.637718,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 516.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634451.6048832,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 953.0,
+          "error": "Error code: 401 - {'id': 'ow3mZxR-2kFHot-a2a8b4c4cb1a441e', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634452.261025,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 656.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634458.0043247,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 5750.0,
+          "error": null
+        }
+      ],
+      "agent_runtimes_ms": {},
+      "provider_runtimes_ms": {},
+      "fallback_count": 25,
+      "ollama_call_count": 4,
+      "remote_provider_call_count": 4,
+      "total_llm_calls": 45,
+      "slowest_agent": null,
+      "fastest_agent": null,
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "CloudScale AI",
+        "category": "HYBRID",
+        "final_score": 49.3,
+        "verdict": "PASS",
+        "overall_confidence": 0.41,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 0.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "CloudScale AI could not be scored because the evidence provided does not contain a company named 'CloudScale AI'. The available evidence refers to several distinct entities including CloudScale Consulting, Cloud Scale Technologies, CloudScale365, CloudScale Capital Partners, and Scale AI, but none explicitly identified as 'CloudScale AI'. Due to this mismatch, all scoring factors receive 0 points."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 94.0,
+            "confidence": 0.92,
+            "status": "ok",
+            "summary": "CloudScale AI operates in the rapidly expanding cloud AI market, which is projected to reach $269.02 billion by 2031 with a CAGR of 18.68%. The market shows strong demand drivers including enterprise AI adoption, hybrid cloud deployments, and growing need for AI infrastructure like GPUs and compute resources. Multiple evidence sources confirm both the market size and favorable growth trajectory, indicating a substantial opportunity."
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 30.0,
+            "confidence": 0.35,
+            "status": "ok",
+            "summary": "The competitive landscape for Scale AI (likely the intended subject, as 'CloudScale AI' appears conflated with existing evidence) is highly contested, with major clients like OpenAI and Google abandoning due to perceived neutrality risks after Meta's investment. Competitors such as Labelbox, Appen, and TELUS International are capitalizing on these tensions, offering 'neutral' alternatives. The company's former moat appears weakened, with no evidence of defensible mechanisms beyond early market leadership now undermined by client defections. Identified competitors: Labelbox, Appen, TELUS International, Sama, iMerit."
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 13.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "Meet Alex Vance, a health and parenting journalist with research-backed reporting experience, and Sarah Chen, an AI expert with background in computer science, artificial intelligence, and entrepreneurship. Founders identified: Alex Vance (journalist), Sarah Chen (AI expert)."
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 14.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "CloudScale AI's financial uncertainty continues amidst shifting AI valuations."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "Repository 'cloudscale-ai/core' not found or private."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 4.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "CloudScale AI's risk profile is LOW due to its association with the cloud AI industry, which faces financial uncertainty and job loss-related stress."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 31.5,
+            "confidence": 0.17,
+            "status": "ok",
+            "summary": "ML model estimates a 32% success probability for 'CloudScale AI', based on 1/6 features extracted from real evidence (remaining 5 used defaults)."
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          }
+        ],
+        "significant_disagreement": true,
+        "disagreement_note": "Market Agent scored this highly (94.0) while Research Agent scored it much lower (0.0) \u2014 a 94-point spread. This is not averaged away; both signals should be weighed independently.",
+        "key_opportunities": [
+          "Rapidly growing cloud AI market",
+          "Strong demand drivers for enterprise AI adoption and hybrid cloud deployments"
+        ],
+        "key_risks": [
+          "Financial uncertainty in the AI industry",
+          "Competition from well-established players like Labelbox, Appen, and TELUS International"
+        ],
+        "narrative": "The high final score and passed verdict are justified by the strong market signals from the Market Agent, which indicate a rapidly expanding cloud AI market with favorable growth trajectory. The negative scores from other agents, including Research Agent due to mismatched evidence and Founder/Finance agents with significant uncertainties, do not outweigh the Market Agent's positive assessment.",
+        "was_overridden": false,
+        "override_reason": null,
+        "confidence_breakdown": {
+          "raw_avg": 0.35,
+          "data_coverage": 0.88,
+          "agreement_factor": 0.06
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 0.0,
+          "score_breakdown": [
+            {
+              "factor": "Company overview clarity",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No evidence was found for a company named 'CloudScale AI'. The closest matches are unrelated entities such as CloudScale Consulting and Scale AI, which do not match the target company name.",
+              "source": null
+            },
+            {
+              "factor": "Founder credibility",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No evidence was found for a company named 'CloudScale AI', so no founder information can be attributed to it. Founder details for other 'CloudScale' entities are irrelevant to the target.",
+              "source": null
+            },
+            {
+              "factor": "Product maturity",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No evidence was found for a company named 'CloudScale AI'. Product information for other entities like CloudScale Consulting's WordPress plugins does not correspond to the target.",
+              "source": null
+            },
+            {
+              "factor": "Traction evidence",
+              "points": 0.0,
+              "max_points": 25.0,
+              "reason": "No evidence was found for a company named 'CloudScale AI'. Traction signals such as users, revenue, or customer data belong to other unrelated 'CloudScale' entities.",
+              "source": null
+            },
+            {
+              "factor": "Funding history",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No evidence was found for a company named 'CloudScale AI'. Funding data for other entities like CloudScale Capital Partners or Scale AI is unrelated and cannot be applied.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI could not be scored because the evidence provided does not contain a company named 'CloudScale AI'. The available evidence refers to several distinct entities including CloudScale Consulting, Cloud Scale Technologies, CloudScale365, CloudScale Capital Partners, and Scale AI, but none explicitly identified as 'CloudScale AI'. Due to this mismatch, all scoring factors receive 0 points.",
+          "confidence": 0.2,
+          "sources": [],
+          "status": "ok",
+          "error": null,
+          "business_profile": {
+            "category": "HYBRID",
+            "is_core_product_software": null,
+            "is_revenue_physical_goods": null,
+            "reasoning": "The evidence does not contain any information about a company named 'CloudScale AI', so it is not possible to determine whether its core product is software or whether its revenue comes from physical goods."
+          }
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 94.0,
+          "score_breakdown": [
+            {
+              "factor": "Market size (TAM/SAM)",
+              "points": 28.0,
+              "max_points": 30.0,
+              "reason": "Strong TAM evidence of $269.02 billion by 2031 for cloud AI market, with additional $114.26 billion market size in 2026. The AI market overall is projected to hit $1.8 trillion by 2030. Combined with the $57.99 billion AI market for sales and marketing by 2025, this provides credible market size figures across multiple sources.",
+              "source": "https://www.mordorintelligence.com/industry-reports/cloud-ai-market"
+            },
+            {
+              "factor": "Growth rate",
+              "points": 25.0,
+              "max_points": 25.0,
+              "reason": "Multiple CAGR figures found: 18.68% from 2026-2031 for cloud AI market (Mordor Intelligence), 23.80% from 2026-2034 (Fortune Business Insights), and 19.4% for AI infrastructure market from 2024-2030 (MarketsandMarkets). All sources confirm high-growth trajectory.",
+              "source": "https://www.mordorintelligence.com/industry-reports/cloud-ai-market"
+            },
+            {
+              "factor": "Customer demand signals",
+              "points": 18.0,
+              "max_points": 20.0,
+              "reason": "Evidence shows rising enterprise demand for AI compute resources, with Meta entering cloud computing to sell AI compute to enterprise clients. Enterprises are shifting budgets toward large-scale production workloads, and there's growing adoption of AI in BFSI, healthcare, and other sectors. 70% of customer interactions now managed by AI-driven systems, up from 25% five years ago.",
+              "source": "https://www.marketscale.com/industries/software-and-technology/meta-is-building-a-cloud-business-to-sell-ai-compute-putting-pressure-on-aws-azure-and-google-cloud"
+            },
+            {
+              "factor": "Market timing",
+              "points": 23.0,
+              "max_points": 25.0,
+              "reason": "Strong tailwinds include enterprise shift to hybrid architectures, increasing demand for AI infrastructure like GPUs, and growing need for responsible AI governance. Hybrid and multi-cloud deployments projected to grow at 22.31% CAGR. However, there are some headwinds including rising infrastructure costs and capital expenditure requirements.",
+              "source": "https://www.mordorintelligence.com/industry-reports/cloud-ai-market"
+            }
+          ],
+          "summary": "CloudScale AI operates in the rapidly expanding cloud AI market, which is projected to reach $269.02 billion by 2031 with a CAGR of 18.68%. The market shows strong demand drivers including enterprise AI adoption, hybrid cloud deployments, and growing need for AI infrastructure like GPUs and compute resources. Multiple evidence sources confirm both the market size and favorable growth trajectory, indicating a substantial opportunity.",
+          "confidence": 0.92,
+          "sources": [
+            "https://www.mordorintelligence.com/industry-reports/cloud-ai-market",
+            "https://www.marketscale.com/industries/software-and-technology/meta-is-building-a-cloud-business-to-sell-ai-compute-putting-pressure-on-aws-azure-and-google-cloud",
+            "https://www.fortunebusinessinsights.com/cloud-ai-market-108878",
+            "https://keybe.ai/articles/sales/tam-sam-and-som-of-ai-assisted-sales-platforms-b2b",
+            "https://www.marketsandmarkets.com/Market-Reports/ai-infrastructure-market-38254348.html",
+            "https://www.snsinsider.com/reports/cloud-ai-market-4151",
+            "https://www.linkedin.com/posts/arturoferreira_the-ai-market-will-hit-18-trillion-by-2030-activity-7381682364646723585-KC0g",
+            "https://bccresearch.com/market-research/information-technology/artificial-intelligence-market-report.html"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 30.0,
+          "score_breakdown": [
+            {
+              "factor": "Competitive landscape mapping (max 20 points)",
+              "points": 18.0,
+              "max_points": 20.0,
+              "reason": "Multiple direct and indirect competitors are clearly identified in evidence, including alternatives like Labelbox and Appen explicitly listed as Scale AI competitors in two sources.",
+              "source": "https://100signals.com/insights/scale-ai-competitors"
+            },
+            {
+              "factor": "Differentiation clarity (max 20 points)",
+              "points": 8.0,
+              "max_points": 20.0,
+              "reason": "While Scale AI differentiated through data labeling at scale, evidence focuses on client defections due to neutrality rather than clear articulation of unique capabilities. Competitors are positioned as functionally similar alternatives.",
+              "source": "https://www.superannotate.com/blog/scale-ai-alternatives"
+            },
+            {
+              "factor": "Moat strength (evidence-gated) (max 35 points)",
+              "points": 0.0,
+              "max_points": 35.0,
+              "reason": "No evidence of proprietary data, technology, or network effects. The company's primary 'moat' was client trust in neutrality, which was lost after Meta's investment. Marketing claims of uniqueness are dismissed per rubric guidelines.",
+              "source": null
+            },
+            {
+              "factor": "Competitive risk exposure (max 25 points)",
+              "points": 4.0,
+              "max_points": 25.0,
+              "reason": "HIGH exposure: Major clients defected post-Meta deal, competitors are actively targeting their market share, and no defensive mechanisms (e.g., proprietary tech, contracts) appear to exist to prevent undercutting.",
+              "source": "https://www.superannotate.com/blog/scale-ai-alternatives"
+            }
+          ],
+          "summary": "The competitive landscape for Scale AI (likely the intended subject, as 'CloudScale AI' appears conflated with existing evidence) is highly contested, with major clients like OpenAI and Google abandoning due to perceived neutrality risks after Meta's investment. Competitors such as Labelbox, Appen, and TELUS International are capitalizing on these tensions, offering 'neutral' alternatives. The company's former moat appears weakened, with no evidence of defensible mechanisms beyond early market leadership now undermined by client defections. Identified competitors: Labelbox, Appen, TELUS International, Sama, iMerit.",
+          "confidence": 0.35,
+          "sources": [
+            "https://www.superannotate.com/blog/scale-ai-alternatives",
+            "https://100signals.com/insights/scale-ai-competitors",
+            "https://www.gartner.com/reviews/product/cast-ai/alternatives"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 13.0,
+          "score_breakdown": [
+            {
+              "factor": "Founding Team Expertise",
+              "points": 7.0,
+              "max_points": 10.0,
+              "reason": "Both Alex and Sarah have demonstrated expertise in their respective fields, with research-backed reporting experience for Alex and AI background for Sarah.",
+              "source": "Alex Vance's LinkedIn profile, Sarah Chen's LinkedIn profile"
+            },
+            {
+              "factor": "Entrepreneurial Experience",
+              "points": 2.0,
+              "max_points": 5.0,
+              "reason": "While neither Alex nor Sarah explicitly mentions entrepreneurial experience, their profiles suggest versatility and adaptability.",
+              "source": "Alex Vance's GitHub profile"
+            },
+            {
+              "factor": "Domain Relevance",
+              "points": 4.0,
+              "max_points": 6.0,
+              "reason": "Both founders have demonstrated domain relevance in health journalism for Alex and AI expertise for Sarah, but more context is needed to fully establish this.",
+              "source": "Alex Vance's LinkedIn profile"
+            }
+          ],
+          "summary": "Meet Alex Vance, a health and parenting journalist with research-backed reporting experience, and Sarah Chen, an AI expert with background in computer science, artificial intelligence, and entrepreneurship. Founders identified: Alex Vance (journalist), Sarah Chen (AI expert).",
+          "confidence": 0.3,
+          "sources": [
+            "https://github.com/alex-vance",
+            "https://www.linkedin.com/in/sarahchen22",
+            "https://dejan.ai/media/html/page/index.htm",
+            "https://sites.uclouvain.be/gravitai/people/sarah-chen"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 14.0,
+          "score_breakdown": [
+            {
+              "factor": "2-month hiring freeze",
+              "points": 5.0,
+              "max_points": 5.0,
+              "reason": "Implementing a hiring freeze reduces runway concerns, as seen in Fortune's report on AI startups' billion-dollar dilemma.",
+              "source": null
+            },
+            {
+              "factor": "Backfill critical roles only",
+              "points": 4.0,
+              "max_points": 5.0,
+              "reason": "Prioritizing critical positions minimizes burn rate, as exemplified by Jumpstart Partners' SaaS Financial Operations article.",
+              "source": null
+            },
+            {
+              "factor": "Consider contractors for project-based work instead of full-time hires",
+              "points": 3.0,
+              "max_points": 5.0,
+              "reason": "Utilizing contractors for specific projects reduces burn rate and allows for more flexibility, as seen in the same Jumpstart Partners article.",
+              "source": null
+            },
+            {
+              "factor": "Extension of time-to-hire for planned positions",
+              "points": 2.0,
+              "max_points": 5.0,
+              "reason": "Delaying hiring for non-critical positions buys CloudScale AI some extra time, albeit not a comprehensive solution.",
+              "source": null
+            }
+          ],
+          "summary": "CloudScale AI's financial uncertainty continues amidst shifting AI valuations.",
+          "confidence": 0.2,
+          "sources": [
+            "https://fortune.com/2024/05/01/silicon-valley-ai-startups-billion-dollar-dilemma-lofty-valuations-complicates-hiring",
+            "https://www.youtube.com/watch?v=u6gvoC_Zsbs",
+            "https://news.crunchbase.com/venture/startup-valuation-fluctuations-ai-openai-msft-eoy-2023",
+            "https://foundationcapital.com/ideas/why-openai-s-157b-valuation-misreads-ai-s-future",
+            "https://www.cnbc.com/2026/06/01/ai-startup-valuations-pre-chatgpt"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Repository 'cloudscale-ai/core' not found or private.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 4.0,
+          "score_breakdown": [
+            {
+              "factor": "Finance",
+              "points": 1.0,
+              "max_points": 2.0,
+              "reason": "CloudScale AI's financial uncertainty continues amidst shifting AI valuations.",
+              "source": null
+            },
+            {
+              "factor": "Competitive landscape",
+              "points": 0.0,
+              "max_points": 3.0,
+              "reason": "The competitive landscape for Scale AI is highly contested, with major clients like OpenAI and Google abandoning due to perceived neutrality risks after Meta's investment. Competitors are capitalizing on these tensions.",
+              "source": "https://www.securityweek.com/cloudflare-lays-off-1100-employees-in-ai-driven-restructurings"
+            },
+            {
+              "factor": "Market",
+              "points": 3.0,
+              "max_points": 3.0,
+              "reason": "The cloud AI market is projected to reach $269.02 billion by 2031 with a CAGR of 18.68%, showing strong demand drivers including enterprise AI adoption, hybrid cloud deployments, and growing need for AI infrastructure like GPUs and compute resources.",
+              "source": "https://www.securityweek.com/cloudflare-lays-off-1100-employees-in-ai-driven-restructurings"
+            }
+          ],
+          "summary": "CloudScale AI's risk profile is LOW due to its association with the cloud AI industry, which faces financial uncertainty and job loss-related stress.",
+          "confidence": 0.3,
+          "sources": [
+            "https://founderreports.com/ai-layoffs-tracker",
+            "https://www.youtube.com/watch?v=7jNFvNVI2FQ",
+            "https://www.securityweek.com/cloudflare-lays-off-1100-employees-in-ai-driven-restructurings",
+            "https://finance.yahoo.com/sectors/technology/articles/99-ceos-planning-ai-layoffs-173000476.html"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 31.5,
+          "score_breakdown": [
+            {
+              "factor": "Input: industry",
+              "points": 10.0,
+              "max_points": 10.0,
+              "reason": "Used real extracted value (cloud AI)",
+              "source": null
+            },
+            {
+              "factor": "Input: funding",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: employees",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: age",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (3), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: revenue",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (10), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: growth",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (20), this reduces overall prediction confidence",
+              "source": null
+            }
+          ],
+          "summary": "ML model estimates a 32% success probability for 'CloudScale AI', based on 1/6 features extracted from real evidence (remaining 5 used defaults).",
+          "confidence": 0.17,
+          "sources": [],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        }
+      }
+    },
+    {
+      "case_id": "SYN-002",
+      "company_name": "BioHealth Direct",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "HYBRID",
+        "market_score": 55.0,
+        "competition_score": 40.0,
+        "founder_score": 50.0,
+        "finance_score": 45.0,
+        "technology_score": 30.0,
+        "risk_score": 45.0,
+        "overall_score": 44.5,
+        "risk_level": "HIGH",
+        "verdict": "PASS"
+      },
+      "actual_overall_score": 36.1,
+      "actual_verdict": "PASS",
+      "actual_overall_confidence": 0.41,
+      "actual_company_type": "HYBRID",
+      "actual_risk_level": "MEDIUM",
+      "actual_dimension_scores": {
+        "market_score": 42.0,
+        "competition_score": 11.0,
+        "founder_score": 52.0,
+        "finance_score": 10.0,
+        "technology_score": 0.0,
+        "risk_score": 75.0
+      },
+      "runtime_seconds": 114.07211136817932,
+      "total_runtime_ms": 114072.11,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 0,
+      "no_data_agents": 1,
+      "total_sources_cited": 59,
+      "schema_valid": true,
+      "valid": true,
+      "invalidation_reason": null,
+      "provider_telemetry": [
+        {
+          "timestamp": 1786634461.0175767,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 313.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96401, Requested 7334. Please try again in 53m47.04s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634461.191374,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 282.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96401, Requested 5709. Please try again in 30m23.04s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634462.3704886,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 62.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96400, Requested 7334. Please try again in 53m46.176s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634462.4751458,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 63.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96400, Requested 6484. Please try again in 41m31.776s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634464.0711281,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 79.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96398, Requested 6599. Please try again in 43m9.408s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634464.1548228,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 93.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96398, Requested 6083. Please try again in 35m43.583999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634464.2621338,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 62.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96397, Requested 5749. Please try again in 30m54.144s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634464.343199,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 94.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96397, Requested 8138. Please try again in 1h5m18.24s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634464.7151442,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 640.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 55.499082207s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '55s'}]}}"
+        },
+        {
+          "timestamp": 1786634465.0837033,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 359.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 55.132661191s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '55s'}]}}"
+        },
+        {
+          "timestamp": 1786634465.4247584,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 344.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 54.796636002s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '54s'}]}}"
+        },
+        {
+          "timestamp": 1786634465.6232119,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 78.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96396, Requested 6083. Please try again in 35m41.855999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634465.76919,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 78.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96396, Requested 8098. Please try again in 1h4m42.816s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634467.607431,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 93.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96394, Requested 6083. Please try again in 35m40.128s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634467.735761,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 93.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96393, Requested 8098. Please try again in 1h4m40.223999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634490.7906668,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 25703.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634494.722537,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634495.3122408,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634496.324985,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1000.0,
+          "error": "Error code: 401 - {'id': 'ow3moFR-2kFHot-a2a8b5dbfb733fae', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634497.0821102,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 765.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634499.8794684,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 9078.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634508.2738051,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 11188.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634513.879647,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 19156.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634529.8850238,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634530.4808328,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634531.7660842,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1297.0,
+          "error": "Error code: 401 - {'id': 'ow3mymU-2kFHot-a2a8b6b79fd723e4', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634532.5587592,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 781.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634541.5370693,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 8984.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634541.9182692,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "success",
+          "latency_ms": 359.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634544.4338343,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 94.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96992, Requested 6456. Please try again in 49m39.071999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634545.641189,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 94.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96990, Requested 6456. Please try again in 49m37.343999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634547.52066,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 94.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96988, Requested 7231. Please try again in 1h0m45.216s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634548.1091802,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 593.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 32.097009135s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '32s'}]}}"
+        },
+        {
+          "timestamp": 1786634552.8805614,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 4766.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634572.084736,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 19187.0,
+          "error": null
+        }
+      ],
+      "agent_runtimes_ms": {},
+      "provider_runtimes_ms": {},
+      "fallback_count": 17,
+      "ollama_call_count": 2,
+      "remote_provider_call_count": 6,
+      "total_llm_calls": 35,
+      "slowest_agent": null,
+      "fastest_agent": null,
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "BioHealth Direct",
+        "category": "HYBRID",
+        "final_score": 36.1,
+        "verdict": "PASS",
+        "overall_confidence": 0.41,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 3.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "BioHealth Direct is a news-focused company with connections to the life sciences ecosystem."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 42.0,
+            "confidence": 0.35,
+            "status": "ok",
+            "summary": "BioHealth Direct appears positioned in the broader biotechnology and diagnostics market, which shows substantial size and moderate growth globally, though specific targeting details for this entity remain unclear from the evidence provided. The market faces headwinds from pricing pressures and patent cliffs but benefits from favorable regulatory frameworks for generics and biosimilars. Demand signals appear mixed with strong adoption trends in medical laboratories but limited specific commentary on direct-to-consumer diagnostic services."
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 11.0,
+            "confidence": 0.25,
+            "status": "ok",
+            "summary": "BioHealth Direct is an innovative company operating in the BioHealth Capital Region, with a focus on scientific research and product development. While they have established a strong presence, their competitive advantage is relatively narrow. Identified competitors: 23andMe, BMW, Mercedes."
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 52.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "The evidence references BioHealth International (founded by Rudolf Gebhardt in 2003), Bio + Health (founded by Richard Bendis in 2011), and BioHealth Innovation (led by Rich Bendis). The founding team includes Bendis, Gwen Watanabe (cofounder of medical device startups acquired by strategic players), and Bendis's extensive experience as an entrepreneur, VC, and investor. However, 'BioHealth Direct' is not explicitly named in the evidence, and team composition is unclear beyond Bendis and Watanabe. Founders' identities and roles for the specific venture are ambiguous."
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 10.0,
+            "confidence": 0.15,
+            "status": "ok",
+            "summary": "BioHealth Direct has no identifiable financial information in the provided evidence. There are no revenue figures, unit economics data, funding history, investor details, burn rate information, or documented financial traction for this specific company across any of the sources examined."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "No GitHub repository provided for 'BioHealth Direct'. Code quality cannot be assessed without a public repo \u2014 this is not a negative signal on its own (many companies keep code private)."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 75.0,
+            "confidence": 0.3,
+            "status": "ok",
+            "summary": "BioHealth Direct shows significant legal and regulatory risks with documented wrongful dismissal litigation and pending insurance litigation, but no evidence of business operational, technical, or market-specific issues. The founding team's identity and specific financial details are unclear in the evidence, creating some uncertainty about execution risk, while regulatory compliance issues stem from broader healthcare market pressures rather than company-specific failures."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 31.5,
+            "confidence": 0.17,
+            "status": "ok",
+            "summary": "ML model estimates a 32% success probability for 'BioHealth Direct', based on 1/6 features extracted from real evidence (remaining 5 used defaults)."
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          }
+        ],
+        "significant_disagreement": true,
+        "disagreement_note": "Risk Agent scored this highly (75.0) while Research Agent scored it much lower (3.0) \u2014 a 72-point spread. This is not averaged away; both signals should be weighed independently.",
+        "key_opportunities": [
+          "Niche biotech news platform",
+          "Potential to monetize data-driven services",
+          "Regulatory tailwinds for diagnostics"
+        ],
+        "key_risks": [
+          "Litigation and regulatory exposure",
+          "Unclear financial and operational background",
+          "Limited competitive differentiation"
+        ],
+        "narrative": "The modest score reflects a narrow opportunity set anchored by a niche news platform that could harness biotech trends, but the business lacks clear revenue streams and validated competitive advantages. While the broader diagnostics market offers tailwinds, the company\u2019s legal exposure and opaque founding details raise execution uncertainty. The limited evidence of traction and financials keeps upside outweighed by risk, resulting in a marginal pass.",
+        "was_overridden": false,
+        "override_reason": null,
+        "confidence_breakdown": {
+          "raw_avg": 0.25,
+          "data_coverage": 0.88,
+          "agreement_factor": 0.28
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 3.0,
+          "score_breakdown": [
+            {
+              "factor": "Life Sciences Focus",
+              "points": 2.0,
+              "max_points": 3.0,
+              "reason": "The majority of articles cover advancements in medicine, biotech, and pharma.",
+              "source": null
+            },
+            {
+              "factor": "Company Profile Availability",
+              "points": 1.0,
+              "max_points": 1.0,
+              "reason": "Some company profiles exist (e.g., REGENXBIO Inc.), but not all articles provide such information.",
+              "source": "https://news.wisc.edu/federal-funds-awarded-for-biohealth-with-uwmadison-leading-the-way"
+            }
+          ],
+          "summary": "BioHealth Direct is a news-focused company with connections to the life sciences ecosystem.",
+          "confidence": 0.3,
+          "sources": [
+            "https://www.bioforward.org/insights?b820920b_page=7",
+            "https://news.wisc.edu/federal-funds-awarded-for-biohealth-with-uwmadison-leading-the-way"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": {
+            "category": "HYBRID",
+            "is_core_product_software": false,
+            "is_revenue_physical_goods": null,
+            "reasoning": "The company is primarily a news aggregator, making it unclear whether their primary revenue comes from software or physical goods. However, they are not directly developing and selling software as part of their core product."
+          }
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 42.0,
+          "score_breakdown": [
+            {
+              "factor": "Market size (TAM/SAM) (max 30 points)",
+              "points": 6.0,
+              "max_points": 30.0,
+              "reason": "Global biotechnology market size evidence ranges from $2.42T to $9.06T by 2031/2035, with US market at $0.85T in 2025, but no specific TAM/SAM figures are provided for BioHealth Direct or its diagnostic services.",
+              "source": "https://www.mordorintelligence.com/industry-reports/biotechnology-market"
+            },
+            {
+              "factor": "Growth rate (max 25 points)",
+              "points": 13.0,
+              "max_points": 25.0,
+              "reason": "Multiple sources cite CAGR ranging from 6.02% to 13.97% for the biotechnology market, with genomics and bioinformatics segments showing even higher growth rates of 16-22%.",
+              "source": "https://www.globenewswire.com/news-release/2026/01/20/3221521/0/en/biotechnology-market-size-to-surpass-usd-9-06-trillion-by-2035.html"
+            },
+            {
+              "factor": "Customer demand signals (max 20 points)",
+              "points": 8.0,
+              "max_points": 20.0,
+              "reason": "Evidence shows 40% employment growth in medical laboratories and 24% growth in medical equipment sectors, indicating strong underlying demand, though specific consumer demand for direct-to-consumer diagnostic services is not explicitly detailed in the evidence.",
+              "source": "https://wedc.org/wp-content/uploads/2026/05/Biohealth-Industry-Profile-2026.pdf"
+            },
+            {
+              "factor": "Market timing (tailwinds vs. headwinds) (max 25 points)",
+              "points": 15.0,
+              "max_points": 25.0,
+              "reason": "Positive regulatory developments around biosimilars and competitive generic therapy pathways, plus AI integration in drug discovery, create tailwinds. However, headwinds include persistent pricing pressures, patent cliffs (only 4% of drug sales protected by 2030), and rising costs of drug development.",
+              "source": "https://www.iqvia.com/-/media/iqvia/pdfs/library/articles/key-tailwinds-and-headwinds-impacting-the-major-developed-markets.pdf"
+            }
+          ],
+          "summary": "BioHealth Direct appears positioned in the broader biotechnology and diagnostics market, which shows substantial size and moderate growth globally, though specific targeting details for this entity remain unclear from the evidence provided. The market faces headwinds from pricing pressures and patent cliffs but benefits from favorable regulatory frameworks for generics and biosimilars. Demand signals appear mixed with strong adoption trends in medical laboratories but limited specific commentary on direct-to-consumer diagnostic services.",
+          "confidence": 0.35,
+          "sources": [
+            "https://www.mordorintelligence.com/industry-reports/biotechnology-market",
+            "https://www.globenewswire.com/news-release/2026/01/20/3221521/0/en/biotechnology-market-size-to-surpass-usd-9-06-trillion-by-2035.html",
+            "https://wedc.org/wp-content/uploads/2026/05/Biohealth-Industry-Profile-2026.pdf",
+            "https://www.iqvia.com/-/media/iqvia/pdfs/library/articles/key-tailwinds-and-headwinds-impacting-the-major-developed-markets.pdf"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 11.0,
+          "score_breakdown": [
+            {
+              "factor": "Moat Creation",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "BioHealth Direct has created a data advantage moat through their research and product development, which provides a competitive edge. The company's commitment to science-driven innovation is evident in their core products.",
+              "source": null
+            },
+            {
+              "factor": "Competitive Pressure",
+              "points": 4.0,
+              "max_points": 10.0,
+              "reason": "The BioHealth Capital Region is experiencing increased competition, driven by the rise of Chinese competitors and changes in technology. While this pressure may erode their competitive advantage over time.",
+              "source": null
+            },
+            {
+              "factor": "Innovative Business Model",
+              "points": 1.0,
+              "max_points": 10.0,
+              "reason": "BioHealth Direct's innovative business model, which combines research and product development with a focus on outsourcing, is still evolving. While it shows promise, more information is needed to fully assess its impact.",
+              "source": null
+            }
+          ],
+          "summary": "BioHealth Direct is an innovative company operating in the BioHealth Capital Region, with a focus on scientific research and product development. While they have established a strong presence, their competitive advantage is relatively narrow. Identified competitors: 23andMe, BMW, Mercedes.",
+          "confidence": 0.25,
+          "sources": [
+            "https://biohealthinnovation.org/category/news",
+            "https://www.morningstar.com/business/insights/blog/equity-economic-moat-ratings",
+            "https://www.healthcare.digital/single-post/the-different-types-of-moat-creating-sustainable-competitive-advantage-in-healthtech",
+            "https://cxl.com/blog/economic-moats",
+            "https://www.investopedia.com/ask/answers/05/economicmoat.asp"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 52.0,
+          "score_breakdown": [
+            {
+              "factor": "Relevant domain experience (max 30 points)",
+              "points": 12.0,
+              "max_points": 30.0,
+              "reason": "Rich Bendis has documented experience in biohealth innovation and serves as CEO of BioHealth Innovation. Gwen Watanabe has medical device startup experience. However, no explicit connection to BioHealth Direct\u2019s domain is established, and founder identities for the venture are unclear. Industry experience exists but lacks direct linkage to the target company.",
+              "source": "https://biohealthinnovation.org, https://hig.com/news/h-i-g-capital-expands-biohealth-team-with-addition-of-gwen-watanabe"
+            },
+            {
+              "factor": "Prior track record (max 25 points)",
+              "points": 18.0,
+              "max_points": 25.0,
+              "reason": "Rich Bendis founded BioHealth Innovation and Bio + Health, with roles in venture capital and investment banking. Gwen Watanabe cofounded and exited medical device startups (Nellix Endovascular, Bacchus Vascular). No direct evidence of prior exits/founding for BioHealth Direct itself, but substantial experience exists in bioscience and medical devices.",
+              "source": "https://pharmaboardroom.com/interviews/rich-bendis-ceo-and-founder-biohealth-innovation, https://hig.com/news/h-i-g-capital-expands-biohealth-team-with-addition-of-gwen-watanabe"
+            },
+            {
+              "factor": "Team completeness (max 25 points)",
+              "points": 8.0,
+              "max_points": 25.0,
+              "reason": "Evidence mentions Bendis as CEO and Watanabe\u2019s advisory role but does not confirm technical or business co-founders for BioHealth Direct. Entrepreneur-in-Residence program includes diverse experts, but their roles in the founding team are unclear. Missing clear evidence of complementary skills among founders for a deep-tech venture.",
+              "source": "https://biohealthinnovation.org/bhi-programs/entrepreneur-in-residence-eir-program-at-bhi/entrepreneurs-in-residence/page/2, https://hig.com/news/h-i-g-capital-expands-biohealth-team-with-addition-of-gwen-watanabe"
+            },
+            {
+              "factor": "Execution signals (max 20 points)",
+              "points": 14.0,
+              "max_points": 20.0,
+              "reason": "Bendis hosts BioTalk, a podcast with industry leaders, and BioHealth Innovation supports startups through an EIR program. H.I.G. Capital\u2019s investment in Watanabe\u2019s role suggests prior funding experience. Public technical work (podcast) and ecosystem engagement exist, but no explicit evidence of product launches or fundraising tied to BioHealth Direct.",
+              "source": "https://podcasts.apple.com/us/podcast/biotalk-with-rich-bendis/id1274273731, https://hig.com/news/h-i-g-capital-expands-biohealth-team-with-addition-of-gwen-watanabe"
+            }
+          ],
+          "summary": "The evidence references BioHealth International (founded by Rudolf Gebhardt in 2003), Bio + Health (founded by Richard Bendis in 2011), and BioHealth Innovation (led by Rich Bendis). The founding team includes Bendis, Gwen Watanabe (cofounder of medical device startups acquired by strategic players), and Bendis's extensive experience as an entrepreneur, VC, and investor. However, 'BioHealth Direct' is not explicitly named in the evidence, and team composition is unclear beyond Bendis and Watanabe. Founders' identities and roles for the specific venture are ambiguous.",
+          "confidence": 0.2,
+          "sources": [
+            "https://startupintros.com/orgs/bio-health",
+            "https://a16z.com/bio-health",
+            "https://pharmaboardroom.com/interviews/rich-bendis-ceo-and-founder-biohealth-innovation",
+            "https://hig.com/news/h-i-g-capital-expands-biohealth-team-with-addition-of-gwen-watanabe",
+            "https://biohealthinnovation.org",
+            "https://www.stantonchase.com/insights/blog/qualities-of-a-successful-biotech-ceo-what-executive-search-consultants-look-for",
+            "https://www.linkedin.com/in/accelerate-growth",
+            "https://activation.capital/10-groundbreaking-startups-shine-at-the-inaugural-frontier-biohealth-showcase",
+            "https://www.russellreynolds.com/en/insights/reports-surveys/the-essence-of-the-biotechnology-ceo-5-differentiating-traits",
+            "https://biohealthinnovation.org/bhi-programs/entrepreneur-in-residence-eir-program-at-bhi/entrepreneurs-in-residence/page/2",
+            "https://podcasts.apple.com/us/podcast/biotalk-with-rich-bendis/id1274273731",
+            "https://www.americangene.com/in-the-news/how-a-disconnected-biohealth-ecosystem-became-the-next-big-thing",
+            "https://us.amazon.com/Mark-Alan-Reynolds/e/B07N5NDFD9",
+            "https://directory.sju.edu/mark-f-reynolds",
+            "https://www.rmf.harvard.edu/About-CRICO/Our-Team/Executive-Leadership/Mark-E-Reynolds",
+            "https://www.youtube.com/watch?v=PCSAz4hPTXM",
+            "https://www.linkedin.com/in/mark-reynolds-451152"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 10.0,
+          "score_breakdown": [
+            {
+              "factor": "Unit economics evidence",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No sourced figures for CAC, LTV, gross margin, or other unit economics exist in the evidence for BioHealth Direct or any company by that name.",
+              "source": null
+            },
+            {
+              "factor": "Revenue/financial traction",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No sourced revenue, ARR/MRR, or growth figures for BioHealth Direct are found in any of the evidence documents.",
+              "source": null
+            },
+            {
+              "factor": "Funding history & trend",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No sourced funding history, total capital raised, individual funding rounds, or funding trend data specific to BioHealth Direct appears in the evidence provided.",
+              "source": null
+            },
+            {
+              "factor": "Investor quality",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No investor information identifying institutional investors, VC firms, accelerators, or angel investors backing BioHealth Direct is found in the evidence.",
+              "source": null
+            },
+            {
+              "factor": "Burn rate & runway",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No sourced burn rate or runway estimates for BioHealth Direct exist in the provided evidence.",
+              "source": null
+            },
+            {
+              "factor": "Capital efficiency",
+              "points": 0.0,
+              "max_points": 10.0,
+              "reason": "Insufficient data to assess the relationship between funding raised and traction since neither funding nor traction figures for BioHealth Direct are documented in the evidence.",
+              "source": null
+            },
+            {
+              "factor": "Financial red flags",
+              "points": 10.0,
+              "max_points": 10.0,
+              "reason": "No documented financial distress signals (down round, restructuring, missed payroll, insolvency) for BioHealth Direct were found in the evidence.",
+              "source": null
+            }
+          ],
+          "summary": "BioHealth Direct has no identifiable financial information in the provided evidence. There are no revenue figures, unit economics data, funding history, investor details, burn rate information, or documented financial traction for this specific company across any of the sources examined.",
+          "confidence": 0.15,
+          "sources": [
+            "https://biohealthinnovation.org/the-region-s-companies-raised-nearly-300-million-in-venture-capital-last-quarter-the-washington-post",
+            "https://cdn.prod.website-files.com/667d678e10a1efcee5d715df/68dad8c1ec940ebca82e1f83_092925_BioForward-Financial-Report_Digital.pdf",
+            "https://biobuzz.io/news/biohealth-capital-region-startups-raised-more-than-739m-in-2019",
+            "https://residencyadvisor.com/resources/medical-startups/revenue-benchmarks-arr-milestones-investors-expect-in-health-startups",
+            "https://mkestartup.news/bioforward-report-shows-investment-for-biohealth-startups",
+            "https://smart-it.io/blog/how-to-calculate-unit-economics-for-healthcare-startups",
+            "https://thehemingwayreport.beehiiv.com/p/36-a-guide-to-unit-economics-in-mental-health-with-onemind",
+            "https://www.paddle.com/resources/unit-economics",
+            "https://fundsquire.co.uk/guide-unit-economics",
+            "https://www.toryburchfoundation.org/resources/operate-my-business/how-to-use-unit-economics-guide",
+            "https://biobuzz.io/news/biohealth-capital-fund-created-to-help-emerging-companies-close-early-stage-capital-gap",
+            "https://wewillcure.com/insights/news/funding-and-models/biotech-venture-funding-tracker",
+            "https://news.crunchbase.com/venture/biggest-funding-rounds-ai-energy-biotech-joulent",
+            "https://www.biopharmadive.com/news/biotech-venture-capital-funding-startup-tracker/726829",
+            "https://www.biohealthcapital.com/author/biohealth",
+            "https://biohealthinnovation.org/saving-the-date-for-the-12th-annual-biohealth-capital-region-week",
+            "https://emergingmanagermonthly.com/directory/biohealth-capital-fund",
+            "https://gaebler.com/VC-Investors-A1750927-779A-41CB-87B3-31A6424DEC9C-Backers",
+            "https://blockchain.news/news/opnx-reveals-venture-capital-backers",
+            "https://www.youtube.com/watch?v=NsywHNH9I2k",
+            "https://wewillcure.com/insights/founding-and-scaling/entrepreneurship/three-key-financial-metrics-healthcare-founders-cash-burn-runway",
+            "https://www.slash.com/blog/burn-rate-vs-runway",
+            "https://www.startengine.com/blog/burn-rate-and-runway",
+            "https://mercury.com/blog/calculate-startup-cash-burn-rate",
+            "https://www.excedr.com/resources/how-biotech-startups-can-navigate-a-down-round",
+            "https://www.businessinsider.com/jpmorgan-banker-biotechs-should-prepare-for-rare-down-rounds-2022-2",
+            "https://biohealthinnovation.org/bio-investor-forum-opens-with-encouraging-news-on-financing",
+            "https://www.reuters.com/business/dreaded-down-rounds-shave-billions-off-startup-valuations-2022-08-09",
+            "https://www.biopharmadive.com/news/biotech-startup-ipo-downturn-venture-financing/621855"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "No GitHub repository provided for 'BioHealth Direct'. Code quality cannot be assessed without a public repo \u2014 this is not a negative signal on its own (many companies keep code private).",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 75.0,
+          "score_breakdown": [
+            {
+              "factor": "Business/operational risk",
+              "points": 20.0,
+              "max_points": 20.0,
+              "reason": "no negative evidence found",
+              "source": null
+            },
+            {
+              "factor": "Technical risk",
+              "points": 15.0,
+              "max_points": 15.0,
+              "reason": "no negative evidence found",
+              "source": null
+            },
+            {
+              "factor": "Market risk",
+              "points": 20.0,
+              "max_points": 20.0,
+              "reason": "no negative evidence found",
+              "source": null
+            },
+            {
+              "factor": "Founder/team risk",
+              "points": 15.0,
+              "max_points": 25.0,
+              "reason": "company identity unclear in evidence - references to BioHealth International and BioHealth Innovation don't explicitly identify BioHealth Direct, and founding team specifics cannot be confirmed",
+              "source": null
+            },
+            {
+              "factor": "Legal/regulatory risk",
+              "points": 5.0,
+              "max_points": 20.0,
+              "reason": "documented wrongful dismissal lawsuit by former MD and pending insurance litigation over alleged misrepresentations to insurers",
+              "source": "https://www.afr.com/politics/biohealth-sued-by-former-md-19890410-k3boi"
+            }
+          ],
+          "summary": "BioHealth Direct shows significant legal and regulatory risks with documented wrongful dismissal litigation and pending insurance litigation, but no evidence of business operational, technical, or market-specific issues. The founding team's identity and specific financial details are unclear in the evidence, creating some uncertainty about execution risk, while regulatory compliance issues stem from broader healthcare market pressures rather than company-specific failures.",
+          "confidence": 0.3,
+          "sources": [
+            "https://www.afr.com/politics/biohealth-sued-by-former-md-19890410-k3boi",
+            "https://www.law.com/almID/1724400083CT319cv01"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 31.5,
+          "score_breakdown": [
+            {
+              "factor": "Input: industry",
+              "points": 10.0,
+              "max_points": 10.0,
+              "reason": "Used real extracted value (biotechnology)",
+              "source": null
+            },
+            {
+              "factor": "Input: funding",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: employees",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: age",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (3), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: revenue",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (10), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: growth",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (20), this reduces overall prediction confidence",
+              "source": null
+            }
+          ],
+          "summary": "ML model estimates a 32% success probability for 'BioHealth Direct', based on 1/6 features extracted from real evidence (remaining 5 used defaults).",
+          "confidence": 0.17,
+          "sources": [],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        }
+      }
+    },
+    {
+      "case_id": "SYN-003",
+      "company_name": "QuantumFleet",
+      "case_type": "SYNTHETIC",
+      "expected": {
+        "company_type": "TECH",
+        "market_score": 85.0,
+        "competition_score": 75.0,
+        "founder_score": 90.0,
+        "finance_score": 82.0,
+        "technology_score": 88.0,
+        "risk_score": 70.0,
+        "overall_score": 82.0,
+        "risk_level": "LOW",
+        "verdict": "INVEST"
+      },
+      "actual_overall_score": 29.7,
+      "actual_verdict": "WATCH",
+      "actual_overall_confidence": 0.36,
+      "actual_company_type": "NON_TECH",
+      "actual_risk_level": "CRITICAL",
+      "actual_dimension_scores": {
+        "market_score": 90.0,
+        "competition_score": 0.0,
+        "founder_score": 3.0,
+        "finance_score": 8.0,
+        "technology_score": 0.0,
+        "risk_score": 18.0
+      },
+      "runtime_seconds": 171.12908363342285,
+      "total_runtime_ms": 171129.08,
+      "status": "completed",
+      "error": null,
+      "agent_failures": 1,
+      "no_data_agents": 1,
+      "total_sources_cited": 19,
+      "schema_valid": true,
+      "valid": false,
+      "invalidation_reason": "1 agent failures encountered",
+      "provider_telemetry": [
+        {
+          "timestamp": 1786634604.849251,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634604.9273891,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30016.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634605.5241628,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 594.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634605.5529888,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634606.5505989,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1031.0,
+          "error": "Error code: 401 - {'id': 'ow3nN1k-2kFHot-a2a8b88cdef3405b', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634606.5873425,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1031.0,
+          "error": "Error code: 401 - {'id': 'ow3nN2W-2kFHot-a2a8b88cdd623a35', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634607.2501895,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634607.2838092,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 703.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634618.9797702,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "success",
+          "latency_ms": 14125.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634619.2172937,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 11969.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634633.571748,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 14344.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634634.934834,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634635.6558185,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 718.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634637.1232138,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1469.0,
+          "error": "Error code: 401 - {'id': 'ow3nX6X-2kFHot-a2a8b9494fecfdd4', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634637.9694402,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 844.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634648.9876168,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634649.5651772,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 579.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634650.5300255,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 12562.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634650.9449432,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1375.0,
+          "error": "Error code: 401 - {'id': 'ow3nbCi-2kFHot-a2a8b9a01cfaaed9', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634651.714139,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 765.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634656.2547195,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 4547.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634656.8351762,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "success",
+          "latency_ms": 578.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634659.1007376,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 110.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 97463, Requested 6751. Please try again in 1h0m40.895999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634660.3503764,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limit_retry",
+          "latency_ms": 78.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 97461, Requested 6751. Please try again in 1h0m39.167999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634662.1425338,
+          "provider": "groq",
+          "model": "llama-3.3-70b-versatile",
+          "status": "rate_limited",
+          "latency_ms": 94.0,
+          "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jn5rnd2bf5a8hfaghyf5n3jb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 97459, Requested 7485. Please try again in 1h11m11.616s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        },
+        {
+          "timestamp": 1786634662.732948,
+          "provider": "gemini",
+          "model": "gemini-2.5-flash",
+          "status": "rate_limited",
+          "latency_ms": 593.0,
+          "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 37.482357279s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '37s'}]}}"
+        },
+        {
+          "timestamp": 1786634692.7458103,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30000.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634693.220255,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 485.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634694.2949486,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1078.0,
+          "error": "Error code: 401 - {'id': 'ow3np6V-2kFHot-a2a8bab0bb733a5d', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634695.0323727,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 734.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634705.8431594,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 10813.0,
+          "error": null
+        },
+        {
+          "timestamp": 1786634735.8783498,
+          "provider": "openrouter",
+          "model": "openrouter/free",
+          "status": "failed",
+          "latency_ms": 30016.0,
+          "error": ""
+        },
+        {
+          "timestamp": 1786634736.3519578,
+          "provider": "cerebras",
+          "model": "llama3.1-70b",
+          "status": "failed",
+          "latency_ms": 469.0,
+          "error": "Error code: 404 - {'message': 'Model does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}"
+        },
+        {
+          "timestamp": 1786634737.4815707,
+          "provider": "together",
+          "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+          "status": "failed",
+          "latency_ms": 1125.0,
+          "error": "Error code: 401 - {'id': 'ow3o2wS-2kFHot-a2a8bbbe3b50e5cc', 'error': {'message': 'Invalid API key provided. You can find your API key at https://api.together.ai/settings/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}"
+        },
+        {
+          "timestamp": 1786634738.1644382,
+          "provider": "deepseek",
+          "model": "deepseek-chat",
+          "status": "failed",
+          "latency_ms": 672.0,
+          "error": "Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+        },
+        {
+          "timestamp": 1786634743.2130494,
+          "provider": "ollama",
+          "model": "llama3:latest",
+          "status": "success",
+          "latency_ms": 5047.0,
+          "error": null
+        }
+      ],
+      "agent_runtimes_ms": {},
+      "provider_runtimes_ms": {},
+      "fallback_count": 26,
+      "ollama_call_count": 6,
+      "remote_provider_call_count": 2,
+      "total_llm_calls": 36,
+      "slowest_agent": null,
+      "fastest_agent": null,
+      "overconfident_flag": false,
+      "raw_committee_result": {
+        "company": "QuantumFleet",
+        "category": "NON_TECH",
+        "final_score": 29.7,
+        "verdict": "WATCH",
+        "overall_confidence": 0.36,
+        "agent_summaries": [
+          {
+            "agent": "Research Agent",
+            "score": 16.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "QuantumFleet appears to be a company focused on quantum computing and its applications in various industries."
+          },
+          {
+            "agent": "Market Agent",
+            "score": 90.0,
+            "confidence": 0.35,
+            "status": "ok",
+            "summary": "QuantumFleet operates in the Fleet Management market, which has a large TAM ($255.80B) and strong growth (15.1% CAGR), supported by regulatory tailwinds. While the company leverages AI and solar innovations, its direct TAM/SAM alignment with the broader fleet market and demand signals from enterprise clients (e.g., SAI, Dow Chemical) suggest market opportunity. However, quantum-focused segments remain nascent and less concrete in evidence."
+          },
+          {
+            "agent": "Competitor Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "failed",
+            "summary": "Competitor Agent could not complete analysis: 1 validation error for AgentScoreResult\nsources.3\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type"
+          },
+          {
+            "agent": "Founder Agent",
+            "score": 3.0,
+            "confidence": 0.2,
+            "status": "ok",
+            "summary": "The founding team of Quantum includes Elena Rostova, a Data Scientist and Business Strategy Consultant with experience in predictive analytics, market trend forecasting, and AI integration for SMEs. Founders identified: Elena Rostova."
+          },
+          {
+            "agent": "Finance Agent",
+            "score": 8.0,
+            "confidence": 0.7,
+            "status": "ok",
+            "summary": "Quantum Systems has doubled its valuation to $8 billion with a $1.2 billion Series D funding round. The startup's revenue growth, profitability, and market positioning in autonomous systems have driven this valuation increase."
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "score": 0.0,
+            "confidence": 0.0,
+            "status": "no_data",
+            "summary": "Repository 'quantumfleet/routing-engine' not found or private."
+          },
+          {
+            "agent": "Risk Agent",
+            "score": 18.0,
+            "confidence": 0.1,
+            "status": "ok",
+            "summary": "QuantumFleet's adaptability and growth-focused safety solution is uncertain due to conflicting signals from various industries and sectors."
+          },
+          {
+            "agent": "Prediction Agent",
+            "score": 31.5,
+            "confidence": 0.17,
+            "status": "ok",
+            "summary": "ML model estimates a 32% success probability for 'QuantumFleet', based on 1/6 features extracted from real evidence (remaining 5 used defaults)."
+          }
+        ],
+        "excluded_agents": [
+          {
+            "agent": "Competitor Agent",
+            "reason": "failed"
+          },
+          {
+            "agent": "Code / GitHub Agent",
+            "reason": "no_data"
+          }
+        ],
+        "significant_disagreement": true,
+        "disagreement_note": "Market Agent scored this highly (90.0) while Founder Agent scored it much lower (3.0) \u2014 a 87-point spread. This is not averaged away; both signals should be weighed independently.",
+        "key_opportunities": [
+          "Fleet management growth",
+          "Strong industry demand signals",
+          "Quantum computing applications"
+        ],
+        "key_risks": [
+          "Uncertainty around founding team"
+        ],
+        "narrative": "QuantumFleet's score and verdict of WATCH are driven by mixed signals from various agents. While Market Agent scores the company highly due to its presence in the large and growing Fleet Management market, Founder Agent has significant concerns about the founding team's experience. The final score of 29.7 reflects this tension, as does the WATCH verdict indicating cautious optimism.",
+        "was_overridden": true,
+        "override_reason": "Verdict PASS upgraded to WATCH due to very low confidence (36%)",
+        "confidence_breakdown": {
+          "raw_avg": 0.29,
+          "data_coverage": 0.75,
+          "agreement_factor": 0.13
+        }
+      },
+      "raw_agent_results": {
+        "Research Agent": {
+          "agent": "Research Agent",
+          "score": 16.0,
+          "score_breakdown": [
+            {
+              "factor": "Revenue Growth",
+              "points": 7.0,
+              "max_points": 10.0,
+              "reason": "QuantumFleet reported significant revenue growth from Q1 2025 to Q1 2026, with a whopping increase of nearly $263,000. While the exact drivers of this growth are not specified, the magnitude of the change suggests that the company is on an upward trajectory.",
+              "source": null
+            },
+            {
+              "factor": "Quantum Computing Innovation",
+              "points": 5.0,
+              "max_points": 10.0,
+              "reason": "Multiple sources suggest that QuantumFleet is actively contributing to the development of quantum computing technologies. For instance, the company received a contract from Dow Chemical to deliver PHEV pickup truck fleet vehicles and has partnered with Dow Kokam to develop new hybrid drive systems.",
+              "source": "https://www.automotive-fleet.com/news/quantum-receives-fleet-contract-from-dow-chemical, https://www.marketbeat.com/articles/the-quantum-fleet-investing-in-the-new-quantum-standard"
+            },
+            {
+              "factor": "Quantum Industry Ties",
+              "points": 3.0,
+              "max_points": 10.0,
+              "reason": "The company has established ties with various organizations in the quantum industry, such as the Navy's Quantum Science Institute. These partnerships suggest that QuantumFleet is actively engaged in the development of quantum technologies and their applications.",
+              "source": "https://www.navy.mil/Press-Office/News-Stories/display-news/Article/4554462/nrl-advances-the-navys-quantum-future-as-america-accelerates-quantum-innovation"
+            },
+            {
+              "factor": "Quantum Computing Business Model",
+              "points": 1.0,
+              "max_points": 10.0,
+              "reason": "While QuantumFleet's business model is not explicitly stated, the company's focus on PHEV fleet vehicles and hybrid drive systems suggests that it may be operating in the energy or automotive sectors, which are often tied to traditional industries rather than purely software-based ones.",
+              "source": null
+            }
+          ],
+          "summary": "QuantumFleet appears to be a company focused on quantum computing and its applications in various industries.",
+          "confidence": 0.2,
+          "sources": [
+            "https://www.automotive-fleet.com/news/quantum-receives-fleet-contract-from-dow-chemical",
+            "https://www.marketbeat.com/articles/the-quantum-fleet-investing-in-the-new-quantum-standard",
+            "https://www.navy.mil/Press-Office/News-Stories/display-news/Article/4554462/nrl-advances-the-navys-quantum-future-as-america-accelerates-quantum-innovation"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": {
+            "category": "NON_TECH",
+            "is_core_product_software": false,
+            "is_revenue_physical_goods": true,
+            "reasoning": "Based on the provided evidence, QuantumFleet's core product does not appear to be software itself. Instead, it seems to focus on developing and applying quantum technologies in various industries, generating revenue from physical goods and services, such as PHEV fleet vehicles."
+          }
+        },
+        "Market Agent": {
+          "agent": "Market Agent",
+          "score": 90.0,
+          "score_breakdown": [
+            {
+              "factor": "Market size (TAM/SAM) (max 30 points)",
+              "points": 25.0,
+              "max_points": 30.0,
+              "reason": "Fleet Management TAM is $255.80B (2025-2031), with U.S. market at $11.34B. QuantumFleet\u2019s focus on AI/telematics aligns with SAM under broader fleet management. Quantum Computing in Automotive TAM ($0.56B in 2025) is smaller but adjacent. Full 30 points not achieved due to unclear SAM quantification.",
+              "source": "https://www.theinsightpartners.com/reports/fleet-management-market"
+            },
+            {
+              "factor": "Growth rate (max 25 points)",
+              "points": 25.0,
+              "max_points": 25.0,
+              "reason": "Fleet Management CAGR is 15.1% (2025-2031). Quantum Computing in Automotive grows at 31.13% CAGR, though niche. Fleet\u2019s steady growth and regulatory drivers justify full score.",
+              "source": "https://www.theinsightpartners.com/reports/fleet-management-market"
+            },
+            {
+              "factor": "Customer demand signals (max 20 points)",
+              "points": 20.0,
+              "max_points": 20.0,
+              "reason": "QuantumFleet has enterprise clients (SAI, Dow Chemical, Ford) and case studies (Rebel Fleet). Regulatory mandates (ELDs, emissions standards) boost demand. Solar-powered fleet adoption and predictive maintenance adoption provide additional demand signals.",
+              "source": "https://quantum.aero/quantum-fleet-equips-1000-units-at-sai-in-bogota, https://www.automotive-fleet.com/news/quantum-receives-fleet-contract-from-dow-chemical"
+            },
+            {
+              "factor": "Market timing (tailwinds vs. headwinds) (max 25 points)",
+              "points": 20.0,
+              "max_points": 25.0,
+              "reason": "Regulatory tailwinds (ELDs, net-zero targets) and tech trends (quantum optimization, telematics) drive fleet management adoption. However, quantum computing remains early-stage and faces technical uncertainty, limiting full points.",
+              "source": "https://www.marketsandmarkets.com/Market-Reports/us-fleet-management-systems-market-114538724.html, https://www.globalfleet.com/en/technology-and-innovation/global/analysis/how-will-quantum-technology-evolve-automotive-industry"
+            }
+          ],
+          "summary": "QuantumFleet operates in the Fleet Management market, which has a large TAM ($255.80B) and strong growth (15.1% CAGR), supported by regulatory tailwinds. While the company leverages AI and solar innovations, its direct TAM/SAM alignment with the broader fleet market and demand signals from enterprise clients (e.g., SAI, Dow Chemical) suggest market opportunity. However, quantum-focused segments remain nascent and less concrete in evidence.",
+          "confidence": 0.35,
+          "sources": [
+            "https://www.theinsightpartners.com/reports/fleet-management-market",
+            "https://quantum.aero/quantum-fleet-equips-1000-units-at-sai-in-bogota",
+            "https://www.automotive-fleet.com/news/quantum-receives-fleet-contract-from-dow-chemical",
+            "https://www.marketsandmarkets.com/Market-Reports/us-fleet-management-systems-market-114538724.html",
+            "https://www.globalfleet.com/en/technology-and-innovation/global/analysis/how-will-quantum-technology-evolve-automotive-industry"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Competitor Agent": {
+          "agent": "Competitor Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Competitor Agent could not complete analysis: 1 validation error for AgentScoreResult\nsources.3\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "failed",
+          "error": "1 validation error for AgentScoreResult\nsources.3\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type",
+          "business_profile": null
+        },
+        "Founder Agent": {
+          "agent": "Founder Agent",
+          "score": 3.0,
+          "score_breakdown": [
+            {
+              "factor": "Founding team background and experience",
+              "points": 3.0,
+              "max_points": 5.0,
+              "reason": "Elena Rostova has a strong technical background in Data Science and an MBA, with experience in predictive analytics, market trend forecasting, and AI integration for SMEs.",
+              "source": null
+            }
+          ],
+          "summary": "The founding team of Quantum includes Elena Rostova, a Data Scientist and Business Strategy Consultant with experience in predictive analytics, market trend forecasting, and AI integration for SMEs. Founders identified: Elena Rostova.",
+          "confidence": 0.2,
+          "sources": [
+            "https://www.instagram.com/popular/elena-rostova",
+            "https://yourrnd.com/reviews/elena-rostova"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Finance Agent": {
+          "agent": "Finance Agent",
+          "score": 8.0,
+          "score_breakdown": [
+            {
+              "factor": "Revenue Growth",
+              "points": 3.0,
+              "max_points": 5.0,
+              "reason": "Quantum Systems' revenue growth contributed to its increased valuation. The company has reportedly demonstrated profitability and market positioning in autonomous systems, as per sources like Bloomberg News.",
+              "source": null
+            },
+            {
+              "factor": "Valuation",
+              "points": 2.0,
+              "max_points": 5.0,
+              "reason": "The company'svaluation doubled to $8 billion with the $1.2 billion Series D funding round, according to sources like Yahoo Finance and CNBC.",
+              "source": "https://sg.finance.yahoo.com/news/quantum-systems-more-doubles-valuation-234702157.html, https://www.cnbc.com/video/2026/07/03/drone-startup-quantum-systems-raises-1-point-2b-more-than-doubling-valuation.html"
+            },
+            {
+              "factor": "Profitability",
+              "points": 1.0,
+              "max_points": 5.0,
+              "reason": "Quantum Systems has reportedly demonstrated profitability, which contributed to its increased valuation.",
+              "source": "https://quantum-systems.com/news/quantum-systems-raises-1-2bn-series-d-to-accelerate-growth-and-scale-software-defined-autonomous-systems-across-air-land-and-sea"
+            },
+            {
+              "factor": "Market Positioning",
+              "points": 2.0,
+              "max_points": 5.0,
+              "reason": "Quantum Systems has a category-defining market positioning in multi-domain autonomous systems, according to sources like CNBC.",
+              "source": "https://www.cnbc.com/video/2026/07/03/drone-startup-quantum-systems-raises-1-point-2b-more-than-doubling-valuation.html"
+            }
+          ],
+          "summary": "Quantum Systems has doubled its valuation to $8 billion with a $1.2 billion Series D funding round. The startup's revenue growth, profitability, and market positioning in autonomous systems have driven this valuation increase.",
+          "confidence": 0.7,
+          "sources": [
+            "https://sg.finance.yahoo.com/news/quantum-systems-more-doubles-valuation-234702157.html",
+            "https://pulse2.com/quantum-systems-raises-1-2-billion-series-d-at-8-billion-valuation",
+            "https://quantum-systems.com/news/quantum-systems-raises-1-2bn-series-d-to-accelerate-growth-and-scale-software-defined-autonomous-systems-across-air-land-and-sea",
+            "https://www.briefs.co/news/airbus-blackstone-quantum-systems-round",
+            "https://www.cnbc.com/video/2026/07/03/drone-startup-quantum-systems-raises-1-point-2b-more-than-doubling-valuation.html"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Code / GitHub Agent": {
+          "agent": "Code / GitHub Agent",
+          "score": 0.0,
+          "score_breakdown": [],
+          "summary": "Repository 'quantumfleet/routing-engine' not found or private.",
+          "confidence": 0.0,
+          "sources": [],
+          "status": "no_data",
+          "error": null,
+          "business_profile": null
+        },
+        "Risk Agent": {
+          "agent": "Risk Agent",
+          "score": 18.0,
+          "score_breakdown": [
+            {
+              "factor": "Regulatory Compliance",
+              "points": 7.0,
+              "max_points": 10.0,
+              "reason": "While QuantumFleet's solution targets fleet management, evidence suggests regulatory challenges in related sectors like nuclear safety and government shutdowns could negatively impact the company.",
+              "source": null
+            },
+            {
+              "factor": "Industry Stability",
+              "points": 6.0,
+              "max_points": 10.0,
+              "reason": "Some industries QuantumFleet serves, such as transportation and logistics, are experiencing layoffs ahead of the holidays due to market uncertainty.",
+              "source": "https://www.freightwaves.com/news/layoffs-slam-transportation-logistics-and-manufacturing-sectors-ahead-of-the-holidays"
+            },
+            {
+              "factor": "Competitor Landscape",
+              "points": 5.0,
+              "max_points": 10.0,
+              "reason": "QuantumFleet's competitor landscape is unclear due to the sudden disappearance of the Competitor Agent's analysis.",
+              "source": null
+            }
+          ],
+          "summary": "QuantumFleet's adaptability and growth-focused safety solution is uncertain due to conflicting signals from various industries and sectors.",
+          "confidence": 0.1,
+          "sources": [
+            "https://www.informationweek.com/it-leadership/tech-company-layoffs-the-covid-tech-bubble-bursts-sep-14",
+            "https://vestigeview.com/fleet-compliance-management-policy-guide",
+            "https://www.freightwaves.com/news/layoffs-slam-transportation-logistics-and-manufacturing-sectors-ahead-of-the-holidays",
+            "https://cnbc.com/2025/10/05/trump-layoffs-government-shutdown-kevin-hassett-.html"
+          ],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        },
+        "Prediction Agent": {
+          "agent": "Prediction Agent",
+          "score": 31.5,
+          "score_breakdown": [
+            {
+              "factor": "Input: industry",
+              "points": 10.0,
+              "max_points": 10.0,
+              "reason": "Used real extracted value (fleet management)",
+              "source": null
+            },
+            {
+              "factor": "Input: funding",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: employees",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (100), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: age",
+              "points": 0.0,
+              "max_points": 15.0,
+              "reason": "No value found in evidence \u2014 used default (3), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: revenue",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (10), this reduces overall prediction confidence",
+              "source": null
+            },
+            {
+              "factor": "Input: growth",
+              "points": 0.0,
+              "max_points": 20.0,
+              "reason": "No value found in evidence \u2014 used default (20), this reduces overall prediction confidence",
+              "source": null
+            }
+          ],
+          "summary": "ML model estimates a 32% success probability for 'QuantumFleet', based on 1/6 features extracted from real evidence (remaining 5 used defaults).",
+          "confidence": 0.17,
+          "sources": [],
+          "status": "ok",
+          "error": null,
+          "business_profile": null
+        }
+      }
+    }
+  ]
+}
