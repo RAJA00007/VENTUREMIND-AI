@@ -4,7 +4,6 @@ from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, System
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
-from langgraph.checkpoint.memory import InMemorySaver
 from core.config import settings
 from core.logging import app_logger
 from services.llm_service import LLMService
@@ -86,13 +85,51 @@ def chat_node(state: ChatState):
         response = AIMessage(content=reply_text)
     return {"messages": [response]}
 
-# 4. Build LangGraph Workflow
+# 4. Build LangGraph Workflow with Persistent PostgreSQL Checkpointer
 graph = StateGraph(ChatState)
 graph.add_node("chat_node", chat_node)
 graph.add_edge(START, "chat_node")
 graph.add_edge("chat_node", END)
 
-checkpointer = InMemorySaver()
+_checkpointer_cm = None
+
+def _init_checkpointer():
+    global _checkpointer_cm
+    db_url = getattr(settings, "LANGGRAPH_DATABASE_URL", None) or getattr(settings, "DATABASE_URL", "")
+    if not db_url:
+        db_url = "postgresql://postgres:admin123@localhost:5432/venturemind"
+
+    if db_url.startswith("postgresql+asyncpg://"):
+        db_url = db_url.replace("postgresql+asyncpg://", "postgresql://")
+    elif db_url.startswith("postgresql+psycopg://"):
+        db_url = db_url.replace("postgresql+psycopg://", "postgresql://")
+
+    try:
+        from langgraph.checkpoint.postgres import PostgresSaver
+
+        app_logger.info("[Chat Workflow] Initializing persistent PostgresSaver checkpointer...")
+        _checkpointer_cm = PostgresSaver.from_conn_string(db_url)
+        cp = _checkpointer_cm.__enter__()
+        cp.setup()
+        app_logger.info("[Chat Workflow] PostgreSQL checkpointer tables verified successfully!")
+        return cp
+    except Exception as e:
+        app_logger.warning(f"[Chat Workflow] PostgreSQL checkpointer unavailable ({e}) — falling back to MemorySaver")
+        from langgraph.checkpoint.memory import MemorySaver
+        return MemorySaver()
+
+def close_checkpointer_pool():
+    global _checkpointer_cm
+    if _checkpointer_cm is not None:
+        try:
+            cm = _checkpointer_cm
+            _checkpointer_cm = None
+            cm.__exit__(None, None, None)
+            app_logger.info("[Chat Workflow] PostgreSQL checkpointer closed cleanly.")
+        except Exception as e:
+            app_logger.debug(f"[Chat Workflow] Checkpointer cleanup note: {e}")
+
+checkpointer = _init_checkpointer()
 chatbot = graph.compile(checkpointer=checkpointer)
 
 # 5. Stream Generator using stream_mode="messages" with safety fallback

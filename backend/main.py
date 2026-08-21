@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -11,23 +12,44 @@ from api.document import router as document_router
 from api.auth import router as auth_router
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app_logger.info(f"Starting {settings.APP_NAME} v{settings.APP_VERSION}....")
+    try:
+        from database.session import init_db
+        init_db()
+    except Exception as e:
+        app_logger.warning(f"Database startup initialization note: {e}")
+    yield
+    app_logger.info(f"Shutting down {settings.APP_NAME}....")
+    try:
+        from workflows.chat_workflow import close_checkpointer_pool
+        close_checkpointer_pool()
+    except Exception as e:
+        app_logger.warning(f"Error closing checkpointer pool on shutdown: {e}")
+
+
 app = FastAPI(
     title=settings.APP_NAME,
-    version=settings.APP_VERSION
+    version=settings.APP_VERSION,
+    lifespan=lifespan
 )
+
+allowed_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-async def startup_event():
-    app_logger.info("Starting VentureMind AI....")
 
 
 @app.get("/")
