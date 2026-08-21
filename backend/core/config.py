@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     SEARCH_CACHE_TTL_SECONDS: int = 172800
     GITHUB_CACHE_TTL_SECONDS: int = 43200
     LLM_CACHE_TTL_SECONDS: int = 86400
+    CHROMA_PERSIST_DIRECTORY: Optional[str] = None
 
     # Provider Failover & Cooldown Tracker
     PROVIDER_COOLDOWN_SECONDS: int = 60
