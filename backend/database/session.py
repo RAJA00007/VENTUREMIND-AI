@@ -2,9 +2,9 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from core.config import settings
+from core.logging import app_logger
 from database.base import Base
-# Import every mapped model before creating tables.  Otherwise a fresh database
-# misses tables whose modules have not yet been imported by an API route.
+# Import every mapped model before creating tables.
 from models import Analysis, Company, User  # noqa: F401
 
 db_url = settings.DATABASE_URL or ""
@@ -19,16 +19,11 @@ if not db_url or "sqlite" in db_url:
     connect_args = {"check_same_thread": False}
 
 try:
-    if "postgresql" in db_url:
-        connect_args["connect_timeout"] = 2
     engine = create_engine(
         db_url,
         echo=settings.DEBUG,
         connect_args=connect_args,
     )
-    # Test connection; if postgres fails, fallback to local sqlite
-    with engine.connect() as conn:
-        pass
 except Exception:
     db_url = "sqlite:///./venturemind.db"
     engine = create_engine(
@@ -37,13 +32,39 @@ except Exception:
         connect_args={"check_same_thread": False},
     )
 
-# Ensure tables are created
-Base.metadata.create_all(bind=engine)
-
 SessionLocal = sessionmaker(
     bind=engine,
     expire_on_commit=False
 )
+
+_db_initialized = False
+
+
+def init_db():
+    """Initializes database tables safely without blocking module import time."""
+    global engine, SessionLocal, _db_initialized
+    if _db_initialized:
+        return
+
+    try:
+        if "postgresql" in str(engine.url):
+            with engine.connect():
+                pass
+        Base.metadata.create_all(bind=engine)
+        app_logger.info(f"[Database] Verified tables successfully on {engine.url.drivername}")
+    except Exception as exc:
+        app_logger.warning(f"[Database] Primary database connection failed ({exc}) — falling back to SQLite.")
+        fallback_url = "sqlite:///./venturemind.db"
+        engine = create_engine(
+            fallback_url,
+            echo=settings.DEBUG,
+            connect_args={"check_same_thread": False},
+        )
+        Base.metadata.create_all(bind=engine)
+        SessionLocal.configure(bind=engine)
+
+    _db_initialized = True
+
 
 def get_db():
     session = SessionLocal()
@@ -51,3 +72,4 @@ def get_db():
         yield session
     finally:
         session.close()
+
