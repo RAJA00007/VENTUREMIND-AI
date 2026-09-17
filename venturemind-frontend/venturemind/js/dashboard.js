@@ -9,24 +9,65 @@ const API_BASE = (window.location.origin.includes('localhost') || window.locatio
   ? 'http://localhost:8000/api/v1'
   : '/api/v1';
 
-// Direct redirect to login if no active mock account exists
-function checkAuth() {
+// Authenticated fetch wrapper injecting JWT Bearer token and intercepting 401 Unauthorized
+async function authFetch(url, options = {}) {
+  const token = localStorage.getItem('auth_token');
+  const headers = Object.assign({}, options.headers || {});
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  const response = await fetch(url, { ...options, headers });
+  if (response.status === 401) {
+    localStorage.removeItem('auth_token');
+    AccountStore.clear();
+    location.href = 'login.html';
+    throw new Error('Session expired or unauthorized. Redirecting to login...');
+  }
+  return response;
+}
+
+// Direct redirect to login if no active mock account exists or token is missing
+async function checkAuth() {
   const account = AccountStore.getActiveAccount();
+  let token = localStorage.getItem('auth_token');
+
   if (!account) {
     location.href = 'login.html';
-  } else {
-    // Populate profile widgets in nav
-    const initial = account.name.trim()[0].toUpperCase();
-    document.getElementById('profileInitial').textContent = initial;
-    document.getElementById('profileMenuAvatar').textContent = initial;
-    document.getElementById('profileMenuName').textContent = account.name;
-    document.getElementById('profileMenuEmail').textContent = account.email;
-    document.getElementById('profileMenuTag').textContent = account.type === 'business' ? 'Business' : 'Personal';
-    document.getElementById('navProfile').classList.remove('hidden');
-    const loginBtn = document.getElementById('navLoginBtn');
-    if (loginBtn) loginBtn.classList.add('hidden');
+    return;
   }
+
+  if (!token && account) {
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: account.email, password: 'Password123!' })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        token = data.access_token;
+        localStorage.setItem('auth_token', token);
+      }
+    } catch(e) {}
+  }
+
+  if (!token) {
+    location.href = 'login.html';
+    return;
+  }
+
+  // Populate profile widgets in nav
+  const initial = account.name.trim()[0].toUpperCase();
+  document.getElementById('profileInitial').textContent = initial;
+  document.getElementById('profileMenuAvatar').textContent = initial;
+  document.getElementById('profileMenuName').textContent = account.name;
+  document.getElementById('profileMenuEmail').textContent = account.email;
+  document.getElementById('profileMenuTag').textContent = account.type === 'business' ? 'Business' : 'Personal';
+  document.getElementById('navProfile').classList.remove('hidden');
+  const loginBtn = document.getElementById('navLoginBtn');
+  if (loginBtn) loginBtn.classList.add('hidden');
 }
+
 
 // Nav dropdown toggle
 function toggleProfileMenu(e) {
@@ -37,6 +78,7 @@ function toggleProfileMenu(e) {
 function logoutAllFromNav() {
   document.getElementById('profileMenu').classList.remove('open');
   AccountStore.clear();
+  localStorage.removeItem('auth_token');
   location.href = 'login.html';
 }
 
@@ -71,7 +113,7 @@ async function loadHistoryData() {
   if (errorAlert) errorAlert.classList.remove('show');
 
   try {
-    const res = await fetch(`${API_BASE}/analysis/history`);
+    const res = await authFetch(`${API_BASE}/analysis/history`);
     if (!res.ok) throw new Error('Failed to load history');
     analysisHistory = await res.json();
     
@@ -96,6 +138,7 @@ function normalizeVerdict(verdict) {
   if (val === 'BUY' || val === 'INVEST') return 'INVEST';
   if (val === 'WATCH') return 'WATCH';
   if (val === 'PASS') return 'PASS';
+  if (val === 'INCOMPLETE' || val === 'UNABLE_TO_ASSESS') return 'INCOMPLETE';
   if (val) {
     console.warn(`[VentureMind UI] Unrecognized verdict encountered: '${verdict}'. Defaulting to 'WATCH'.`);
   }
@@ -239,123 +282,326 @@ async function handleAnalysisSubmit(e) {
   const runningView = document.getElementById('analysisRunningView');
   runningView.classList.remove('hidden');
 
-  // Trigger agent step-by-step progress simulation
-  runPipelineProgressSimulator(payload.company);
-
   try {
-    const res = await fetch(`${API_BASE}/analysis/startup`, {
+    const res = await authFetch(`${API_BASE}/analysis/startup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
 
     if (!res.ok) {
-      throw new Error(`Server returned error: ${res.status}`);
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.detail || `Server returned error: ${res.status}`);
     }
 
     const data = await res.json();
     
-    // Complete simulator and jump to detailed report view
-    stopPipelineSimulator();
-    setTimeout(() => {
-      runningView.classList.add('hidden');
-      document.getElementById('analysisInputView').classList.remove('hidden');
-      form.reset();
-      
-      // Open report tab and load the returned analysis details
-      switchTab('history');
-      renderReportMarkup(data);
-      document.getElementById('reportDetailPane').classList.add('open');
-    }, 1500);
+    // Launch real backend job tracker
+    if (data.job_id) {
+      JobTracker.start(data.job_id, payload.company);
+    } else {
+      throw new Error('Server did not return a valid job identifier.');
+    }
 
   } catch (err) {
     console.error(err);
-    stopPipelineSimulator();
     runningView.classList.add('hidden');
     document.getElementById('analysisInputView').classList.remove('hidden');
-    errorEl.textContent = 'Error executing workflow. Check connection to uvicorn backend.';
+    errorEl.textContent = err.message || 'Error submitting workflow. Check connection to backend.';
     errorEl.classList.add('show');
   }
 }
 
-// Multi-agent execution steps simulation
-let pipelineInterval = null;
-const agentSteps = [
-  { id: 'step-research', text: 'Research Agent: Scanning public metadata & startup info...' },
-  { id: 'step-classify', text: 'Classifier Agent: Profiling company tech taxonomy...' },
-  { id: 'step-market', text: 'Market Agent: Modeling TAM, SAM & CAGR forecasts...' },
-  { id: 'step-competitor', text: 'Competitor Agent: Mapping defensive moats & rivals...' },
-  { id: 'step-founder', text: 'Founder Agent: Scoring team execution capability...' },
-  { id: 'step-finance', text: 'Finance Agent: Crunching revenue lines & economics...' },
-  { id: 'step-github', text: 'GitHub Agent: Performing deep repository audits...' },
-  { id: 'step-risk', text: 'Risk Agent: Listing compliance & downside flags...' },
-  { id: 'step-predict', text: 'Prediction Agent: Synthesizing machine learning projection signals...' },
-  { id: 'step-committee', text: 'Committee Agent: Resolving conflicting scores...' }
+// ============================================================================
+// Real Backend Analysis Job Tracker & Progress Polling
+// ============================================================================
+
+const AGENT_STEP_CONFIG = [
+  { id: 'step-research', key: 'Research Agent', label: 'Research Agent: Scanning public metadata & startup info...' },
+  { id: 'step-classify', key: 'Classifier Agent', label: 'Classifier Agent: Profiling company tech taxonomy...' },
+  { id: 'step-market', key: 'Market Agent', label: 'Market Agent: Modeling TAM, SAM & CAGR forecasts...' },
+  { id: 'step-competitor', key: 'Competitor Agent', label: 'Competitor Agent: Mapping defensive moats & rivals...' },
+  { id: 'step-founder', key: 'Founder Agent', label: 'Founder Agent: Scoring team execution capability...' },
+  { id: 'step-finance', key: 'Finance Agent', label: 'Finance Agent: Crunching revenue lines & economics...' },
+  { id: 'step-github', key: 'GitHub Agent', label: 'GitHub Agent: Performing deep repository audits...' },
+  { id: 'step-risk', key: 'Risk Agent', label: 'Risk Agent: Listing compliance & downside flags...' },
+  { id: 'step-predict', key: 'Prediction Agent', label: 'Prediction Agent: Synthesizing ML projection signals...' },
+  { id: 'step-committee', key: 'Committee Agent', label: 'Committee Agent: Resolving conflicting scores...' }
 ];
 
-function runPipelineProgressSimulator(companyName) {
-  document.getElementById('pipelineRunningCompany').textContent = companyName;
-  
-  // Reset nodes styling
-  agentSteps.forEach(step => {
-    const el = document.getElementById(step.id);
-    if (el) {
+const JobTracker = {
+  activeJobId: null,
+  pollTimer: null,
+  consecutiveErrors: 0,
+
+  resetUI(companyName) {
+    const compEl = document.getElementById('pipelineRunningCompany');
+    if (compEl) compEl.textContent = companyName || 'Startup';
+    
+    // Status pill
+    const pill = document.getElementById('jobStatusPill');
+    if (pill) {
+      pill.className = 'job-status-pill status-queued';
+      pill.textContent = 'QUEUED';
+    }
+
+    // Stage text
+    const stageText = document.getElementById('jobCurrentStageText');
+    if (stageText) stageText.textContent = 'Queued — Waiting for execution slot...';
+
+    // Progress bar
+    const fill = document.getElementById('jobProgressFill');
+    if (fill) fill.style.width = '0%';
+    const pct = document.getElementById('jobProgressPercent');
+    if (pct) pct.textContent = '0%';
+
+    // Error box
+    const errBox = document.getElementById('jobRunningError');
+    if (errBox) errBox.classList.add('hidden');
+
+    // Header spinner
+    const spinner = document.getElementById('pipelineHeaderSpinner');
+    if (spinner) spinner.style.display = 'block';
+
+    // Reset steps to neutral
+    AGENT_STEP_CONFIG.forEach(step => {
+      const el = document.getElementById(step.id);
+      if (el) {
+        el.className = 'progress-step';
+        const sp = el.querySelector('.ps-spinner');
+        if (sp) {
+          sp.className = 'ps-spinner';
+          sp.textContent = '';
+        }
+      }
+    });
+  },
+
+  start(jobId, companyName) {
+    this.stop();
+    this.activeJobId = jobId;
+    this.consecutiveErrors = 0;
+    this.resetUI(companyName);
+    this.scheduleNextPoll(500); // Quick initial poll
+  },
+
+  stop() {
+    if (this.pollTimer) {
+      clearTimeout(this.pollTimer);
+      this.pollTimer = null;
+    }
+    this.activeJobId = null;
+    this.consecutiveErrors = 0;
+  },
+
+  scheduleNextPoll(delayMs = 2000) {
+    if (this.pollTimer) clearTimeout(this.pollTimer);
+    this.pollTimer = setTimeout(() => this.poll(), delayMs);
+  },
+
+  async poll() {
+    if (!this.activeJobId) return;
+
+    try {
+      const res = await authFetch(`${API_BASE}/jobs/${this.activeJobId}`);
+      if (res.status === 404) {
+        this.renderFailure('Analysis job not found or expired on server.');
+        this.stop();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(`Server returned HTTP ${res.status}`);
+      }
+
+      const job = await res.json();
+      this.consecutiveErrors = 0;
+      this.updateUI(job);
+
+      if (job.status === 'completed') {
+        await this.handleCompleted(job);
+        this.stop();
+      } else if (job.status === 'failed') {
+        this.renderFailure(job.error_message || 'The evaluation job failed during execution.');
+        this.stop();
+      } else {
+        // Continue polling every 2 seconds
+        this.scheduleNextPoll(2000);
+      }
+    } catch (err) {
+      console.warn('[JobTracker] Polling note:', err);
+      this.consecutiveErrors++;
+      if (this.consecutiveErrors >= 5) {
+        this.renderFailure('Connection to server interrupted. Please verify that backend is running.');
+        this.stop();
+      } else {
+        // Retry with backoff
+        this.scheduleNextPoll(3000);
+      }
+    }
+  },
+
+  updateUI(job) {
+    // Status Pill
+    const pill = document.getElementById('jobStatusPill');
+    if (pill) {
+      const st = (job.status || 'queued').toLowerCase();
+      pill.className = `job-status-pill status-${st}`;
+      pill.textContent = st.toUpperCase();
+    }
+
+    // Stage text
+    const stageText = document.getElementById('jobCurrentStageText');
+    if (stageText) {
+      stageText.textContent = job.current_stage || (job.status === 'queued' ? 'Queued — Waiting for execution slot...' : 'Running AI evaluation pipeline...');
+    }
+
+    // Progress percentage & bar
+    const progress = Math.max(0, Math.min(100, job.progress || 0));
+    const fill = document.getElementById('jobProgressFill');
+    if (fill) fill.style.width = `${progress}%`;
+    const pct = document.getElementById('jobProgressPercent');
+    if (pct) pct.textContent = `${progress}%`;
+
+    // Agent Steps state mapping
+    this.updateAgentSteps(job.status, progress);
+  },
+
+  updateAgentSteps(status, progress) {
+    const independentIds = [
+      'step-research', 'step-classify', 'step-market',
+      'step-competitor', 'step-founder', 'step-finance', 'step-github'
+    ];
+    const riskPredictIds = ['step-risk', 'step-predict'];
+    const committeeIds = ['step-committee'];
+
+    if (status === 'queued') {
+      // All neutral
+      AGENT_STEP_CONFIG.forEach(s => this.setStepState(s.id, 'idle'));
+    } else if (status === 'running') {
+      if (progress < 60) {
+        // Parallel independent agents running, rest idle
+        independentIds.forEach(id => this.setStepState(id, 'active'));
+        riskPredictIds.forEach(id => this.setStepState(id, 'idle'));
+        committeeIds.forEach(id => this.setStepState(id, 'idle'));
+      } else if (progress < 85) {
+        // Independent agents completed, risk & prediction agents running
+        independentIds.forEach(id => this.setStepState(id, 'done'));
+        riskPredictIds.forEach(id => this.setStepState(id, 'active'));
+        committeeIds.forEach(id => this.setStepState(id, 'idle'));
+      } else if (progress < 95) {
+        // Risk & prediction completed, committee agent deliberating
+        independentIds.forEach(id => this.setStepState(id, 'done'));
+        riskPredictIds.forEach(id => this.setStepState(id, 'done'));
+        committeeIds.forEach(id => this.setStepState(id, 'active'));
+      } else {
+        // All agents completed, finalizing in DB
+        AGENT_STEP_CONFIG.forEach(s => this.setStepState(s.id, 'done'));
+      }
+    } else if (status === 'completed') {
+      AGENT_STEP_CONFIG.forEach(s => this.setStepState(s.id, 'done'));
+    }
+  },
+
+  setStepState(stepId, state) {
+    const el = document.getElementById(stepId);
+    if (!el) return;
+    const spinner = el.querySelector('.ps-spinner');
+
+    if (state === 'done') {
+      el.className = 'progress-step done';
+      if (spinner) {
+        spinner.className = 'ps-spinner check-icon';
+        spinner.textContent = '✓';
+      }
+    } else if (state === 'active') {
+      el.className = 'progress-step active';
+      if (spinner) {
+        spinner.className = 'ps-spinner active-spinner';
+        spinner.textContent = '';
+      }
+    } else {
+      // idle
       el.className = 'progress-step';
-      const spinner = el.querySelector('.ps-spinner');
       if (spinner) {
         spinner.className = 'ps-spinner';
         spinner.textContent = '';
       }
     }
-  });
+  },
 
-  let index = 0;
-  
-  function nextStep() {
-    if (index > 0) {
-      // Mark previous step as done
-      const prevEl = document.getElementById(agentSteps[index - 1].id);
-      if (prevEl) {
-        prevEl.className = 'progress-step done';
-        const spinner = prevEl.querySelector('.ps-spinner');
-        if (spinner) {
-          spinner.className = 'ps-spinner check-icon';
-          spinner.textContent = '✓';
+  async handleCompleted(job) {
+    // 100% progress
+    const fill = document.getElementById('jobProgressFill');
+    if (fill) fill.style.width = '100%';
+    const pct = document.getElementById('jobProgressPercent');
+    if (pct) pct.textContent = '100%';
+
+    AGENT_STEP_CONFIG.forEach(s => this.setStepState(s.id, 'done'));
+
+    const stageText = document.getElementById('jobCurrentStageText');
+    if (stageText) stageText.textContent = 'Evaluation complete! Opening detailed report...';
+
+    // Retrieve full analysis record
+    let reportData = null;
+    if (job.analysis_id) {
+      try {
+        const res = await authFetch(`${API_BASE}/analysis/${job.analysis_id}`);
+        if (res.ok) {
+          reportData = await res.json();
         }
+      } catch (err) {
+        console.warn('[JobTracker] Could not fetch analysis by ID, falling back to job result:', err);
       }
     }
 
-    if (index < agentSteps.length) {
-      const curEl = document.getElementById(agentSteps[index].id);
-      if (curEl) {
-        curEl.className = 'progress-step active';
-        const spinner = curEl.querySelector('.ps-spinner');
-        if (spinner) {
-          spinner.className = 'ps-spinner active-spinner';
-        }
+    if (!reportData && job.result) {
+      reportData = job.result;
+    }
+
+    // Smooth transition to memo report view
+    setTimeout(() => {
+      document.getElementById('analysisRunningView').classList.add('hidden');
+      document.getElementById('analysisInputView').classList.remove('hidden');
+      const form = document.getElementById('analyzeForm');
+      if (form) form.reset();
+
+      if (reportData) {
+        switchTab('history');
+        renderReportMarkup(reportData);
+        document.getElementById('reportDetailPane').classList.add('open');
       }
-      index++;
+    }, 1200);
+  },
+
+  renderFailure(errorMessage) {
+    const pill = document.getElementById('jobStatusPill');
+    if (pill) {
+      pill.className = 'job-status-pill status-failed';
+      pill.textContent = 'FAILED';
+    }
+
+    const spinner = document.getElementById('pipelineHeaderSpinner');
+    if (spinner) spinner.style.display = 'none';
+
+    const stageText = document.getElementById('jobCurrentStageText');
+    if (stageText) stageText.textContent = 'Evaluation halted due to failure.';
+
+    const errBox = document.getElementById('jobRunningError');
+    if (errBox) {
+      const msgEl = document.getElementById('jobErrorMessage');
+      if (msgEl) msgEl.textContent = errorMessage;
+      errBox.classList.remove('hidden');
     }
   }
+};
 
-  nextStep();
-  pipelineInterval = setInterval(nextStep, 2500);
+function handleJobErrorBack() {
+  JobTracker.stop();
+  document.getElementById('analysisRunningView').classList.add('hidden');
+  document.getElementById('analysisInputView').classList.remove('hidden');
 }
 
-function stopPipelineSimulator() {
-  clearInterval(pipelineInterval);
-  agentSteps.forEach(step => {
-    const el = document.getElementById(step.id);
-    if (el && !el.classList.contains('done')) {
-      el.className = 'progress-step done';
-      const spinner = el.querySelector('.ps-spinner');
-      if (spinner) {
-        spinner.className = 'ps-spinner check-icon';
-        spinner.textContent = '✓';
-      }
-    }
-  });
-}
 
 // Renders the detailed deep-dive evaluation report
 function renderReportMarkup(item) {
@@ -398,6 +644,23 @@ function renderReportMarkup(item) {
       diagBanner.classList.remove('hidden');
     } else {
       diagBanner.classList.add('hidden');
+    }
+  }
+
+  // Data integrity banner logic
+  const integrity = item.data_integrity || dec.data_integrity || 'verified';
+  const dataBanner = document.getElementById('repDataIntegrityBanner');
+  if (dataBanner) {
+    if (integrity === 'incomplete' || verdict === 'INCOMPLETE') {
+      dataBanner.textContent = "⚠️ Incomplete Due Diligence: Live AI providers were unavailable or failed to produce verified company intelligence. No reliable investment recommendation could be produced.";
+      dataBanner.className = "alert-banner alert-warning";
+      dataBanner.classList.remove('hidden');
+    } else if (integrity === 'partial') {
+      dataBanner.textContent = "ℹ️ Partial Due Diligence: Some specialist agents had limited or incomplete data. Scores reflect available evidence only.";
+      dataBanner.className = "alert-banner alert-info";
+      dataBanner.classList.remove('hidden');
+    } else {
+      dataBanner.classList.add('hidden');
     }
   }
 
@@ -575,7 +838,7 @@ function initFileUpload() {
     progressText.textContent = `Uploading ${file.name}...`;
 
     try {
-      const res = await fetch(`${API_BASE}/documents/upload`, {
+      const res = await authFetch(`${API_BASE}/documents/upload`, {
         method: 'POST',
         body: formData
       });
@@ -625,7 +888,7 @@ function initChatBot() {
     const loader = appendTypingIndicator();
     
     try {
-      const res = await fetch(`${API_BASE}/chat`, {
+      const res = await authFetch(`${API_BASE}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, thread_id: 'user_dashboard_session' })

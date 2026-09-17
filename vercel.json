@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/css/(.*)", "dest": "/venturemind-frontend/venturemind/css/$1" },
+    { "src": "/js/(.*)", "dest": "/venturemind-frontend/venturemind/js/$1" },
+    { "src": "/dashboard", "dest": "/venturemind-frontend/venturemind/dashboard.html" },
+    { "src": "/login", "dest": "/venturemind-frontend/venturemind/login.html" },
+    { "src": "/", "dest": "/venturemind-frontend/venturemind/index.html" },
+    { "src": "/(.*)", "dest": "/venturemind-frontend/venturemind/$1" }
+  ]
+}

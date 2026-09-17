@@ -61,6 +61,15 @@ def apply_verdict_safety(score: float, confidence: float) -> VerdictSafetyResult
     WATCH_THRESHOLD = 50
     CONFIDENCE_CAP = 0.60
 
+    # Rule 0: Critical evidence missing / zero confidence -> never INVEST or PASS
+    if confidence == 0.0:
+        return VerdictSafetyResult(
+            verdict="UNABLE_TO_ASSESS",
+            was_overridden=True,
+            original_verdict="PASS" if score < WATCH_THRESHOLD else "WATCH",
+            override_reason="Verdict set to UNABLE_TO_ASSESS: critical evidence unavailable (0% confidence)."
+        )
+
     # Determine original verdict based purely on score
     if score >= INVEST_THRESHOLD:
         original = "INVEST"

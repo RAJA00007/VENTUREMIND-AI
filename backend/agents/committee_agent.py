@@ -95,7 +95,7 @@ class CommitteeAgent:
                 company=company,
                 category="HYBRID",
                 final_score=0.0,
-                verdict="WATCH",
+                verdict="UNABLE_TO_ASSESS",
                 overall_confidence=0.0,
                 agent_summaries=[],
                 excluded_agents=[],
@@ -103,7 +103,9 @@ class CommitteeAgent:
                 disagreement_note=None,
                 key_opportunities=[],
                 key_risks=[],
-                narrative="All LLM providers unavailable — evaluation could not be completed for this factor.",
+                narrative="All LLM providers unavailable — due diligence evaluation could not be completed.",
+                data_integrity="incomplete",
+                evaluation_status="failed",
             )
         except Exception as exc:
             duration = time.monotonic() - start
@@ -115,7 +117,7 @@ class CommitteeAgent:
                 company=company,
                 category="HYBRID",
                 final_score=0.0,
-                verdict="WATCH",
+                verdict="UNABLE_TO_ASSESS",
                 overall_confidence=0.0,
                 agent_summaries=[],
                 excluded_agents=[],
@@ -124,7 +126,9 @@ class CommitteeAgent:
                 key_opportunities=[],
                 key_risks=[],
                 narrative=f"Committee synthesis failed to complete: {exc}. "
-                          f"This verdict is not reliable — treat as WATCH pending re-run.",
+                          f"This verdict is not reliable — evaluation incomplete pending re-run.",
+                data_integrity="incomplete",
+                evaluation_status="failed",
             )
 
     async def _build_verdict(
@@ -172,7 +176,7 @@ class CommitteeAgent:
                 company=company,
                 category=category,
                 final_score=0.0,
-                verdict="WATCH",
+                verdict="UNABLE_TO_ASSESS",
                 overall_confidence=0.0,
                 agent_summaries=agent_summaries,
                 excluded_agents=combined.excluded_agents,
@@ -183,13 +187,13 @@ class CommitteeAgent:
                 narrative=(
                     f"No agent produced usable data for '{company}' (all agents "
                     f"returned no_data or failed). Cannot make an investment "
-                    f"assessment — this requires re-evaluation, not a PASS "
-                    f"decision, since PASS would imply evidence of weakness "
-                    f"that we don't actually have."
+                    f"assessment — critical evidence unavailable."
                 ),
-                was_overridden=safety.was_overridden,
-                override_reason=safety.override_reason,
+                was_overridden=True,
+                override_reason="No agent produced usable evidence — verdict set to UNABLE_TO_ASSESS.",
                 confidence_breakdown=combined.confidence_breakdown,
+                data_integrity="incomplete",
+                evaluation_status="failed",
             )
 
         # --- LLM writes ONLY the narrative, given the fixed number ----------
@@ -245,6 +249,16 @@ Return ONLY a JSON object, no markdown fences, no preamble:
             key_opportunities = []
             key_risks = []
 
+        if combined.overall_confidence >= 0.70:
+            data_integrity = "verified"
+            eval_status = "complete"
+        elif combined.overall_confidence >= 0.40:
+            data_integrity = "partial"
+            eval_status = "degraded"
+        else:
+            data_integrity = "incomplete"
+            eval_status = "degraded"
+
         return CommitteeResult(
             company=company,
             category=category,
@@ -261,4 +275,6 @@ Return ONLY a JSON object, no markdown fences, no preamble:
             was_overridden=safety.was_overridden,
             override_reason=safety.override_reason,
             confidence_breakdown=combined.confidence_breakdown,
+            data_integrity=data_integrity,
+            evaluation_status=eval_status,
         )

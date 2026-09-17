@@ -24,6 +24,7 @@ def merge_results(left: dict, right: dict) -> dict:
 # ==================================================
 class AgentState(TypedDict):
     company: str
+    company_id: Optional[str]
     industry: str
     funding: float
     employees: int
@@ -63,9 +64,10 @@ async def parallel_independent_node(
             name.strip() for name in state["founder_names"].split(",") if name.strip()
         ]
 
-    research_input = {"company": state["company"]}
-    market_input = {"company": state["company"]}
-    competitor_input = {"company": state["company"]}
+    company_id = state.get("company_id") or state["company"]
+    research_input = {"company": state["company"], "company_id": company_id}
+    market_input = {"company": state["company"], "industry": state.get("industry")}
+    competitor_input = {"company": state["company"], "industry": state.get("industry")}
     founder_input = {"company": state["company"], "founder_names": founder_names_list}
     finance_input = {"company": state["company"]}
     github_input = {"company": state["company"], "github_repo": state.get("github_repo")}

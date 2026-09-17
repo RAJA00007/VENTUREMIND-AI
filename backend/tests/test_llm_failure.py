@@ -5,8 +5,8 @@ from core.config import settings
 
 @pytest.mark.anyio
 async def test_llm_service_failure_raises_exception():
-    # Force settings.ALLOW_MOCK_FALLBACK to False to assert error is raised
-    settings.ALLOW_MOCK_FALLBACK = False
+    # Assert settings.ALLOW_MOCK_FALLBACK is False by default
+    assert settings.ALLOW_MOCK_FALLBACK is False
 
     # Mock Gemini Client models.generate_content to raise an Exception
     mock_gemini_generate = MagicMock(side_effect=Exception("Gemini mock error"))
@@ -26,14 +26,14 @@ async def test_llm_service_failure_raises_exception():
         mock_openai_instance.chat.completions.create.side_effect = Exception("OpenRouter mock error")
 
         # Temporarily swap service attributes
-        old_gemini = llm_service.gemini
-        old_groq = llm_service.groq
+        old_gemini = llm_service._gemini
+        old_groq = llm_service._groq
         
-        llm_service.gemini = MagicMock()
-        llm_service.gemini.models.generate_content = mock_gemini_generate
+        llm_service._gemini = MagicMock()
+        llm_service._gemini.models.generate_content = mock_gemini_generate
         
-        llm_service.groq = MagicMock()
-        llm_service.groq.chat.completions.create = mock_groq_create
+        llm_service._groq = MagicMock()
+        llm_service._groq.chat.completions.create = mock_groq_create
 
         try:
             # Expecting AllLLMProvidersFailedError to be raised
@@ -43,5 +43,5 @@ async def test_llm_service_failure_raises_exception():
             assert "All LLM providers" in str(exc_info.value) or "All providers" in str(exc_info.value)
         finally:
             # Restore service attributes
-            llm_service.gemini = old_gemini
-            llm_service.groq = old_groq
+            llm_service._gemini = old_gemini
+            llm_service._groq = old_groq

@@ -10,9 +10,9 @@ from services.llm_service import LLMService
 
 def _init_llm():
     if settings.GROQ_API_KEY and settings.GROQ_API_KEY.strip():
-        app_logger.info("[Chat Workflow] Initializing ChatOpenAI with Groq (llama-3.3-70b-versatile)")
+        app_logger.info("[Chat Workflow] Initializing ChatOpenAI with Groq (openai/gpt-oss-20b)")
         return ChatOpenAI(
-            model="llama-3.3-70b-versatile",
+            model="openai/gpt-oss-20b",
             openai_api_key=settings.GROQ_API_KEY,
             openai_api_base="https://api.groq.com/openai/v1",
             streaming=True
@@ -30,7 +30,7 @@ def _init_llm():
             }
         )
     return ChatOpenAI(
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-20b",
         openai_api_key=settings.GROQ_API_KEY or "dummy",
         openai_api_base="https://api.groq.com/openai/v1",
         streaming=True
@@ -58,7 +58,8 @@ def chat_node(state: ChatState):
     rag_context = ""
     try:
         from rag.vector_store import vector_store
-        results = vector_store.search(user_msg)
+        company_id = state.get("company_id")
+        results = vector_store.search(user_msg, company_id=company_id, allow_global=True)
         if results and results.get("documents") and results["documents"][0]:
             docs = [doc for doc in results["documents"][0] if doc]
             if docs:

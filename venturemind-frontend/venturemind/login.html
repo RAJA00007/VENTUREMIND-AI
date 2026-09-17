@@ -67,6 +67,7 @@
           </div>
           <div class="error-msg" id="loginError">Enter an email and password to continue.</div>
           <button class="submit" onclick="submitLogin()">Log in</button>
+          <button class="submit" id="demoLoginBtn" style="margin-top: 10px; background: rgba(21, 154, 74, 0.15); border: 1px solid rgba(21, 154, 74, 0.4); color: var(--accent, #159a4a);" onclick="quickDemoLogin()">⚡ 1-Click Demo Login (Instant Dashboard Access)</button>
           <div class="switch">No account yet? <a onclick="showLogin(); showSignup()">Sign up</a></div>
         </div>
 
@@ -117,7 +118,7 @@
           <span class="isym">⏻</span> Sign out of all accounts
         </div>
 
-        <a class="continue-btn" href="dashboard.html">Continue to VentureMind AI</a>
+        <button class="continue-btn" onclick="continueToDashboard()">Continue to VentureMind AI</button>
       </div>
 
     </div>

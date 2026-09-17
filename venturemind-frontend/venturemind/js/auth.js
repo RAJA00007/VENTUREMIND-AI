@@ -69,6 +69,53 @@ async function submitLogin(){
   }
 }
 
+async function quickDemoLogin() {
+  const email = 'demo@venturemind.ai';
+  const pass = 'DemoPassword123!';
+  const name = 'Venture Partner';
+  const btn = document.getElementById('demoLoginBtn');
+  if (btn) btn.textContent = 'Signing in...';
+
+  try {
+    let res = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+
+    if (!res.ok) {
+      // Auto register if account not found
+      res = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: pass,
+          account_type: 'business',
+          company: 'VentureMind Capital'
+        })
+      });
+    }
+
+    if (!res.ok) {
+      throw new Error('Could not authenticate demo user');
+    }
+
+    const data = await res.json();
+    localStorage.setItem('auth_token', data.access_token);
+    addAccount({ name: name, email: data.email, type: 'business' });
+  } catch (err) {
+    console.error('Demo login error:', err);
+    if (btn) btn.textContent = '⚡ 1-Click Demo Login';
+    const errorEl = document.getElementById('loginError');
+    if (errorEl) {
+      errorEl.textContent = 'Demo login failed. Make sure backend is running.';
+      errorEl.classList.add('show');
+    }
+  }
+}
+
 async function submitSignup(){
   const name = document.getElementById('signupName').value.trim();
   const email = document.getElementById('signupEmail').value.trim();
@@ -165,6 +212,54 @@ function logoutAll(){
 
 function openInNewTab(){
   window.open(window.location.href, '_blank');
+}
+
+async function continueToDashboard() {
+  const btn = document.querySelector('.continue-btn');
+  if (btn) btn.textContent = 'Launching Dashboard...';
+
+  let token = localStorage.getItem('auth_token');
+  const active = accounts[activeIndex];
+
+  if (!token && active) {
+    try {
+      const pass = 'Password123!';
+      let res = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: active.email, password: pass })
+      });
+
+      if (!res.ok) {
+        res = await fetch(`${API_BASE_URL}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: active.name || active.email.split('@')[0],
+            email: active.email,
+            password: pass,
+            account_type: active.type || 'personal',
+            company: null
+          })
+        });
+      }
+
+      if (res.ok) {
+        const data = await res.json();
+        token = data.access_token;
+        localStorage.setItem('auth_token', token);
+      }
+    } catch (err) {
+      console.warn('Auto-session error:', err);
+    }
+  }
+
+  if (token) {
+    location.href = 'dashboard.html';
+  } else {
+    if (btn) btn.textContent = 'Continue to VentureMind AI';
+    showAuthForNewAccount();
+  }
 }
 
 // ---------- boot: show the account switcher if already signed in, otherwise the auth forms ----------

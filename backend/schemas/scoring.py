@@ -25,6 +25,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
+from schemas.evidence import FactType, EvidenceRecord
+
 
 class ScoreFactor(BaseModel):
     """One line item in a rubric — the atomic unit of justification."""
@@ -40,6 +42,20 @@ class ScoreFactor(BaseModel):
         default=None, description="URL this judgment is based on, if applicable"
     )
 
+    # Optional Evidence Foundation Fields (Step 2A Extension)
+    fact_type: Optional[FactType] = Field(
+        default=None, description="Fact or claim classification"
+    )
+    primary_evidence: Optional[EvidenceRecord] = Field(
+        default=None, description="Primary supporting evidence record"
+    )
+    corroborating_evidence: List[EvidenceRecord] = Field(
+        default_factory=list, description="List of corroborating evidence records"
+    )
+    evidence_confidence: Optional[float] = Field(
+        default=None, description="Confidence in evidence quality/verification (0.0-1.0)"
+    )
+
     @field_validator("source", mode="before")
     @classmethod
     def normalize_source(cls, v):
@@ -53,6 +69,13 @@ class ScoreFactor(BaseModel):
         max_points = info.data.get("max_points")
         if max_points is not None and (v < 0 or v > max_points):
             raise ValueError(f"points ({v}) must be between 0 and max_points ({max_points})")
+        return v
+
+    @field_validator("evidence_confidence")
+    @classmethod
+    def evidence_confidence_within_bounds(cls, v: Optional[float]) -> Optional[float]:
+        if v is not None and not (0.0 <= v <= 1.0):
+            raise ValueError(f"evidence_confidence must be between 0.0 and 1.0, got {v}")
         return v
 
 
@@ -191,7 +214,7 @@ class CommitteeResult(BaseModel):
     company: str
     category: str = Field(description="'TECH' | 'NON_TECH' | 'HYBRID' — profile used for weighting")
     final_score: float = Field(description="Deterministically computed, 0-100")
-    verdict: str = Field(description="'INVEST' | 'WATCH' | 'PASS'")
+    verdict: str = Field(description="'INVEST' | 'WATCH' | 'PASS' | 'INCOMPLETE' | 'UNABLE_TO_ASSESS'")
     overall_confidence: float = Field(description="Average confidence across included agents")
     agent_summaries: List[AgentSummaryEntry]
     excluded_agents: List[dict] = Field(
@@ -211,3 +234,11 @@ class CommitteeResult(BaseModel):
     was_overridden: bool = Field(default=False)
     override_reason: Optional[str] = Field(default=None)
     confidence_breakdown: dict = Field(default_factory=dict)
+    data_integrity: str = Field(
+        default="verified",
+        description="'verified' | 'partial' | 'unverified' | 'incomplete'"
+    )
+    evaluation_status: str = Field(
+        default="complete",
+        description="'complete' | 'degraded' | 'failed'"
+    )

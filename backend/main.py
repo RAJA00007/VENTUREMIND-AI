@@ -10,6 +10,7 @@ from api.analysis import router as analysis_router
 from api.chat import router as chat_router
 from api.document import router as document_router
 from api.auth import router as auth_router
+from api.jobs import router as jobs_router
 
 
 @asynccontextmanager
@@ -18,9 +19,12 @@ async def lifespan(app: FastAPI):
     try:
         from database.session import init_db
         init_db()
+        from services.job_service import job_service
+        job_service.reap_stale_jobs()
     except Exception as e:
         app_logger.warning(f"Database startup initialization note: {e}")
     yield
+
     app_logger.info(f"Shutting down {settings.APP_NAME}....")
     try:
         from workflows.chat_workflow import close_checkpointer_pool
@@ -92,3 +96,9 @@ app.include_router(
     chat_router,
     prefix="/api/v1"
 )
+
+app.include_router(
+    jobs_router,
+    prefix="/api/v1"
+)
+

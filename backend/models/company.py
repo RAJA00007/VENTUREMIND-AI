@@ -1,11 +1,15 @@
 import uuid
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, TYPE_CHECKING
 
 from sqlalchemy import String, DateTime, Boolean, Float, Date, Numeric, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database.base import Base
+
+if TYPE_CHECKING:
+    from models.user import User
+    from models.analysis import Analysis
 
 
 class Company(Base):
@@ -41,8 +45,16 @@ class Company(Base):
     last_verified_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_by_user_id: Mapped[Optional[int]] = mapped_column(
+        Integer,
+        ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True
+    )
 
     # Relationships
+    creator: Mapped[Optional["User"]] = relationship("User", back_populates="companies")
+    analyses: Mapped[List["Analysis"]] = relationship("Analysis", back_populates="company")
     founders: Mapped[List["Founder"]] = relationship("Founder", back_populates="company", cascade="all, delete-orphan")
     funding_rounds: Mapped[List["FundingRound"]] = relationship("FundingRound", back_populates="company", cascade="all, delete-orphan")
     financials: Mapped[List["CompanyFinancial"]] = relationship("CompanyFinancial", back_populates="company", cascade="all, delete-orphan")

@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 from models.analysis import Analysis
 from sqlalchemy import select
 
@@ -6,13 +6,13 @@ class AnalysisService:
 
     def get_all_analyses(
         self,
-        db
+        db,
+        user_id: Optional[int] = None
     ):
-        result = db.execute(
-            select(
-                Analysis
-            )
-        )
+        stmt = select(Analysis)
+        if user_id is not None:
+            stmt = stmt.where(Analysis.user_id == user_id)
+        result = db.execute(stmt)
         return (
             result
             .scalars()
@@ -22,16 +22,13 @@ class AnalysisService:
     def get_analysis_by_id(
         self,
         db,
-        analysis_id: int
+        analysis_id: int,
+        user_id: Optional[int] = None
     ):
-        result = db.execute(
-            select(
-                Analysis
-            )
-            .where(
-                Analysis.id == analysis_id
-            )
-        )
+        stmt = select(Analysis).where(Analysis.id == analysis_id)
+        if user_id is not None:
+            stmt = stmt.where(Analysis.user_id == user_id)
+        result = db.execute(stmt)
         return (
             result
             .scalar_one_or_none()
@@ -42,7 +39,8 @@ class AnalysisService:
         db,
         company_name,
         agent_results: dict,
-        committee_result: Any
+        committee_result: Any,
+        user_id: Optional[int] = None
     ):
         # Extract individual agents
         research = agent_results.get("Research Agent")
@@ -65,6 +63,7 @@ class AnalysisService:
         }
 
         analysis = Analysis(
+            user_id=user_id,
             company_name=company_name,
             research_result=research_dict,
             market_result=market_dict,

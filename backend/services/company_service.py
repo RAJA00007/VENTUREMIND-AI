@@ -4,7 +4,7 @@ from models.company import Company, Founder, FundingRound, CompanyFinancial
 from schemas.company import CompanyCreate
 
 
-def create_company(db: Session, data: CompanyCreate) -> Company:
+def create_company(db: Session, data: CompanyCreate, user_id: Optional[int] = None) -> Company:
     company = Company(
         cin=data.cin,
         company_name=data.company_name,
@@ -22,6 +22,7 @@ def create_company(db: Session, data: CompanyCreate) -> Company:
         source=data.source or "MCA Ingestion",
         source_url=data.source_url,
         confidence_score=data.confidence_score or 1.0,
+        created_by_user_id=user_id,
     )
 
     db.add(company)

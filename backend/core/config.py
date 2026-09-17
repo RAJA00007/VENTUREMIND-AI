@@ -39,11 +39,27 @@ class Settings(BaseSettings):
 
     # Provider Failover & Cooldown Tracker
     PROVIDER_COOLDOWN_SECONDS: int = 60
+    PROVIDER_TRANSIENT_COOLDOWN_SECONDS: float = 15.0
     LLM_PROVIDER_TIMEOUT_SECONDS: int = 8
-    ALLOW_MOCK_FALLBACK: bool = True
+    LLM_CLOUD_TIMEOUT_SECONDS: float = 8.0
+    LLM_LOCAL_TIMEOUT_SECONDS: float = 30.0
+    ALLOW_MOCK_FALLBACK: bool = False
 
     # Chat Settings
     CHAT_HISTORY_MESSAGES: int = 8
+
+    # Asynchronous Analysis Jobs
+    MAX_CONCURRENT_ANALYSIS_JOBS: int = 2
+    ANALYSIS_JOB_TIMEOUT_SECONDS: int = 600
+
+
+    @property
+    def jwt_secret(self) -> str:
+        if self.JWT_SECRET_KEY:
+            return self.JWT_SECRET_KEY
+        if self.DEBUG:
+            return "venturemind-dev-insecure-secret-key-32bytes-fallback"
+        raise ValueError("JWT_SECRET_KEY must be configured in production (DEBUG=False)")
 
     model_config = SettingsConfigDict(
         env_file=str(ENV_PATH) if ENV_PATH.exists() else ".env",

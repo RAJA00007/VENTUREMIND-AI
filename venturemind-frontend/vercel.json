@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/css/(.*)", "dest": "/venturemind/css/$1" },
+    { "src": "/js/(.*)", "dest": "/venturemind/js/$1" },
+    { "src": "/dashboard", "dest": "/venturemind/dashboard.html" },
+    { "src": "/login", "dest": "/venturemind/login.html" },
+    { "src": "/", "dest": "/venturemind/index.html" },
+    { "src": "/(.*)", "dest": "/venturemind/$1" }
+  ]
+}

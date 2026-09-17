@@ -1,10 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import Optional, List
 from langchain_core.messages import HumanMessage
 
 from workflows.chat_workflow import chatbot, stream_generator
+from core.security import get_current_user
+from models.user import User
 
 router = APIRouter(
     prefix="/chat",
@@ -18,7 +20,10 @@ class ChatRequest(BaseModel):
     stream: Optional[bool] = False
 
 @router.post("/stream")
-def chat_stream_endpoint(request: ChatRequest):
+def chat_stream_endpoint(
+    request: ChatRequest,
+    current_user: User = Depends(get_current_user)
+):
     user_msg = request.message
     if not user_msg and request.messages:
         user_msg = request.messages[-1].get("content", "")
@@ -27,14 +32,18 @@ def chat_stream_endpoint(request: ChatRequest):
         raise HTTPException(status_code=400, detail="No message content provided.")
     
     thread_id = request.thread_id or "default_thread"
+    scoped_thread_id = f"user_{current_user.id}_{thread_id}"
 
     return StreamingResponse(
-        stream_generator(user_msg, thread_id),
+        stream_generator(user_msg, scoped_thread_id),
         media_type="text/event-stream"
     )
 
 @router.post("")
-def chat_endpoint(request: ChatRequest):
+def chat_endpoint(
+    request: ChatRequest,
+    current_user: User = Depends(get_current_user)
+):
     user_msg = request.message
     if not user_msg and request.messages:
         user_msg = request.messages[-1].get("content", "")
@@ -43,14 +52,15 @@ def chat_endpoint(request: ChatRequest):
         raise HTTPException(status_code=400, detail="No message content provided.")
     
     thread_id = request.thread_id or "default_thread"
+    scoped_thread_id = f"user_{current_user.id}_{thread_id}"
 
     if request.stream:
         return StreamingResponse(
-            stream_generator(user_msg, thread_id),
+            stream_generator(user_msg, scoped_thread_id),
             media_type="text/event-stream"
         )
 
-    chunks = list(stream_generator(user_msg, thread_id))
+    chunks = list(stream_generator(user_msg, scoped_thread_id))
     full_response = "".join(chunks)
     return {
         "response": full_response,
@@ -60,8 +70,12 @@ def chat_endpoint(request: ChatRequest):
     }
 
 @router.get("/history/{thread_id}")
-def get_history(thread_id: str):
-    config = {"configurable": {"thread_id": thread_id}}
+def get_history(
+    thread_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    scoped_thread_id = f"user_{current_user.id}_{thread_id}"
+    config = {"configurable": {"thread_id": scoped_thread_id}}
     state = chatbot.get_state(config)
     messages = state.values.get("messages", [])
     history = []

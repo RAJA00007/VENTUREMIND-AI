@@ -1,5 +1,8 @@
 import shutil
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
 import chromadb
 from core.config import settings
 from core.logging import app_logger
@@ -13,6 +16,9 @@ def get_chroma_path() -> Path:
     if getattr(settings, "CHROMA_PERSIST_DIRECTORY", None):
         return Path(settings.CHROMA_PERSIST_DIRECTORY).resolve()
     return (BASE_DIR / "chroma_db").resolve()
+
+
+
 
 
 class VectorStore:
@@ -60,32 +66,159 @@ class VectorStore:
 
     def add_document(
         self,
-        text: str,
-        doc_id: str
-    ) -> int:
-        chunks = self.chunk_text(text)
-        if not chunks:
-            return 0
+        text: Union[str, List[Dict[str, Any]]] = None,
+        doc_id: Optional[str] = None,
+        document_name: Optional[str] = None,
+        company_id: Optional[str] = None,
+        analysis_id: Optional[str] = None,
+        source_type: str = "uploaded_document",
+        file_path: Optional[str] = None,
+        **kwargs
+    ) -> Dict[str, Any]:
+        """
+        Adds document chunks with complete provenance metadata to ChromaDB.
+        Supports both raw text strings and page-aware structures.
+        """
+        self._ensure_initialized()
 
-        embeddings = self.embedding_model.encode(chunks).tolist()
+        effective_doc_id = doc_id or kwargs.get("document_id") or str(uuid.uuid4())
+        effective_doc_name = document_name or kwargs.get("filename") or "document.pdf"
+        effective_company_id = company_id or ""
+        effective_analysis_id = str(analysis_id) if analysis_id is not None else ""
+        uploaded_at = datetime.now(timezone.utc).isoformat()
+
+        chunk_texts: List[str] = []
+        chunk_ids: List[str] = []
+        chunk_metadatas: List[Dict[str, Any]] = []
+        pages_processed = 0
+
+        if isinstance(text, list):
+            # Page-aware structure: list of {"page_number": int, "text": str}
+            pages_processed = len(text)
+            for page in text:
+                p_num = page.get("page_number", 1)
+                p_text = page.get("text", "")
+                p_chunks = self.chunk_text(p_text)
+                for c_idx, c_text in enumerate(p_chunks):
+                    c_id = f"{effective_doc_id}_p{p_num}_c{c_idx}"
+                    chunk_texts.append(c_text)
+                    chunk_ids.append(c_id)
+                    chunk_metadatas.append({
+                        "company_id": effective_company_id,
+                        "analysis_id": effective_analysis_id,
+                        "document_id": effective_doc_id,
+                        "document_name": effective_doc_name,
+                        "source_type": source_type,
+                        "page_number": p_num,
+                        "chunk_id": c_id,
+                        "uploaded_at": uploaded_at,
+                    })
+        elif isinstance(text, str):
+            pages_processed = 1
+            p_chunks = self.chunk_text(text)
+            for c_idx, c_text in enumerate(p_chunks):
+                c_id = f"{effective_doc_id}_c{c_idx}"
+                chunk_texts.append(c_text)
+                chunk_ids.append(c_id)
+                chunk_metadatas.append({
+                    "company_id": effective_company_id,
+                    "analysis_id": effective_analysis_id,
+                    "document_id": effective_doc_id,
+                    "document_name": effective_doc_name,
+                    "source_type": source_type,
+                    "page_number": 1,
+                    "chunk_id": c_id,
+                    "uploaded_at": uploaded_at,
+                })
+        else:
+            return {
+                "chunks_created": 0,
+                "pages_processed": 0,
+                "document_id": effective_doc_id,
+                "company_id": effective_company_id,
+                "analysis_id": effective_analysis_id,
+                "document_name": effective_doc_name,
+            }
+
+        if not chunk_texts:
+            return {
+                "chunks_created": 0,
+                "pages_processed": pages_processed,
+                "document_id": effective_doc_id,
+                "company_id": effective_company_id,
+                "analysis_id": effective_analysis_id,
+                "document_name": effective_doc_name,
+            }
+
+        embeddings = self.embedding_model.encode(chunk_texts).tolist()
 
         self.collection.add(
-            ids=[f"{doc_id}_{i}" for i in range(len(chunks))],
-            documents=chunks,
-            embeddings=embeddings
+            ids=chunk_ids,
+            documents=chunk_texts,
+            embeddings=embeddings,
+            metadatas=chunk_metadatas
         )
 
-        return len(chunks)
+        return {
+            "chunks_created": len(chunk_texts),
+            "pages_processed": pages_processed,
+            "document_id": effective_doc_id,
+            "company_id": effective_company_id,
+            "analysis_id": effective_analysis_id,
+            "document_name": effective_doc_name,
+        }
 
     def search(
         self,
-        query: str
-    ):
+        query: str,
+        company_id: Optional[str] = None,
+        analysis_id: Optional[str] = None,
+        n_results: int = 3,
+        where: Optional[dict] = None,
+        allow_global: bool = False
+    ) -> Dict[str, Any]:
+        """
+        Retrieves relevant context with strict company metadata isolation.
+        
+        If company_id is provided, search is strictly filtered by company_id.
+        If company_id is omitted and allow_global is False, returns a safe
+        empty result to prevent accidental cross-company data leakage.
+        """
+        self._ensure_initialized()
+
+        where_filter = where
+
+        if where_filter is None:
+            filters = []
+            if company_id:
+                filters.append({"company_id": company_id})
+            if analysis_id:
+                filters.append({"analysis_id": str(analysis_id)})
+
+            if len(filters) == 1:
+                where_filter = filters[0]
+            elif len(filters) > 1:
+                where_filter = {"$and": filters}
+
+        # Safe Isolation Check: if no filter and allow_global is False, refuse global search
+        if not where_filter and not allow_global:
+            app_logger.info(f"[VectorStore] Un-scoped search for query '{query}' denied (no company_id). Returning safe empty result.")
+            return {
+                "ids": [[]],
+                "documents": [[]],
+                "metadatas": [[]],
+                "distances": [[]]
+            }
+
         query_embedding = self.embedding_model.encode(query).tolist()
-        results = self.collection.query(
-            query_embeddings=[query_embedding],
-            n_results=3
-        )
+        query_kwargs = {
+            "query_embeddings": [query_embedding],
+            "n_results": n_results
+        }
+        if where_filter:
+            query_kwargs["where"] = where_filter
+
+        results = self.collection.query(**query_kwargs)
         return results
 
     def chunk_text(
@@ -93,7 +226,7 @@ class VectorStore:
         text: str,
         size_in_words: int = 120,
         overlap: int = 20
-    ):
+    ) -> List[str]:
         words = text.split()
         if not words:
             return []
@@ -109,4 +242,5 @@ class VectorStore:
         return chunks
 
 
-vector_store = VectorStore()
+vector_store = VectorStore()
+

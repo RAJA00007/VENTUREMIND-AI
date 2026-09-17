@@ -8,6 +8,8 @@ from schemas.company import (
     CompanyResponse,
 )
 from services.company_service import create_company
+from core.security import get_current_user
+from models.user import User
 
 router = APIRouter(
     prefix="/companies",
@@ -20,10 +22,12 @@ router = APIRouter(
 )
 async def add_company(
     company: CompanyCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     return await asyncio.to_thread(
         create_company,
         db,
-        company
+        company,
+        user_id=current_user.id
     )

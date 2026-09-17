@@ -224,10 +224,34 @@
       <!-- RUNNING PROGRESS VIEW -->
       <div class="running-panel hidden" id="analysisRunningView">
         <div class="rp-header">
-          <div class="rp-spinner"></div>
-          <h2>Evaluating <span id="pipelineRunningCompany">Startup</span></h2>
-          <p>LangGraph multi-agent architecture runs in parallel. Do not close this page.</p>
+          <div class="rp-spinner" id="pipelineHeaderSpinner"></div>
+          <div class="rp-header-info">
+            <div class="rp-title-row">
+              <h2>Evaluating <span id="pipelineRunningCompany">Startup</span></h2>
+              <span class="job-status-pill status-queued" id="jobStatusPill">QUEUED</span>
+            </div>
+            <p id="jobCurrentStageText">Waiting for execution slot...</p>
+          </div>
         </div>
+
+        <!-- Real Progress Bar -->
+        <div class="job-progress-container" id="jobProgressContainer">
+          <div class="job-progress-bar-wrapper">
+            <div class="job-progress-fill" id="jobProgressFill" style="width: 0%;"></div>
+          </div>
+          <span class="job-progress-percent" id="jobProgressPercent">0%</span>
+        </div>
+
+        <!-- Error Panel if failed -->
+        <div class="running-error-box hidden" id="jobRunningError">
+          <span class="error-icon">⚠️</span>
+          <div class="error-content">
+            <h4 id="jobErrorTitle">Analysis Failed</h4>
+            <p id="jobErrorMessage">An error occurred while evaluating the startup.</p>
+          </div>
+          <button type="button" class="btn-secondary" id="jobErrorBackBtn" onclick="handleJobErrorBack()">Return to Audit Form</button>
+        </div>
+
 
         <div class="progress-tracker">
           <div class="progress-step" id="step-research">
@@ -397,6 +421,9 @@
         <p id="repDisagreementNote">Note text...</p>
       </div>
     </div>
+
+    <!-- DATA INTEGRITY BANNER -->
+    <div id="repDataIntegrityBanner" class="alert-banner hidden"></div>
     
     <!-- SUMMARY ROW -->
     <div class="rep-summary-row">
